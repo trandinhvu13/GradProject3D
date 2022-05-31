@@ -18,6 +18,7 @@ public class Player : AIPath
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     public bool isMoving = false;
+    public bool isRunning = false;
 
     protected override void Awake()
     {
@@ -49,11 +50,11 @@ public class Player : AIPath
         {
             if (Input.GetMouseButtonDown(0))
             {
-                maxSpeed = walkSpeed;
+                isRunning = false;
             }
             else
             {
-                maxSpeed = runSpeed;
+                isRunning = true;
             }
             
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -81,15 +82,9 @@ public class Player : AIPath
         isMoving = false;
     }
 
-    public Vector3 GetPlayerVelocity()
+    public void ChangeToRunMode(bool isRun)
     {
-        return characterController.velocity;
-    }
-
-    public bool IsRunning()
-    {
-        if (Math.Abs(maxSpeed - walkSpeed) < 0.001) return false;
-
-        return true;
+        if (isRun) maxSpeed = runSpeed;
+        else maxSpeed = walkSpeed;
     }
 }

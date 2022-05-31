@@ -24,7 +24,7 @@ public class PlayerIdle : BaseState
         base.UpdateLogic();
         if (player.isMoving)
         {
-            if (player.IsRunning()) playerStateMachine.ChangeState(playerStateMachine.runState);
+            if (player.isRunning) playerStateMachine.ChangeState(playerStateMachine.runState);
             else playerStateMachine.ChangeState(playerStateMachine.walkState);
         }
     }

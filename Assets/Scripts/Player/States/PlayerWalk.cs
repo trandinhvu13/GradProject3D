@@ -16,6 +16,7 @@ public class PlayerWalk : BaseState
     public override void Enter()
     {
         base.Enter();
+        player.ChangeToRunMode(false);
         Helper.SetTriggerAnimator(player.animator, "Walk");
 
     }
@@ -26,7 +27,7 @@ public class PlayerWalk : BaseState
         if (!player.isMoving)
         {
             playerStateMachine.ChangeState(playerStateMachine.idleState);
-        }else if (player.IsRunning())
+        }else if (player.isRunning)
         {
             playerStateMachine.ChangeState(playerStateMachine.runState);
         }

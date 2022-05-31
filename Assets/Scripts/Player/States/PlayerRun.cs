@@ -16,6 +16,7 @@ public class PlayerRun : BaseState
     public override void Enter()
     {
         base.Enter();
+        player.ChangeToRunMode(true);
         Helper.SetTriggerAnimator(player.animator, "Run");
     }
 
@@ -25,7 +26,7 @@ public class PlayerRun : BaseState
         if (!player.isMoving)
         {
             playerStateMachine.ChangeState(playerStateMachine.idleState);
-        }else if (!player.IsRunning())
+        }else if (!player.isRunning)
         {
             playerStateMachine.ChangeState(playerStateMachine.walkState);
         }

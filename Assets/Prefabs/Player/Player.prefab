@@ -587,6 +587,7 @@ GameObject:
   - component: {fileID: 1832931793}
   - component: {fileID: 4649703693526848148}
   - component: {fileID: 1832931800}
+  - component: {fileID: 3675197077773855886}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -691,6 +692,8 @@ MonoBehaviour:
   whenCloseToDestination: 1
   constrainInsideGraph: 1
   seekerScript: {fileID: 4649703693526848148}
+  characterController: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &4649703693526848148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,6 +744,18 @@ MonoBehaviour:
   bezierTangentLength: 0.2
   offset: 0.2
   factor: 0.5
+--- !u!114 &3675197077773855886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239278559893770841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096f84815115d1b47a261187949634be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9212534811328818896
 GameObject:
   m_ObjectHideFlags: 0

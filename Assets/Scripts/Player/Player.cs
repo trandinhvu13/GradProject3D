@@ -9,13 +9,15 @@ public class Player : AIPath
 {
     [SerializeField] private Seeker seekerScript;
     [SerializeField] private CharacterController characterController;
-    [SerializeField] private Animator animator;
+    public Animator animator;
 
     // Input
     private Camera cam;
     
-    // Animation
-    private string animationState = "Idle";
+    // Player
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
+    public bool isMoving = false;
 
     protected override void Awake()
     {
@@ -26,7 +28,6 @@ public class Player : AIPath
     protected override void Start()
     {
         base.Start();
-        Helper.SetTriggerAnimator(animator, "Idle");
     }
 
     protected override void Update()
@@ -44,15 +45,28 @@ public class Player : AIPath
 
     private void CheckInput()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                maxSpeed = walkSpeed;
+            }
+            else
+            {
+                maxSpeed = runSpeed;
+            }
+            
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
 
             if (Physics.Raycast(ray, out hitInfo, 100) && hitInfo.transform.gameObject.CompareTag("Ground"))
             {
-                seekerScript.StartPath(transform.position, hitInfo.point);
-                Helper.SetTriggerAnimator(animator, "Run");
+                seekerScript.StartPath(transform.position, hitInfo.point, (Path p) =>
+                {
+                    
+                    isMoving = true;
+                });
+
             }
         }
     }
@@ -64,6 +78,18 @@ public class Player : AIPath
 
     private void ReachTarget()
     {
-        Helper.SetTriggerAnimator(animator, "Idle");
+        isMoving = false;
+    }
+
+    public Vector3 GetPlayerVelocity()
+    {
+        return characterController.velocity;
+    }
+
+    public bool IsRunning()
+    {
+        if (Math.Abs(maxSpeed - walkSpeed) < 0.001) return false;
+
+        return true;
     }
 }

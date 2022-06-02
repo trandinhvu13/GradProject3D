@@ -35,7 +35,6 @@ public class Player : AIPath
     {
         base.Update();
         CheckInput();
-        CheckAnimation();
     }
 
     public override void OnTargetReached()
@@ -70,11 +69,6 @@ public class Player : AIPath
 
             }
         }
-    }
-
-    private void CheckAnimation()
-    {
-
     }
 
     private void ReachTarget()

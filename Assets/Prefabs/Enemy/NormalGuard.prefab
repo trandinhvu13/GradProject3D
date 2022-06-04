@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 5042054935646162322}
   - component: {fileID: 5042054935646162329}
   - component: {fileID: 5042054935646162328}
+  - component: {fileID: 597668741}
   - component: {fileID: 5042054935646162335}
   - component: {fileID: 5042054935646162332}
   - component: {fileID: 5042054935646162334}
@@ -236,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645051b9069ac1a4b8038e8f97d29215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolSpeed: 2
+  patrolSpeed: 1.5
   suspectSpeed: 3.5
   alertSpeed: 4.5
   isMoving: 0
@@ -249,6 +250,27 @@ MonoBehaviour:
   currentRotationCount: 0
   continueToPatrolChance: 20
   patrolRange: 20
+--- !u!114 &597668741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752751518085041490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e31955a8e12a4742bca103d7c698231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 9.78
+  viewAngle: 109
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  visibleTargets: []
 --- !u!114 &5042054935646162335
 MonoBehaviour:
   m_ObjectHideFlags: 0

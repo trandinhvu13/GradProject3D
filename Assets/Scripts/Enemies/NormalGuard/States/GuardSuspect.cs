@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardPatrol : BaseState
+public class GuardSuspect : BaseState
 {
     private NormalGuard normalGuard;
     private NormalGuardStateMachine normalGuardStateMachine;
     
-    public GuardPatrol(NormalGuardStateMachine stateMachine) : base("GuardPatrol", stateMachine)
+    public GuardSuspect(NormalGuardStateMachine stateMachine) : base("GuardSuspect", stateMachine)
     {
         normalGuardStateMachine = stateMachine;
         normalGuard = normalGuardStateMachine.normalGuard;
@@ -31,5 +31,10 @@ public class GuardPatrol : BaseState
     public override void Exit()
     {
         base.Exit();
+    }
+
+    public void OnTargetReached()
+    {
+       
     }
 }

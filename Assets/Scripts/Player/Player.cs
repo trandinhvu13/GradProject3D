@@ -7,28 +7,19 @@ using UnityEngine;
 
 public class Player : AIPath
 {
+    public PlayerData data;
     [SerializeField] private Seeker seekerScript;
     [SerializeField] private CharacterController characterController;
     public Animator animator;
 
     // Input
     private Camera cam;
-    
-    // Player
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float runSpeed;
-    public bool isMoving = false;
-    public bool isRunning = false;
+
 
     protected override void Awake()
     {
         base.Awake();
         cam = Camera.main;
-    }
-
-    protected override void Start()
-    {
-        base.Start();
     }
 
     protected override void Update()
@@ -39,7 +30,6 @@ public class Player : AIPath
 
     public override void OnTargetReached()
     {
-        base.OnTargetReached();
         ReachTarget();
     }
 
@@ -49,36 +39,25 @@ public class Player : AIPath
         {
             if (Input.GetMouseButtonDown(0))
             {
-                isRunning = false;
+                data.isRunning = false;
             }
             else
             {
-                isRunning = true;
+                data.isRunning = true;
             }
-            
+
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
 
             if (Physics.Raycast(ray, out hitInfo, 100) && hitInfo.transform.gameObject.CompareTag("Ground"))
             {
-                seekerScript.StartPath(transform.position, hitInfo.point, (Path p) =>
-                {
-                    
-                    isMoving = true;
-                });
-
+                seekerScript.StartPath(transform.position, hitInfo.point, (Path p) => { data.isMoving = true; });
             }
         }
     }
 
     private void ReachTarget()
     {
-        isMoving = false;
-    }
-
-    public void ChangeToRunMode(bool isRun)
-    {
-        if (isRun) maxSpeed = runSpeed;
-        else maxSpeed = walkSpeed;
+        data.isMoving = false;
     }
 }

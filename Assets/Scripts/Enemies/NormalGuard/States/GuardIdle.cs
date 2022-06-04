@@ -17,8 +17,11 @@ public class GuardIdle : BaseState
     public override void Enter()
     {
         base.Enter();
+        Helper.SetTriggerAnimator(normalGuard.animator, "Idle");
+        normalGuard.data.isMoving = false;
         normalGuard.canMove = false;
         normalGuard.lookAroundCoroutine = normalGuard.StartCoroutine(LookAround());
+        Debug.Log("Guard in Idle");
     }
 
     public override void UpdateLogic()
@@ -34,42 +37,47 @@ public class GuardIdle : BaseState
     public override void Exit()
     {
         base.Exit();
+        normalGuard.StopCoroutine(normalGuard.lookAroundCoroutine);
+        normalGuard.lookAroundCoroutine = null;
     }
 
     IEnumerator LookAround()
     {
-        normalGuard.currentRotationCount = 0;
+        normalGuard.data.currentRotationCount = 0;
+        int rotationCount = normalGuard.data.rotationCount;
 
         Vector3 currentRotation = normalGuard.transform.eulerAngles;
-        Vector3 targetRotationRight = new Vector3(0, currentRotation.y + normalGuard.rotationAmount, 0);
-        Vector3 targetRotationLeft = new Vector3(0, currentRotation.y - normalGuard.rotationAmount, 0);
+        Vector3 targetRotationRight = new Vector3(0, currentRotation.y + normalGuard.data.rotationAmount, 0);
+        Vector3 targetRotationLeft = new Vector3(0, currentRotation.y - normalGuard.data.rotationAmount, 0);
 
         bool isRotateRight = false;
 
-        while (normalGuard.currentRotationCount < normalGuard.rotationTime)
+        while (normalGuard.data.currentRotationCount < rotationCount)
         {
-            normalGuard.currentRotationCount++;
+            normalGuard.data.currentRotationCount++;
 
-            float rotationTime = normalGuard.currentRotationCount == 1 ? normalGuard.rotationTime / 2 : normalGuard.rotationTime;
+            float rotationTime = normalGuard.data.currentRotationCount == 1 ? normalGuard.data.rotationTime / 2 : normalGuard.data.rotationTime;
             
             if (isRotateRight)
             {
                 normalGuard.transform
                     .DORotate(targetRotationRight,
                         rotationTime)
-                    .SetEase(normalGuard.rotationEase);
+                    .SetEase(normalGuard.data.rotationEase);
             }
             else
             {
                 normalGuard.transform.DORotate(targetRotationLeft,
                        rotationTime)
-                    .SetEase(normalGuard.rotationEase);
+                    .SetEase(normalGuard.data.rotationEase);
             }
 
             isRotateRight = !isRotateRight;
 
             yield return new WaitForSeconds(rotationTime);
-            yield return new WaitForSeconds(normalGuard.rotationIntervalTime);
+            yield return new WaitForSeconds(Random.Range(0,normalGuard.data.rotationIntervalTime));
         }
+        
+        stateMachine.ChangeState(normalGuardStateMachine.patrolState);
     }
 }

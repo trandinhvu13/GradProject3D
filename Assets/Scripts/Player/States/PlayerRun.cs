@@ -16,17 +16,17 @@ public class PlayerRun : BaseState
     public override void Enter()
     {
         base.Enter();
-        player.ChangeToRunMode(true);
+        player.maxSpeed = player.data.runSpeed;
         Helper.SetTriggerAnimator(player.animator, "Run");
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (!player.isMoving)
+        if (!player.data.isMoving)
         {
             playerStateMachine.ChangeState(playerStateMachine.idleState);
-        }else if (!player.isRunning)
+        }else if (!player.data.isRunning)
         {
             playerStateMachine.ChangeState(playerStateMachine.walkState);
         }

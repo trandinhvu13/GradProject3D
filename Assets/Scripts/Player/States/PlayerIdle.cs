@@ -22,9 +22,9 @@ public class PlayerIdle : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (player.isMoving)
+        if (player.data.isMoving)
         {
-            if (player.isRunning) playerStateMachine.ChangeState(playerStateMachine.runState);
+            if (player.data.isRunning) playerStateMachine.ChangeState(playerStateMachine.runState);
             else playerStateMachine.ChangeState(playerStateMachine.walkState);
         }
     }

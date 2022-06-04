@@ -32,9 +32,16 @@ public class StateMachine : MonoBehaviour
 
     public void ChangeState(BaseState newState)
     {
+        if (currentState == newState) return;
+        
         currentState.Exit();
 
         currentState = newState;
         newState.Enter();
+    }
+
+    public BaseState GetCurrentState()
+    {
+        return currentState;
     }
 }

@@ -16,7 +16,7 @@ public class PlayerWalk : BaseState
     public override void Enter()
     {
         base.Enter();
-        player.ChangeToRunMode(false);
+        player.maxSpeed = player.data.walkSpeed;
         Helper.SetTriggerAnimator(player.animator, "Walk");
 
     }
@@ -24,10 +24,10 @@ public class PlayerWalk : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (!player.isMoving)
+        if (!player.data.isMoving)
         {
             playerStateMachine.ChangeState(playerStateMachine.idleState);
-        }else if (player.isRunning)
+        }else if (player.data.isRunning)
         {
             playerStateMachine.ChangeState(playerStateMachine.runState);
         }

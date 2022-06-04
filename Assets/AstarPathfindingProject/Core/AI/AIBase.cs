@@ -99,7 +99,7 @@ namespace Pathfinding {
 		public float centerOffset {
 			get { return height * 0.5f; } set { height = value * 2; }
 		}
-
+		
 		[SerializeField]
 		[HideInInspector]
 		[FormerlySerializedAs("centerOffset")]

@@ -12,6 +12,8 @@ public class NormalGuardData : MonoBehaviour
     public bool isMoving;
     public bool isRunning;
 
+    public float suspectMeterMax;
+
     //Idle
     public Ease rotationEase;
     public float rotationAmount = 0;
@@ -24,4 +26,9 @@ public class NormalGuardData : MonoBehaviour
     //Patrol
     public int continueToPatrolChance;
     public int patrolRange;
+    
+    //Chase
+    public Transform playerLastSeenPos;
+
+
 }

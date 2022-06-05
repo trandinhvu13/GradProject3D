@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
@@ -14,7 +11,7 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    public List<Transform> visibleTargets = new List<Transform>();
+    public bool isSeeingPlayer = false;
 
     public float meshResolution;
     public MeshFilter viewMeshFilter;
@@ -57,12 +54,11 @@ public class FieldOfView : MonoBehaviour
 
     private void FindVisibleTarget()
     {
-        visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        if (targetsInViewRadius.Length > 0)
         {
-            Transform target = targetsInViewRadius[i].transform;
+            Transform target = targetsInViewRadius[0].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
@@ -70,10 +66,12 @@ public class FieldOfView : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask))
                 {
-                    visibleTargets.Add(target);
+                    isSeeingPlayer = true;
+                    return;
                 }
             }
         }
+        isSeeingPlayer = false;
     }
 
     private void DrawFieldOfView()

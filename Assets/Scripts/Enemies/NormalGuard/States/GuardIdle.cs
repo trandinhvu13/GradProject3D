@@ -9,6 +9,8 @@ public class GuardIdle : BaseState
     private NormalGuardStateMachine normalGuardStateMachine;
     [SerializeField] private bool isPause = false;
 
+    private Tween rotateTween;
+
     public GuardIdle(NormalGuardStateMachine stateMachine) : base("GuardIdle", stateMachine)
     {
         normalGuardStateMachine = stateMachine;
@@ -19,6 +21,7 @@ public class GuardIdle : BaseState
     {
         base.Enter();
         Helper.SetTriggerAnimator(normalGuard.animator, "Idle");
+        rotateTween = null;
         isPause = false;
         normalGuard.data.isMoving = false;
         normalGuard.canMove = false;
@@ -29,18 +32,26 @@ public class GuardIdle : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-
         if (normalGuard.suspectMeter > 0 && normalGuard.suspectMeter < normalGuard.data.suspectMeterMax && !isPause)
         {
-            Debug.Log("Pause");
             isPause = true;
-            normalGuard.transform.DOPause();
+            if (rotateTween != null)
+            {
+                rotateTween.Pause();
+            }
         }
         else if (normalGuard.suspectMeter <= 0 && isPause)
         {
             isPause = false;
-            Debug.Log("Resume");
-            normalGuard.transform.DOTogglePause();
+            if (rotateTween != null)
+            {
+                rotateTween.TogglePause();
+            }
+        }
+        
+        if (normalGuard.suspectMeter >= normalGuard.data.suspectMeterMax)
+        {
+            normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
         }
         
     }
@@ -69,7 +80,8 @@ public class GuardIdle : BaseState
         bool isRotateRight = false;
 
         while (normalGuard.data.currentRotationCount < rotationCount)
-        {
+        {   
+            bool isDoneAll = false;
             normalGuard.data.currentRotationCount++;
 
             float rotationTime = normalGuard.data.currentRotationCount == 1
@@ -78,24 +90,31 @@ public class GuardIdle : BaseState
 
             if (isRotateRight)
             {
-                normalGuard.transform
+              rotateTween =  normalGuard.transform
                     .DORotate(targetRotationRight,
                         rotationTime)
-                    .SetEase(normalGuard.data.rotationEase);
+                    .SetEase(normalGuard.data.rotationEase).OnComplete(() =>
+                    {
+                        isDoneAll = true;
+                    });
             }
             else
             {
-                normalGuard.transform.DORotate(targetRotationLeft,
+                rotateTween = normalGuard.transform.DORotate(targetRotationLeft,
                         rotationTime)
-                    .SetEase(normalGuard.data.rotationEase);
+                    .SetEase(normalGuard.data.rotationEase).OnComplete(() =>
+                    {
+                        isDoneAll = true;
+                    });
             }
 
             isRotateRight = !isRotateRight;
-
-            yield return new WaitForSeconds(rotationTime);
+            
+            yield return new WaitUntil(() => isDoneAll);
+            //yield return new WaitForSeconds(rotationTime);
             yield return new WaitForSeconds(Random.Range(0, normalGuard.data.rotationIntervalTime));
         }
-
+        
         stateMachine.ChangeState(normalGuardStateMachine.patrolState);
     }
 

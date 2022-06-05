@@ -34,6 +34,10 @@ public class GuardPatrol : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
+        if (normalGuard.suspectMeter > 0)
+        {
+            normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+        }
     }
 
     public override void Exit()

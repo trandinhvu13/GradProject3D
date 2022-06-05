@@ -52,12 +52,12 @@ public class NormalGuard : AIPath
     {
         if (fieldOfView.isSeeingPlayer)
         {
+            //normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
             suspectMeter += Time.deltaTime;
 
             if (suspectMeter > data.suspectMeterMax)
             {
                 suspectMeter = data.suspectMeterMax;
-                normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
             }
         }
         else

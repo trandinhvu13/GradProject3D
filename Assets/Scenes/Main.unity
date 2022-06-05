@@ -1023,7 +1023,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 9.94
   m_Depth: -1
   m_CullingMask:
@@ -1047,14 +1047,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1490600914}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 17.77, z: -0}
+  m_LocalRotation: {x: 0.5030199, y: 0, z: 0, w: 0.8642748}
+  m_LocalPosition: {x: 0.64, y: 8.92, z: -7.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60.4, y: 0, z: 0}
 --- !u!1 &1548923805
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,7 +1509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5042054935646162328, guid: bec910fcf70983e4c841edaf61ba225b, type: 3}
       propertyPath: rotationCount
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5042054935646162328, guid: bec910fcf70983e4c841edaf61ba225b, type: 3}
       propertyPath: rotationAmount
@@ -1517,7 +1517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5042054935646162328, guid: bec910fcf70983e4c841edaf61ba225b, type: 3}
       propertyPath: suspectMeterMax
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5042054935646162335, guid: bec910fcf70983e4c841edaf61ba225b, type: 3}
       propertyPath: fieldOfView

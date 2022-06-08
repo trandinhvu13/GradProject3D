@@ -23,7 +23,6 @@ public class GuardAlert : BaseState
         normalGuard.maxSpeed = normalGuard.data.alertSpeed;
         //normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
         normalGuard.onSearchPath += UpdateLogic;
-        Debug.Log("Guard in alert");
     }
 
     public void Chase()

@@ -323,17 +323,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolSpeed: 1.5
   suspectSpeed: 3.5
-  alertSpeed: 4.5
+  alertSpeed: 4.25
   isMoving: 0
   isRunning: 0
+  suspectMeterMax: 2
   rotationEase: 12
-  rotationAmount: 45
+  rotationAmount: 40
   rotationTime: 2
   rotationIntervalTime: 1
   rotationCount: 3
   currentRotationCount: 0
   continueToPatrolChance: 20
   patrolRange: 20
+  playerLastSeenPos: {fileID: 0}
 --- !u!114 &597668741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,14 +349,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 9.78
-  viewAngle: 109
+  viewAngle: 118
   targetMask:
     serializedVersion: 2
     m_Bits: 128
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
-  visibleTargets: []
+  isSeeingPlayer: 0
   meshResolution: 1
   viewMeshFilter: {fileID: 376812568}
   edgeResolveIteration: 4
@@ -406,6 +408,8 @@ MonoBehaviour:
   characterController: {fileID: 5042054935646162329}
   aiPath: {fileID: 5042054935646162335}
   normalGuardStateMachine: {fileID: 5042054935646162332}
+  fieldOfView: {fileID: 597668741}
+  suspectMeter: 0
   animator: {fileID: 5042054935646162322}
 --- !u!114 &5042054935646162332
 MonoBehaviour:

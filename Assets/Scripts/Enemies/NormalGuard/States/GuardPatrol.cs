@@ -23,7 +23,6 @@ public class GuardPatrol : BaseState
         normalGuard.data.isRunning = false;
         normalGuard.maxSpeed = normalGuard.data.patrolSpeed;
         normalGuard.seekerScript.StartPath(normalGuard.transform.position, PickARandomPlace());
-        Debug.Log("Guard in Patrol");
     }
 
     public override void UpdateLogic()

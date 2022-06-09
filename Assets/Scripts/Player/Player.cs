@@ -9,7 +9,7 @@ public class Player : AIPath
     [SerializeField] private Seeker seekerScript;
     [SerializeField] private CharacterController characterController;
     public Animator animator;
-    public Shape soundRing;
+    public SpriteRenderer soundRing;
 
     // Input
     private Camera cam;
@@ -25,7 +25,14 @@ public class Player : AIPath
     {
         base.Awake();
         cam = Camera.main;
-        soundRing.transform.localScale = new Vector3(1, 1, 1);
+        
+        SetUpSoundRing();
+    }
+
+    private void SetUpSoundRing()
+    {
+        soundRing.transform.localScale = new Vector3(data.whistleRadius*2, data.whistleRadius*2, 1);
+        soundRing.color = new Color(255, 255, 255, 0);
     }
 
     protected override void Update()
@@ -77,10 +84,13 @@ public class Player : AIPath
     private void Whistle()
     {
         if (whistleTween.IsActive() && whistleTween != null && whistleTween.IsPlaying()) return;
-
-        whistleTween = soundRing.transform
-            .DOScale(new Vector3(data.whistleRadius*2, data.whistleRadius*2, 1), data.whistleRingTweenTime)
-            .SetEase(data.soundRingTweenType).SetLoops(2, LoopType.Yoyo).From(Vector3.zero).OnStepComplete(() =>
+        
+        soundRing.transform.localScale = new Vector3(data.whistleRadius*2, data.whistleRadius*2, 1);
+        soundRing.color = new Color(255, 255, 255, 0);
+        
+        whistleTween = soundRing
+            .DOFade(1, data.whistleRingTweenTime)
+            .SetEase(data.soundRingTweenType).SetLoops(2, LoopType.Yoyo).From(0).OnStepComplete(() =>
             {
                 if (whistleTween.CompletedLoops() == 1)
                 {

@@ -22,6 +22,7 @@ public class PlayerRun : BaseState
         base.Enter();
         player.maxSpeed = player.data.runSpeed;
         Helper.SetTriggerAnimator(player.animator, "Run");
+        MakeSound();
     }
 
     public override void UpdateLogic()
@@ -45,15 +46,28 @@ public class PlayerRun : BaseState
     public override void Exit()
     {
         base.Exit();
+        runningTween.Kill();
+        player.soundRing
+            .DOFade(0,
+                player.data.runRingTweenTime)
+            .SetEase(player.data.soundRingTweenType);
     }
 
     private void MakeSound()
     {
         //if (runningTween.IsActive() && runningTween != null && runningTween.IsPlaying()) return;
-
-        runningTween = player.soundRing.transform
-            .DOScale(new Vector3(player.data.runSoundRadius * 2, player.data.runSoundRadius * 2, 1),
-                player.data.whistleRingTweenTime)
-            .SetEase(player.data.soundRingTweenType).OnStepComplete(() => { });
+        player.soundRing.transform.localScale = new Vector3(player.data.runSoundRadius*2, player.data.runSoundRadius*2, 1);
+        player.soundRing.color = new Color(255, 255, 255, 0);
+        
+        runningTween = player.soundRing
+            .DOFade(1,
+                player.data.runRingTweenTime).From(0)
+            .SetEase(player.data.soundRingTweenType).SetLoops(-1, LoopType.Yoyo).OnStepComplete(() =>
+            {
+                if (runningTween.CompletedLoops() % 2 != 0)
+                {
+                    GameEvent.instance.PLayerRun(player.transform, player.data.runSoundRadius);
+                }
+            });
     }
 }

@@ -26,6 +26,7 @@ public class GuardIdle : BaseState
         normalGuard.data.isMoving = false;
         normalGuard.canMove = false;
         normalGuard.lookAroundCoroutine = normalGuard.StartCoroutine(LookAround());
+        Debug.Log("Guard idle");
     }
 
     public override void UpdateLogic()

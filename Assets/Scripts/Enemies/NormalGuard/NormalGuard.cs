@@ -29,12 +29,14 @@ public class NormalGuard : AIPath
     {
         base.OnEnable();
         GameEvent.instance.OnPlayerWhistle += HearPlayer;
+        GameEvent.instance.OnPlayerRun += HearPlayer;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
         if (GameEvent.instance) GameEvent.instance.OnPlayerWhistle -= HearPlayer;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerRun -= HearPlayer;
     }
 
     protected override void Start()
@@ -75,6 +77,7 @@ public class NormalGuard : AIPath
     {
         if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
         {
+            Debug.Log("Hear player");
             OnHearPlayer();
         }
     }

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 37342194}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8726881646311475427}
@@ -810,9 +810,12 @@ MonoBehaviour:
   runSpeed: 4
   isMoving: 0
   isRunning: 0
-  whistleRange: 5
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  whistleRadius: 5
   whistleRingTweenTime: 0.25
-  runSoundRange: 5
+  runSoundRadius: 0
   runRingTweenTime: 0
   soundRingTweenType: 6
 --- !u!114 &1832931793
@@ -861,7 +864,7 @@ MonoBehaviour:
   seekerScript: {fileID: 4649703693526848148}
   characterController: {fileID: 1832931807}
   animator: {fileID: 3457691709511062169}
-  soundRing: {fileID: 37342197}
+  soundRing: {fileID: 37342196}
 --- !u!114 &4649703693526848148
 MonoBehaviour:
   m_ObjectHideFlags: 0

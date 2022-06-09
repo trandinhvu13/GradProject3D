@@ -22,6 +22,8 @@ public class GuardSuspect : BaseState
         normalGuard.data.isRunning = false;
         normalGuard.maxSpeed = normalGuard.data.suspectSpeed;
         normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
+        
+        Debug.Log("Guard suspect");
     }
 
     public override void UpdateLogic()

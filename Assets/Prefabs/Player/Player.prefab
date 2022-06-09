@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 37342194}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0.001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -813,10 +813,10 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  whistleRadius: 5
+  whistleRadius: 3
   whistleRingTweenTime: 0.25
-  runSoundRadius: 0
-  runRingTweenTime: 0
+  runSoundRadius: 4.5
+  runRingTweenTime: 0.4
   soundRingTweenType: 6
 --- !u!114 &1832931793
 MonoBehaviour:

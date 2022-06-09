@@ -28,7 +28,6 @@ public class NormalGuardData : MonoBehaviour
     public int patrolRange;
     
     //Chase
-    public Transform playerLastSeenPos;
 
 
 }

@@ -25,6 +25,7 @@ public class Player : AIPath
     {
         base.Awake();
         cam = Camera.main;
+        soundRing.transform.localScale = new Vector3(1, 1, 1);
     }
 
     protected override void Update()

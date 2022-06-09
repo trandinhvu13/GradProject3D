@@ -28,13 +28,13 @@ public class NormalGuard : AIPath
     protected override void OnEnable()
     {
         base.OnEnable();
-        //GameEvent.instance.OnDetectPlayer += DetectPlayer;
+        GameEvent.instance.OnPlayerWhistle += HearPlayer;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        //if (GameEvent.instance) GameEvent.instance.OnDetectPlayer -= DetectPlayer;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerWhistle -= HearPlayer;
     }
 
     protected override void Start()
@@ -71,10 +71,12 @@ public class NormalGuard : AIPath
         }
     }
 
-    public void DetectPlayer(Transform playerPosTransform)
+    public void HearPlayer(Transform playerPosTransform, float radius)
     {
-        data.playerLastSeenPos = playerPosTransform;
-        normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
+        if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
+        {
+            OnHearPlayer();
+        }
     }
 
     public override void OnTargetReached()
@@ -98,11 +100,18 @@ public class NormalGuard : AIPath
         }
     }
 
-    public void OnStartDetectingPlayer()
+    public void OnHearPlayer()
     {
-    }
+        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.patrolState)
+        {
+            normalGuardStateMachine.patrolState.OnHearPlayer();
+            return;
+        }
 
-    public void OnDetectPlayer()
-    {
+        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.idleState)
+        {
+            normalGuardStateMachine.idleState.OnHearPlayer();
+            return;
+        }
     }
 }

@@ -78,18 +78,12 @@ public class Player : AIPath
         if (whistleTween.IsActive() && whistleTween != null && whistleTween.IsPlaying()) return;
 
         whistleTween = soundRing.transform
-            .DOScale(new Vector3(data.whistleRange*2, data.whistleRange*2, 1), data.whistleRingTweenTime)
+            .DOScale(new Vector3(data.whistleRadius*2, data.whistleRadius*2, 1), data.whistleRingTweenTime)
             .SetEase(data.soundRingTweenType).SetLoops(2, LoopType.Yoyo).From(Vector3.zero).OnStepComplete(() =>
             {
                 if (whistleTween.CompletedLoops() == 1)
                 {
-                    // Or using event? with parameter is radius and transform pos
-                    insideSoundRing = Physics.OverlapSphere(transform.position, data.whistleRange, data.enemyLayerMask);
-
-                    if (insideSoundRing.Length > 0)
-                    {
-                        
-                    }
+                    GameEvent.instance.PLayerWhistle(transform,data.whistleRadius);
                 }
             });
     }

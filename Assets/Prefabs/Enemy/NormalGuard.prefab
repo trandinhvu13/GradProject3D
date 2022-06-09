@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolSpeed: 1.5
-  suspectSpeed: 3.5
+  suspectSpeed: 2.5
   alertSpeed: 4.25
   isMoving: 0
   isRunning: 0

@@ -31,6 +31,24 @@ public class GuardIdle : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        SightOfPlayer();
+
+    }
+
+    public override void UpdatePhysics()
+    {
+        base.UpdatePhysics();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        normalGuard.StopCoroutine(normalGuard.lookAroundCoroutine);
+        normalGuard.lookAroundCoroutine = null;
+    }
+
+    private void SightOfPlayer()
+    {
         if (normalGuard.suspectMeter > 0 && normalGuard.suspectMeter < normalGuard.data.suspectMeterMax && !isPause)
         {
             isPause = true;
@@ -52,21 +70,7 @@ public class GuardIdle : BaseState
         {
             normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
         }
-        
     }
-
-    public override void UpdatePhysics()
-    {
-        base.UpdatePhysics();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        normalGuard.StopCoroutine(normalGuard.lookAroundCoroutine);
-        normalGuard.lookAroundCoroutine = null;
-    }
-
     IEnumerator LookAround()
     {
         normalGuard.data.currentRotationCount = 0;
@@ -117,5 +121,9 @@ public class GuardIdle : BaseState
         stateMachine.ChangeState(normalGuardStateMachine.patrolState);
     }
 
+    public void OnHearPlayer()
+    {
+        normalGuardStateMachine.ChangeState(normalGuardStateMachine.suspectState);
+    }
 
 }

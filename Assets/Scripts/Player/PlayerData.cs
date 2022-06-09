@@ -12,9 +12,10 @@ public class PlayerData : MonoBehaviour
 
     public LayerMask enemyLayerMask;
     
-    public float whistleRange;
+    public float whistleRadius;
     public float whistleRingTweenTime;
-    public float runSoundRange;
+    public float runSoundRadius;
     public float runRingTweenTime;
+    
     public Ease soundRingTweenType;
 }

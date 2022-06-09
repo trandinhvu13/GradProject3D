@@ -28,15 +28,15 @@ public class GuardPatrol : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        if (normalGuard.suspectMeter > 0)
+        {
+            normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+        }
     }
 
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        if (normalGuard.suspectMeter > 0)
-        {
-            normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
-        }
     }
 
     public override void Exit()
@@ -67,5 +67,10 @@ public class GuardPatrol : BaseState
         {
             normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
         }
+    }
+
+    public void OnHearPlayer()
+    {
+        normalGuardStateMachine.ChangeState(normalGuardStateMachine.suspectState);
     }
 }

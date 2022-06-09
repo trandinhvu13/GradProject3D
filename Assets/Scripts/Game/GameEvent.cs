@@ -28,12 +28,12 @@ public class GameEvent : MonoSingleton<GameEvent>
     
     #region Enemy
 
-    /*public event Action<Transform> OnDetectPlayer;
+    public event Action<Transform,float> OnPlayerWhistle;
 
-    public void DetectPlayer(Transform playerTransform)
+    public void PLayerWhistle(Transform playerTransform, float soundRingRadius)
     {
-        OnDetectPlayer?.Invoke(playerTransform);
-    }*/
+        OnPlayerWhistle?.Invoke(playerTransform, soundRingRadius);
+    }
     #endregion
 
     

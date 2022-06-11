@@ -816,7 +816,7 @@ MonoBehaviour:
   whistleRadius: 3
   whistleRingTweenTime: 0.25
   runSoundRadius: 4.5
-  runRingTweenTime: 0.4
+  runRingTweenTime: 0.2
   soundRingTweenType: 6
 --- !u!114 &1832931793
 MonoBehaviour:

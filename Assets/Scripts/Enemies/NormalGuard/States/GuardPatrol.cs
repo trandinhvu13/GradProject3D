@@ -34,7 +34,7 @@ public class GuardPatrol : BaseState
         base.UpdateLogic();
         if (normalGuard.suspectMeter > 0)
         {
-            normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+            normalGuardStateMachine.ChangeState(normalGuardStateMachine.suspectState);
         }
     }
 

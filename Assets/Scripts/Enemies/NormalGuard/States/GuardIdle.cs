@@ -50,7 +50,7 @@ public class GuardIdle : BaseState
 
     private void SightOfPlayer()
     {
-        if (normalGuard.suspectMeter > 0 && normalGuard.suspectMeter < normalGuard.data.suspectMeterMax && !isPause)
+        if (normalGuard.suspectMeter > 0 && normalGuard.suspectMeter < normalGuard.data.suspectMeterMax)
         {
             isPause = true;
             if (rotateTween != null)

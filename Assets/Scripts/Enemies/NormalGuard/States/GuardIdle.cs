@@ -52,21 +52,10 @@ public class GuardIdle : BaseState
     {
         if (normalGuard.suspectMeter > 0 && normalGuard.suspectMeter < normalGuard.data.suspectMeterMax)
         {
-            isPause = true;
-            if (rotateTween != null)
-            {
-                rotateTween.Pause();
-            }
+            normalGuardStateMachine.ChangeState(normalGuardStateMachine.suspectState);
+            return;
         }
-        else if (normalGuard.suspectMeter <= 0 && isPause)
-        {
-            isPause = false;
-            if (rotateTween != null)
-            {
-                rotateTween.TogglePause();
-            }
-        }
-        
+
         if (normalGuard.suspectMeter >= normalGuard.data.suspectMeterMax)
         {
             normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);

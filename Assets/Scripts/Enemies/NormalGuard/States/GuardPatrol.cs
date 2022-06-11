@@ -17,12 +17,15 @@ public class GuardPatrol : BaseState
     public override void Enter()
     {
         base.Enter();
-        Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
         normalGuard.canMove = true;
         normalGuard.data.isMoving = true;
         normalGuard.data.isRunning = false;
         normalGuard.maxSpeed = normalGuard.data.patrolSpeed;
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, PickARandomPlace());
+        normalGuard.seekerScript.StartPath(normalGuard.transform.position, PickARandomPlace(), (Path p) =>
+        {
+            Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
+        });
+        
         Debug.Log("Guard Patrol");
     }
 

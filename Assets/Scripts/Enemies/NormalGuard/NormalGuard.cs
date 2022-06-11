@@ -116,5 +116,11 @@ public class NormalGuard : AIPath
             normalGuardStateMachine.idleState.OnHearPlayer();
             return;
         }
+        
+        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.suspectState)
+        {
+            normalGuardStateMachine.suspectState.OnHearPlayer();
+            return;
+        }
     }
 }

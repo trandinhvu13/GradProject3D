@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening.Plugins.Core.PathCore;
 using UnityEngine;
+using Path = Pathfinding.Path;
 
 public class GuardSuspect : BaseState
 {
@@ -16,13 +18,16 @@ public class GuardSuspect : BaseState
     public override void Enter()
     {
         base.Enter();
-        Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
         normalGuard.canMove = true;
         normalGuard.data.isMoving = true;
         normalGuard.data.isRunning = false;
         normalGuard.maxSpeed = normalGuard.data.suspectSpeed;
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
-        
+        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position,
+            (Path p) =>
+            {
+                Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
+            });
+
         Debug.Log("Guard suspect");
     }
 
@@ -44,5 +49,10 @@ public class GuardSuspect : BaseState
     public void OnTargetReached()
     {
         normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+    }
+
+    public void OnHearPlayer()
+    {
+        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
     }
 }

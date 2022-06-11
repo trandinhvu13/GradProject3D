@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1090649431127436787}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: tileBrickB_small
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,11 +88,33 @@ PrefabInstance:
       value: tileBrickB_small
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b979ca19b7468024c9a905b31b62e5b9, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b979ca19b7468024c9a905b31b62e5b9, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b979ca19b7468024c9a905b31b62e5b9, type: 3}
+--- !u!1 &408902523490291388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b979ca19b7468024c9a905b31b62e5b9, type: 3}
+  m_PrefabInstance: {fileID: 679444843955188717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4053025938635869272
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408902523490291388}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1, z: 2}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &1073939191283717126 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b979ca19b7468024c9a905b31b62e5b9, type: 3}

@@ -16,13 +16,13 @@ public class GuardAlert : BaseState
     public override void Enter()
     {
         base.Enter();
-        Helper.SetTriggerAnimator(normalGuard.animator, "Run");
-        normalGuard.canMove = true;
+        normalGuard.canMove = true; 
         normalGuard.data.isMoving = true;
         normalGuard.data.isRunning = true;
         normalGuard.maxSpeed = normalGuard.data.alertSpeed;
         //normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
         normalGuard.onSearchPath += UpdateLogic;
+        Helper.SetTriggerAnimator(normalGuard.animator, "Run");
     }
 
     public void Chase()

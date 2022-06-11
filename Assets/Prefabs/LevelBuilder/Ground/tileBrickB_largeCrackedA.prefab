@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6283079831952295011}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: tileBrickB_largeCrackedA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,6 +88,10 @@ PrefabInstance:
       value: tileBrickB_largeCrackedA
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 65a5928554a53e245ba8c3db8a728cd1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65a5928554a53e245ba8c3db8a728cd1, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -98,3 +102,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 65a5928554a53e245ba8c3db8a728cd1, type: 3}
   m_PrefabInstance: {fileID: 90900199238176081}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &973790092438515712 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 65a5928554a53e245ba8c3db8a728cd1, type: 3}
+  m_PrefabInstance: {fileID: 90900199238176081}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6190584774748703130
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973790092438515712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 1, z: 6}
+  m_Center: {x: 0, y: 0.5, z: 0}

@@ -806,16 +806,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a92892be73cd1964ab9ccf43b817036c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1.5
+  walkSpeed: 2
   runSpeed: 4
   isMoving: 0
   isRunning: 0
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  whistleRadius: 3
+  whistleRadius: 4.2
   whistleRingTweenTime: 0.25
-  runSoundRadius: 4.5
+  runSoundRadius: 5
   runRingTweenTime: 0.2
   soundRingTweenType: 6
 --- !u!114 &1832931793

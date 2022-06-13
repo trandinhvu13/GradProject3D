@@ -4,11 +4,11 @@ using DG.Tweening;
 using Pathfinding;
 using UnityEngine;
 
-public class NormalGuard : AIPath
+public class StationGuard : AIPath
 {
-    public NormalGuardData data;
+    public StationGuardData data;
     public Seeker seekerScript;
-    [SerializeField] private NormalGuardStateMachine normalGuardStateMachine;
+    [SerializeField] private StationGuardStateMachine stationGuardStateMachine;
     [SerializeField] private FieldOfView fieldOfView;
     public float suspectMeter;
 
@@ -81,42 +81,30 @@ public class NormalGuard : AIPath
 
     public override void OnTargetReached()
     {
-        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.patrolState)
+        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
         {
-            normalGuardStateMachine.patrolState.OnTargetReached();
+            stationGuardStateMachine.suspectState.OnTargetReached();
             return;
         }
 
-        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.suspectState)
+        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.alertState)
         {
-            normalGuardStateMachine.suspectState.OnTargetReached();
-            return;
-        }
-
-        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.alertState)
-        {
-            normalGuardStateMachine.alertState.OnTargetReached();
+            stationGuardStateMachine.alertState.OnTargetReached();
             return;
         }
     }
 
     public void OnHearPlayer()
     {
-        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.patrolState)
+        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.idleState)
         {
-            normalGuardStateMachine.patrolState.OnHearPlayer();
-            return;
-        }
-
-        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.idleState)
-        {
-            normalGuardStateMachine.idleState.OnHearPlayer();
+            stationGuardStateMachine.idleState.OnHearPlayer();
             return;
         }
         
-        if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.suspectState)
+        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
         {
-            normalGuardStateMachine.suspectState.OnHearPlayer();
+            stationGuardStateMachine.suspectState.OnHearPlayer();
             return;
         }
     }

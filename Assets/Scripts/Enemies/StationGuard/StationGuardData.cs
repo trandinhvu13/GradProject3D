@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class StationGuardData : MonoBehaviour
 {
-    public float patrolSpeed;
+    public Vector3 stationPos;
+    public Vector3 stationRotation;
+    
     public float suspectSpeed;
     public float alertSpeed;
 
     public bool isMoving;
     public bool isRunning;
+    public bool isInStation;
 
     public float suspectMeterMax;
 
@@ -19,15 +22,6 @@ public class StationGuardData : MonoBehaviour
     public float rotationAmount = 0;
     public float rotationTime;
     public float rotationIntervalTime;
-
-    public int rotationCount;
+    
     public int currentRotationCount;
-    
-    //Patrol
-    public int continueToPatrolChance;
-    public int patrolRange;
-    
-    //Chase
-
-
 }

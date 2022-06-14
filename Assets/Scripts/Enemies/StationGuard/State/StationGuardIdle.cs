@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Pathfinding;
 using UnityEngine;
 
 public class StationGuardIdle : BaseState
@@ -20,12 +21,27 @@ public class StationGuardIdle : BaseState
     public override void Enter()
     {
         base.Enter();
+
+        if (!stationGuard.data.isInStation)
+        {
+            stationGuard.seekerScript.StartPath(stationGuard.transform.position, stationGuard.data.stationPos,
+                (Path p) => { Helper.SetTriggerAnimator(stationGuard.animator, "Walk"); });
+        }
+        else
+        {
+            SetupIdle();
+            stationGuard.lookAroundCoroutine = stationGuard.StartCoroutine(LookAround());
+        }
+    }
+
+    private void SetupIdle()
+    {
         Helper.SetTriggerAnimator(stationGuard.animator, "Idle");
         rotateTween = null;
         isPause = false;
         stationGuard.data.isMoving = false;
         stationGuard.canMove = false;
-        stationGuard.lookAroundCoroutine = stationGuard.StartCoroutine(LookAround());
+        stationGuard.data.isInStation = true;
         Debug.Log("Guard idle");
     }
 
@@ -33,7 +49,6 @@ public class StationGuardIdle : BaseState
     {
         base.UpdateLogic();
         SightOfPlayer();
-
     }
 
     public override void UpdatePhysics()
@@ -44,7 +59,8 @@ public class StationGuardIdle : BaseState
     public override void Exit()
     {
         base.Exit();
-        stationGuard.StopCoroutine(stationGuard.lookAroundCoroutine);
+
+        if (stationGuard.lookAroundCoroutine != null) stationGuard.StopCoroutine(stationGuard.lookAroundCoroutine);
         stationGuard.lookAroundCoroutine = null;
     }
 
@@ -61,11 +77,10 @@ public class StationGuardIdle : BaseState
             stationGuardStateMachine.ChangeState(stationGuardStateMachine.alertState);
         }
     }
-    //TODO: NEED RE CODE TO REMOVE PATROL
+
     IEnumerator LookAround()
     {
         stationGuard.data.currentRotationCount = 0;
-        int rotationCount = stationGuard.data.rotationCount;
 
         Vector3 currentRotation = stationGuard.transform.eulerAngles;
         Vector3 targetRotationRight = new Vector3(0, currentRotation.y + stationGuard.data.rotationAmount, 0);
@@ -73,8 +88,8 @@ public class StationGuardIdle : BaseState
 
         bool isRotateRight = false;
 
-        while (stationGuard.data.currentRotationCount < rotationCount)
-        {   
+        while (true)
+        {
             bool isDoneAll = false;
             stationGuard.data.currentRotationCount++;
 
@@ -82,33 +97,19 @@ public class StationGuardIdle : BaseState
                 ? stationGuard.data.rotationTime / 2
                 : stationGuard.data.rotationTime;
 
-            if (isRotateRight)
-            {
-              rotateTween =  stationGuard.transform
-                    .DORotate(targetRotationRight,
-                        rotationTime)
-                    .SetEase(stationGuard.data.rotationEase).OnComplete(() =>
-                    {
-                        isDoneAll = true;
-                    });
-            }
-            else
-            {
-                rotateTween = stationGuard.transform.DORotate(targetRotationLeft,
-                        rotationTime)
-                    .SetEase(stationGuard.data.rotationEase).OnComplete(() =>
-                    {
-                        isDoneAll = true;
-                    });
-            }
+            Vector3 targetRotation = isRotateRight ? targetRotationRight : targetRotationLeft;
+
+            rotateTween = stationGuard.transform
+                .DORotate(targetRotation,
+                    rotationTime)
+                .SetEase(stationGuard.data.rotationEase).OnComplete(() => { isDoneAll = true; });
 
             isRotateRight = !isRotateRight;
-            
+
             yield return new WaitUntil(() => isDoneAll);
-            //yield return new WaitForSeconds(rotationTime);
             yield return new WaitForSeconds(Random.Range(0, stationGuard.data.rotationIntervalTime));
         }
-        
+
         //stateMachine.ChangeState(normalGuardStateMachine.patrolState);
     }
 
@@ -117,4 +118,15 @@ public class StationGuardIdle : BaseState
         stationGuardStateMachine.ChangeState(stationGuardStateMachine.suspectState);
     }
 
+    public void OnTargetReached()
+    {
+        stationGuard.transform
+            .DORotate(stationGuard.data.stationRotation,
+                stationGuard.data.rotationTime / 2)
+            .SetEase(stationGuard.data.rotationEase).OnComplete(() =>
+            {
+                SetupIdle();
+                stationGuard.lookAroundCoroutine = stationGuard.StartCoroutine(LookAround());
+            });
+    }
 }

@@ -20,6 +20,7 @@ public class StationGuard : AIPath
     protected override void Awake()
     {
         base.Awake();
+        data.isInStation = true;
     }
 
     protected override void OnEnable()
@@ -39,6 +40,8 @@ public class StationGuard : AIPath
     protected override void Start()
     {
         base.Start();
+        data.stationPos = transform.position;
+        data.stationRotation = transform.eulerAngles;
     }
 
     protected override void Update()
@@ -74,13 +77,18 @@ public class StationGuard : AIPath
     {
         if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
         {
-            Debug.Log("Hear player");
             OnHearPlayer();
         }
     }
 
     public override void OnTargetReached()
     {
+        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.idleState)
+        {
+            stationGuardStateMachine.idleState.OnTargetReached();
+            return;
+        }
+
         if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
         {
             stationGuardStateMachine.suspectState.OnTargetReached();
@@ -101,7 +109,7 @@ public class StationGuard : AIPath
             stationGuardStateMachine.idleState.OnHearPlayer();
             return;
         }
-        
+
         if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
         {
             stationGuardStateMachine.suspectState.OnHearPlayer();

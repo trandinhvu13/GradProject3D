@@ -703,7 +703,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7925889673708507955}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.51, y: 0, z: 2.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -764,20 +764,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95e80305dd4b0a4d951193644771534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolSpeed: 2
-  suspectSpeed: 2.7
+  suspectSpeed: 2
   alertSpeed: 4.25
   isMoving: 0
   isRunning: 0
   suspectMeterMax: 2
   rotationEase: 12
-  rotationAmount: 20
+  rotationAmount: 45
   rotationTime: 2
   rotationIntervalTime: 1
   rotationCount: 3
   currentRotationCount: 0
-  continueToPatrolChance: 20
-  patrolRange: 20
 --- !u!114 &165229391681488929
 MonoBehaviour:
   m_ObjectHideFlags: 0

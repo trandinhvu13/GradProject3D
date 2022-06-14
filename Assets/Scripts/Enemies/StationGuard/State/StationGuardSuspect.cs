@@ -22,6 +22,7 @@ public class StationGuardSuspect : BaseState
         stationGuard.data.isMoving = true;
         stationGuard.data.isRunning = false;
         stationGuard.maxSpeed = stationGuard.data.suspectSpeed;
+        stationGuard.data.isInStation = false;
         stationGuard.seekerScript.StartPath(stationGuard.transform.position, LevelManager.instance.playerTransform.position,
             (Path p) =>
             {

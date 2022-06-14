@@ -19,8 +19,8 @@ public class StationGuardAlert : BaseState
         stationGuard.canMove = true; 
         stationGuard.data.isMoving = true;
         stationGuard.data.isRunning = true;
+        stationGuard.data.isInStation = false;
         stationGuard.maxSpeed = stationGuard.data.alertSpeed;
-        //normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
         stationGuard.onSearchPath += UpdateLogic;
         Helper.SetTriggerAnimator(stationGuard.animator, "Run");
     }

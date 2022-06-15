@@ -83,6 +83,7 @@ public class StationGuard : AIPath
     {
         if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
         {
+            suspectMeterAmount += data.suspectMeterMax / 4;
             OnHearPlayer();
         }
     }

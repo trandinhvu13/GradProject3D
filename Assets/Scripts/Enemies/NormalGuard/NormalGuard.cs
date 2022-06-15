@@ -81,6 +81,7 @@ public class NormalGuard : AIPath
         if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
         {
             Debug.Log("Hear player");
+            suspectMeterAmount += data.suspectMeterMax / 4;
             OnHearPlayer();
         }
     }

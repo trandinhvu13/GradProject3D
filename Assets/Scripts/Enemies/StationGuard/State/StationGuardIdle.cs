@@ -66,13 +66,13 @@ public class StationGuardIdle : BaseState
 
     private void SightOfPlayer()
     {
-        if (stationGuard.suspectMeter > 0 && stationGuard.suspectMeter < stationGuard.data.suspectMeterMax)
+        if (stationGuard.suspectMeterAmount > 0 && stationGuard.suspectMeterAmount < stationGuard.data.suspectMeterMax)
         {
             stationGuardStateMachine.ChangeState(stationGuardStateMachine.suspectState);
             return;
         }
 
-        if (stationGuard.suspectMeter >= stationGuard.data.suspectMeterMax)
+        if (stationGuard.suspectMeterAmount >= stationGuard.data.suspectMeterMax)
         {
             stationGuardStateMachine.ChangeState(stationGuardStateMachine.alertState);
         }

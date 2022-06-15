@@ -10,7 +10,10 @@ public class NormalGuard : AIPath
     public Seeker seekerScript;
     [SerializeField] private NormalGuardStateMachine normalGuardStateMachine;
     [SerializeField] private FieldOfView fieldOfView;
-    public float suspectMeter;
+    [SerializeField] private Canvas canvas;
+
+    [SerializeField] private SuspectMeter suspectMeter;
+    public float suspectMeterAmount;
 
     public Animator animator;
 
@@ -20,6 +23,7 @@ public class NormalGuard : AIPath
     protected override void Awake()
     {
         base.Awake();
+        canvas.worldCamera = Camera.main;
     }
 
     protected override void OnEnable()
@@ -52,22 +56,24 @@ public class NormalGuard : AIPath
         if (fieldOfView.isSeeingPlayer)
         {
             //normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
-            suspectMeter += Time.deltaTime;
+            suspectMeterAmount += Time.deltaTime;
 
-            if (suspectMeter > data.suspectMeterMax)
+            if (suspectMeterAmount > data.suspectMeterMax)
             {
-                suspectMeter = data.suspectMeterMax;
+                suspectMeterAmount = data.suspectMeterMax;
             }
         }
         else
         {
-            suspectMeter -= Time.deltaTime / 1.5f;
+            suspectMeterAmount -= Time.deltaTime / 1.5f;
 
-            if (suspectMeter < 0)
+            if (suspectMeterAmount < 0)
             {
-                suspectMeter = 0;
+                suspectMeterAmount = 0;
             }
         }
+        
+        suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount/data.suspectMeterMax);
     }
 
     public void HearPlayer(Transform playerPosTransform, float radius)

@@ -40,7 +40,7 @@ public class StationGuardSuspect : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        if (stationGuard.suspectMeter >= stationGuard.data.suspectMeterMax)
+        if (stationGuard.suspectMeterAmount >= stationGuard.data.suspectMeterMax)
         {
             stationGuardStateMachine.ChangeState(stationGuardStateMachine.alertState);
         }

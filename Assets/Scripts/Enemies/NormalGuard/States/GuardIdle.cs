@@ -50,13 +50,13 @@ public class GuardIdle : BaseState
 
     private void SightOfPlayer()
     {
-        if (normalGuard.suspectMeter > 0 && normalGuard.suspectMeter < normalGuard.data.suspectMeterMax)
+        if (normalGuard.suspectMeterAmount > 0 && normalGuard.suspectMeterAmount < normalGuard.data.suspectMeterMax)
         {
             normalGuardStateMachine.ChangeState(normalGuardStateMachine.suspectState);
             return;
         }
 
-        if (normalGuard.suspectMeter >= normalGuard.data.suspectMeterMax)
+        if (normalGuard.suspectMeterAmount >= normalGuard.data.suspectMeterMax)
         {
             normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
         }

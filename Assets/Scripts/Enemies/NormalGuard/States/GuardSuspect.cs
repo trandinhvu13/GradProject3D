@@ -39,7 +39,7 @@ public class GuardSuspect : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        if (normalGuard.suspectMeter >= normalGuard.data.suspectMeterMax)
+        if (normalGuard.suspectMeterAmount >= normalGuard.data.suspectMeterMax)
         {
             normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
         }

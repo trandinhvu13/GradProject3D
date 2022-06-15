@@ -721,8 +721,8 @@
             } else if (image) {
                 spriteRenderer = null;
                 image.material = material;
-                image.sprite = null;
-                image.type = Image.Type.Simple;
+                //image.sprite = null;
+                //image.type = Image.Type.Simple;
                 rectTransform = GetComponent<RectTransform>();
             }
             

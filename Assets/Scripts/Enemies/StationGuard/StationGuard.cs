@@ -10,7 +10,10 @@ public class StationGuard : AIPath
     public Seeker seekerScript;
     [SerializeField] private StationGuardStateMachine stationGuardStateMachine;
     [SerializeField] private FieldOfView fieldOfView;
-    public float suspectMeter;
+    [SerializeField] private Canvas canvas;
+
+    [SerializeField] public SuspectMeter suspectMeter;
+    public float suspectMeterAmount;
 
     public Animator animator;
 
@@ -21,6 +24,7 @@ public class StationGuard : AIPath
     {
         base.Awake();
         data.isInStation = true;
+        canvas.worldCamera = Camera.main;
     }
 
     protected override void OnEnable()
@@ -55,22 +59,24 @@ public class StationGuard : AIPath
         if (fieldOfView.isSeeingPlayer)
         {
             //normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
-            suspectMeter += Time.deltaTime;
+            suspectMeterAmount += Time.deltaTime;
 
-            if (suspectMeter > data.suspectMeterMax)
+            if (suspectMeterAmount > data.suspectMeterMax)
             {
-                suspectMeter = data.suspectMeterMax;
+                suspectMeterAmount = data.suspectMeterMax;
             }
         }
         else
         {
-            suspectMeter -= Time.deltaTime / 1.5f;
+            suspectMeterAmount -= Time.deltaTime / 1.5f;
 
-            if (suspectMeter < 0)
+            if (suspectMeterAmount < 0)
             {
-                suspectMeter = 0;
+                suspectMeterAmount = 0;
             }
         }
+        
+        suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount/data.suspectMeterMax);
     }
 
     public void HearPlayer(Transform playerPosTransform, float radius)

@@ -1,17 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Shapes2D;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SuspectMeter : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Image suspectMeterImage;
+    [SerializeField] private Shape suspectMeterShape;
+    private Camera cam;
+
+    private void Awake()
+    {
+        cam = Camera.main;
+    }
+
+    private void LateUpdate()
+    {
+        transform.LookAt(cam.transform);
+        transform.rotation = cam.transform.rotation;
+    }
+
+    public void ChangeValueSuspectMeter(float amount)
+    {
+        suspectMeterImage.fillAmount = amount;
+    }
+
+    public void FadeIn()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void FadeOut()
     {
         
     }

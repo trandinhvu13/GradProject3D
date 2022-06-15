@@ -1,6 +1,5 @@
 using DG.Tweening;
 using Pathfinding;
-using Shapes2D;
 using UnityEngine;
 
 public class Player : AIPath
@@ -94,7 +93,7 @@ public class Player : AIPath
             {
                 if (whistleTween.CompletedLoops() == 1)
                 {
-                    GameEvent.instance.PLayerWhistle(transform,data.whistleRadius);
+                    GameEvent.instance.PlayerWhistle(transform,data.whistleRadius);
                 }
             });
     }

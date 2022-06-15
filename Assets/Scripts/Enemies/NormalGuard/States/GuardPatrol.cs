@@ -32,7 +32,7 @@ public class GuardPatrol : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (normalGuard.suspectMeter > 0)
+        if (normalGuard.suspectMeterAmount > 0)
         {
             normalGuardStateMachine.ChangeState(normalGuardStateMachine.suspectState);
         }

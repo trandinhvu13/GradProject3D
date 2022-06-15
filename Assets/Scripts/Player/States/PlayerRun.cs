@@ -66,7 +66,7 @@ public class PlayerRun : BaseState
             {
                 if (runningTween.CompletedLoops() % 2 != 0)
                 {
-                    GameEvent.instance.PLayerRun(player.transform, player.data.runSoundRadius);
+                    GameEvent.instance.PlayerRun(player.transform, player.data.runSoundRadius);
                 }
             });
     }

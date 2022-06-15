@@ -30,17 +30,23 @@ public class GameEvent : MonoSingleton<GameEvent>
 
     public event Action<Transform,float> OnPlayerWhistle;
 
-    public void PLayerWhistle(Transform playerTransform, float soundRingRadius)
+    public void PlayerWhistle(Transform playerTransform, float soundRingRadius)
     {
         OnPlayerWhistle?.Invoke(playerTransform, soundRingRadius);
     }
     
     public event Action<Transform,float> OnPlayerRun;
 
-    public void PLayerRun(Transform playerTransform, float soundRingRadius)
+    public void PlayerRun(Transform playerTransform, float soundRingRadius)
     {
         OnPlayerRun?.Invoke(playerTransform, soundRingRadius);
     }
+    #endregion
+
+    #region Enemy
+
+   
+
     #endregion
 
     

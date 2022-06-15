@@ -29,7 +29,7 @@ public class GuardAlert : BaseState
     {
         Transform player = LevelManager.instance.playerTransform;
         if (player != null) normalGuard.destination = player.position;
-        if(normalGuard.suspectMeter <= 0) normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+        if(normalGuard.suspectMeterAmount <= 0) normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
     }
 
     public override void UpdateLogic()

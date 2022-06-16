@@ -429,7 +429,7 @@ MonoBehaviour:
   alertSpeed: 4.25
   isMoving: 0
   isRunning: 0
-  suspectMeterMax: 4
+  suspectMeterMax: 2
   rotationEase: 12
   rotationAmount: 20
   rotationTime: 2

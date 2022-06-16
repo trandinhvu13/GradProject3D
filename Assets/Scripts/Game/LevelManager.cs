@@ -25,5 +25,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public Transform playerTransform;
     public List<Transform> enemyTransforms = new List<Transform>();
+    
+    //Level
+    public int itemsToCollectNum;
 
 }

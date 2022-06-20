@@ -49,5 +49,30 @@ public class GameEvent : MonoSingleton<GameEvent>
 
     #endregion
 
+    #region Game UI
+    
+    public event Action<Vector3> OnShowIndicator;
+
+    public void ShowIndicator(Vector3 pos)
+    {
+        OnShowIndicator?.Invoke(pos);
+    }
+    
+    public event Action OnHideIndicator;
+
+    public void HideIndicator()
+    {
+        OnHideIndicator?.Invoke();
+    }
+    
+    public event Action OnClickOnGround;
+
+    public void ClickOnGround()
+    {
+        OnClickOnGround?.Invoke();
+    }
+
+    #endregion
+
     
 }

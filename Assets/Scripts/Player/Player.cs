@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Pathfinding;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class Player : AIPath
     [SerializeField] private CharacterController characterController;
     public Animator animator;
     public SpriteRenderer soundRing;
+    [SerializeField] private LayerMask groundLayer;
 
     // Input
     private Camera cam;
@@ -24,13 +26,13 @@ public class Player : AIPath
     {
         base.Awake();
         cam = Camera.main;
-        
+
         SetUpSoundRing();
     }
 
     private void SetUpSoundRing()
     {
-        soundRing.transform.localScale = new Vector3(data.whistleRadius*2, data.whistleRadius*2, 1);
+        soundRing.transform.localScale = new Vector3(data.whistleRadius * 2, data.whistleRadius * 2, 1);
         soundRing.color = new Color(255, 255, 255, 0);
     }
 
@@ -63,7 +65,12 @@ public class Player : AIPath
 
             if (Physics.Raycast(ray, out hitInfo, 100) && hitInfo.transform.gameObject.CompareTag("Ground"))
             {
-                seekerScript.StartPath(transform.position, hitInfo.point, (Path p) => { data.isMoving = true; });
+                seekerScript.StartPath(transform.position, hitInfo.point, (Path p) =>
+                {
+                    data.isMoving = true;
+                    GameEvent.instance.ShowIndicator(hitInfo.point);
+                    GameEvent.instance.ClickOnGround();
+                });
             }
         }
 
@@ -78,22 +85,23 @@ public class Player : AIPath
     private void ReachTarget()
     {
         data.isMoving = false;
+        GameEvent.instance.HideIndicator();
     }
 
     private void Whistle()
     {
         if (whistleTween.IsActive() && whistleTween != null && whistleTween.IsPlaying()) return;
-        
-        soundRing.transform.localScale = new Vector3(data.whistleRadius*2, data.whistleRadius*2, 1);
+
+        soundRing.transform.localScale = new Vector3(data.whistleRadius * 2, data.whistleRadius * 2, 1);
         soundRing.color = new Color(255, 255, 255, 0);
-        
+
         whistleTween = soundRing
             .DOFade(1, data.whistleRingTweenTime)
             .SetEase(data.soundRingTweenType).SetLoops(2, LoopType.Yoyo).From(0).OnStepComplete(() =>
             {
                 if (whistleTween.CompletedLoops() == 1)
                 {
-                    GameEvent.instance.PlayerWhistle(transform,data.whistleRadius);
+                    GameEvent.instance.PlayerWhistle(transform, data.whistleRadius);
                 }
             });
     }

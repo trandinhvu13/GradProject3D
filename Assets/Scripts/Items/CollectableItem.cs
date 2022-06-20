@@ -10,8 +10,15 @@ public class CollectableItem : MonoBehaviour
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private float delayTime;
     [SerializeField] private bool isCollected = false;
+    [SerializeField] private Sprite hudImage;
+    
     public float checkRadius;
 
+
+    private void Awake()
+    {
+        isCollected = false;
+    }
 
     private void Start()
     {

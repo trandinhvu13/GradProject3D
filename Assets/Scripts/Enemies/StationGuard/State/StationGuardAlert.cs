@@ -27,7 +27,7 @@ public class StationGuardAlert : BaseState
 
     public void Chase()
     {
-        Transform player = LevelManager.instance.playerTransform;
+        Transform player = LevelManager.instance.player.transform;
         if (player != null) stationGuard.destination = player.position;
         if(stationGuard.suspectMeterAmount <= 0) stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
     }

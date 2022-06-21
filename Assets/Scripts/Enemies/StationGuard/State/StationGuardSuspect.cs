@@ -23,7 +23,7 @@ public class StationGuardSuspect : BaseState
         stationGuard.data.isRunning = false;
         stationGuard.maxSpeed = stationGuard.data.suspectSpeed;
         stationGuard.data.isInStation = false;
-        stationGuard.seekerScript.StartPath(stationGuard.transform.position, LevelManager.instance.playerTransform.position,
+        stationGuard.seekerScript.StartPath(stationGuard.transform.position, LevelManager.instance.player.transform.position,
             (Path p) =>
             {
                 Helper.SetTriggerAnimator(stationGuard.animator, "Walk");
@@ -58,6 +58,6 @@ public class StationGuardSuspect : BaseState
 
     public void OnHearPlayer()
     {
-        stationGuard.seekerScript.StartPath(stationGuard.transform.position, LevelManager.instance.playerTransform.position);
+        stationGuard.seekerScript.StartPath(stationGuard.transform.position, LevelManager.instance.player.transform.position);
     }
 }

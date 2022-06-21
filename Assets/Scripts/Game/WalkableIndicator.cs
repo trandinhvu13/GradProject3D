@@ -25,8 +25,8 @@ public class WalkableIndicator : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvent.instance.OnShowIndicator -= Show;
-        GameEvent.instance.OnHideIndicator -= Hide;
+        if (GameEvent.instance) GameEvent.instance.OnShowIndicator -= Show;
+        if (GameEvent.instance) GameEvent.instance.OnHideIndicator -= Hide;
     }
 
     private void Show(Vector3 pos)

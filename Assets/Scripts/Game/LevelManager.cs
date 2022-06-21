@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
 
 public class LevelManager : MonoSingleton<LevelManager>
@@ -26,7 +28,9 @@ public class LevelManager : MonoSingleton<LevelManager>
     #endregion
 
     [SerializeField] private AstarPath astarPath;
-    public Transform playerTransform;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+
+    public Player player;
     public Transform destinationTransform;
     public Transform levelTransformPos;
 
@@ -36,9 +40,9 @@ public class LevelManager : MonoSingleton<LevelManager>
     //Level
     public Level levelToLoad;
     public int itemsToCollectNum;
-    public GameObject player;
-    public GameObject normalGuard;
-    public GameObject stationGuard;
+    public GameObject playerPrefab;
+    public GameObject normalGuardPrefab;
+    public GameObject stationGuardPrefab;
 
     private void Update()
     {
@@ -50,7 +54,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        LoadLevel(levelToLoad.id);
+        LoadLevel(1);
     }
 
     public void LoadLevel(int levelId)
@@ -59,8 +63,9 @@ public class LevelManager : MonoSingleton<LevelManager>
             {
                 new Resource
                 {
-                    Name = $"Levels/{levelId}",
+                    Name = $"Levels/Level{levelId}",
                     CacheResult = true,
+                    FinishCallback = (object go) => { levelToLoad = (go as GameObject).GetComponent<Level>(); },
                     InstantiateResult = true,
                     Transform = levelTransformPos
                 }
@@ -68,26 +73,40 @@ public class LevelManager : MonoSingleton<LevelManager>
             () =>
             {
                 Debug.Log("All prefabs loaded!");
-                astarPath.Scan();
-                
+                SetupAstar();
                 SetupPlayer();
                 SetupEnemy();
+                SetupVirtualCam();
                 SetupItemsToCollect();
             });
     }
 
     private void SetupPlayer()
     {
-        
+        player = Instantiate(playerPrefab, levelToLoad.playerTransform.position,
+            levelToLoad.playerTransform.rotation,
+            levelToLoad.playerParent).GetComponent<Player>();
     }
-    
+
     private void SetupEnemy()
     {
-        
     }
-    
+
     private void SetupItemsToCollect()
     {
-        
+    }
+
+    private void SetupVirtualCam()
+    {
+        virtualCamera.Follow = player.transform;
+        virtualCamera.LookAt = player.transform;
+    }
+
+    private void SetupAstar()
+    {
+        astarPath.data.gridGraph.center = levelToLoad.gridGraphCenter;
+        astarPath.data.gridGraph.SetDimensions(levelToLoad.gridGraphWidth, levelToLoad.gridGraphDepth,
+            levelToLoad.gridGraphNodeSize);
+        astarPath.Scan();
     }
 }

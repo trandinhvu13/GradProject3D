@@ -22,7 +22,7 @@ public class GuardSuspect : BaseState
         normalGuard.data.isMoving = true;
         normalGuard.data.isRunning = false;
         normalGuard.maxSpeed = normalGuard.data.suspectSpeed;
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position,
+        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.player.transform.position,
             (Path p) =>
             {
                 Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
@@ -57,6 +57,6 @@ public class GuardSuspect : BaseState
 
     public void OnHearPlayer()
     {
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
+        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.player.transform.position);
     }
 }

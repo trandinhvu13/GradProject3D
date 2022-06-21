@@ -27,7 +27,7 @@ public class GuardAlert : BaseState
 
     public void Chase()
     {
-        Transform player = LevelManager.instance.playerTransform;
+        Transform player = LevelManager.instance.player.transform;
         if (player != null) normalGuard.destination = player.position;
         if(normalGuard.suspectMeterAmount <= 0) normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
     }

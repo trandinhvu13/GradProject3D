@@ -83,8 +83,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void SetupPlayer()
     {
-        player = Instantiate(playerPrefab, levelToLoad.playerTransform.position,
-            levelToLoad.playerTransform.rotation,
+        player = Instantiate(playerPrefab, levelToLoad.player.position,
+            levelToLoad.player.rotation,
             levelToLoad.playerParent).GetComponent<Player>();
     }
 
@@ -94,6 +94,12 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void SetupItemsToCollect()
     {
+        for (int i = 0; i < levelToLoad.itemsToCollect.Count; i++)
+        {
+            levelToLoad.itemsToCollect[i].id = i;
+            levelToLoad.itemsToCollect[i].isCollected = false;
+            // Set up hud
+        }
     }
 
     private void SetupVirtualCam()
@@ -108,5 +114,10 @@ public class LevelManager : MonoSingleton<LevelManager>
         astarPath.data.gridGraph.SetDimensions(levelToLoad.gridGraphWidth, levelToLoad.gridGraphDepth,
             levelToLoad.gridGraphNodeSize);
         astarPath.Scan();
+    }
+
+    public void CollectItem(int id)
+    {
+        levelToLoad.itemsToCollect[id].isCollected = true;
     }
 }

@@ -49,6 +49,13 @@ public class GameEvent : MonoSingleton<GameEvent>
 
     #endregion
 
+
+    #region Itemn
+
+    
+
+    #endregion
+
     #region Game UI
     
     public event Action<Vector3> OnShowIndicator;

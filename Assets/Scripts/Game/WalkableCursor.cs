@@ -28,7 +28,7 @@ namespace Game
 
         private void OnDisable()
         {
-            GameEvent.instance.OnClickOnGround -= Click;
+            if (GameEvent.instance) GameEvent.instance.OnClickOnGround -= Click;
         }
 
         private void Update()

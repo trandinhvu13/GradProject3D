@@ -1,18 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using DG.Tweening;
 using UnityEngine;
 
 public class CollectableItem : MonoBehaviour
 {
-    [SerializeField] private LayerMask targetMask;
+    [Header("Components")] [SerializeField]
+    private LayerMask targetMask;
+
     [SerializeField] private LayerMask obstacleMask;
-    [SerializeField] private float delayTime;
-    [SerializeField] private bool isCollected = false;
     [SerializeField] private Sprite hudImage;
-    
+
+    [Header("Properties")] public int id;
+    [SerializeField] private float delayTime;
+    public bool isCollected = false;
     public float checkRadius;
+
+    [Header("Tween")] public float moveUpAmount;
+    public float moveUpTime;
+    public Ease moveUpTweenType;
+    public Vector3 scaleUpAmount;
+    public float scaleUpTime;
+    public Ease scaleUpTweenType;
+    public Vector3 scaleDownAmount;
+    public float scaleDownTime;
+    public Ease scaleDownTweenType;
+    public float moveDownTime;
+    public Ease moveDownTweenType;
 
 
     private void Awake()
@@ -43,9 +59,21 @@ public class CollectableItem : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask))
                 {
                     isCollected = true;
-                    transform.DOScale(Vector3.zero, 0.3f).OnComplete(() =>
+                    //Animation
+                    transform.DOMoveY(moveUpAmount, moveUpTime).SetEase(moveUpTweenType);
+                    transform.DOScale(scaleUpAmount, scaleUpTime).SetEase(scaleUpTweenType).OnComplete(() =>
                     {
-                        Destroy(gameObject);
+                        transform.parent = LevelManager.instance.player.transform;
+                    });
+                    transform.DOScale(scaleDownAmount, scaleDownTime).SetEase(scaleDownTweenType)
+                        .SetDelay(scaleUpTime);
+                    transform.DOLocalMoveZ(0, moveDownTime).SetEase(moveDownTweenType).SetDelay(scaleUpTime);
+                    transform.DOLocalMoveY(0, moveDownTime).SetEase(moveDownTweenType).SetDelay(scaleUpTime);
+                    transform.DOLocalMoveX(0, moveDownTime).SetEase(moveDownTweenType).SetDelay(scaleUpTime).OnComplete(() =>
+                    {
+                        transform.localScale = Vector3.zero;
+                        LevelManager.instance.CollectItem(id);
+                        transform.parent = null;
                     });
                     
                     //Game Event

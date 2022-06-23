@@ -29,10 +29,12 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     [SerializeField] private AstarPath astarPath;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private ItemsListHUD itemsListHUD;
 
     public Player player;
     public Transform destinationTransform;
     public Transform levelTransformPos;
+    public float destinationRadius;
 
     public List<Transform> enemyTransforms = new List<Transform>();
 
@@ -44,12 +46,18 @@ public class LevelManager : MonoSingleton<LevelManager>
     public GameObject normalGuardPrefab;
     public GameObject stationGuardPrefab;
 
+    //Game State
+    public bool isWin = false;
+    public int numOFItemsToCollect;
+    public int currentItemsAmount;
+    
+
     private void Update()
     {
-        /*if (Vector3.Distance(playerTransform.position, destinationTransform.position)<0.5f)
+        if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
         {
             Debug.Log("Win");
-        }*/
+        }
     }
 
     private void Start()
@@ -78,7 +86,16 @@ public class LevelManager : MonoSingleton<LevelManager>
                 SetupEnemy();
                 SetupVirtualCam();
                 SetupItemsToCollect();
+                SetupGame();
             });
+    }
+
+    private void SetupAstar()
+    {
+        astarPath.data.gridGraph.center = levelToLoad.gridGraphCenter;
+        astarPath.data.gridGraph.SetDimensions(levelToLoad.gridGraphWidth, levelToLoad.gridGraphDepth,
+            levelToLoad.gridGraphNodeSize);
+        astarPath.Scan();
     }
 
     private void SetupPlayer()
@@ -92,32 +109,35 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
     }
 
-    private void SetupItemsToCollect()
-    {
-        for (int i = 0; i < levelToLoad.itemsToCollect.Count; i++)
-        {
-            levelToLoad.itemsToCollect[i].id = i;
-            levelToLoad.itemsToCollect[i].isCollected = false;
-            // Set up hud
-        }
-    }
-
     private void SetupVirtualCam()
     {
         virtualCamera.Follow = player.transform;
         virtualCamera.LookAt = player.transform;
     }
 
-    private void SetupAstar()
+    private void SetupItemsToCollect()
     {
-        astarPath.data.gridGraph.center = levelToLoad.gridGraphCenter;
-        astarPath.data.gridGraph.SetDimensions(levelToLoad.gridGraphWidth, levelToLoad.gridGraphDepth,
-            levelToLoad.gridGraphNodeSize);
-        astarPath.Scan();
+        for (int i = 0; i < levelToLoad.itemsToCollect.Count; i++)
+        {
+            levelToLoad.itemsToCollect[i].id = i;
+            levelToLoad.itemsToCollect[i].isCollected = false;
+        }
+
+        itemsListHUD.LoadItemInLevel(levelToLoad.itemsToCollect);
+    }
+
+    private void SetupGame()
+    {
+        isWin = false;
+        destinationTransform = levelToLoad.destination;
+        numOFItemsToCollect = levelToLoad.itemsToCollect.Count;
+        currentItemsAmount = 0;
     }
 
     public void CollectItem(int id)
     {
+        currentItemsAmount++;
         levelToLoad.itemsToCollect[id].isCollected = true;
+        itemsListHUD.CollectItem(id);
     }
 }

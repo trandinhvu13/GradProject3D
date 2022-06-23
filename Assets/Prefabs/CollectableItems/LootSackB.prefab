@@ -51,7 +51,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
-  hudImage: {fileID: 0}
+  hudImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   id: 0
   delayTime: 0.1
   isCollected: 0

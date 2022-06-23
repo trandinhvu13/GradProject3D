@@ -9,6 +9,7 @@ public class Level : MonoBehaviour
     public List<CollectableItem> itemsInLevel;
     
     public Transform player;
+    public Transform destination;
     public List<NormalGuard> normalGuards;
     public List<StationGuard> stationGuards;
     public List<CollectableItem> itemsToCollect;

@@ -11,7 +11,7 @@ public class CollectableItem : MonoBehaviour
     private LayerMask targetMask;
 
     [SerializeField] private LayerMask obstacleMask;
-    [SerializeField] private Sprite hudImage;
+    public Sprite hudImage;
 
     [Header("Properties")] public int id;
     [SerializeField] private float delayTime;
@@ -69,14 +69,14 @@ public class CollectableItem : MonoBehaviour
                         .SetDelay(scaleUpTime);
                     transform.DOLocalMoveZ(0, moveDownTime).SetEase(moveDownTweenType).SetDelay(scaleUpTime);
                     transform.DOLocalMoveY(0, moveDownTime).SetEase(moveDownTweenType).SetDelay(scaleUpTime);
-                    transform.DOLocalMoveX(0, moveDownTime).SetEase(moveDownTweenType).SetDelay(scaleUpTime).OnComplete(() =>
-                    {
-                        transform.localScale = Vector3.zero;
-                        LevelManager.instance.CollectItem(id);
-                        transform.parent = null;
-                    });
-                    
-                    //Game Event
+                    transform.DOLocalMoveX(0, moveDownTime).SetEase(moveDownTweenType).SetDelay(scaleUpTime).OnComplete(
+                        () =>
+                        {
+                            //add particle
+                            transform.localScale = Vector3.zero;
+                            LevelManager.instance.CollectItem(id);
+                            transform.parent = null;
+                        });
                 }
             }
         }

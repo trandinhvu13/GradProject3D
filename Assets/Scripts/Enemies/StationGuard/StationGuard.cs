@@ -9,11 +9,12 @@ public class StationGuard : AIPath
     public StationGuardData data;
     public Seeker seekerScript;
     [SerializeField] private StationGuardStateMachine stationGuardStateMachine;
-    [SerializeField] private FieldOfView fieldOfView;
+    public FieldOfView fieldOfView;
     [SerializeField] private Canvas canvas;
 
     [SerializeField] public SuspectMeter suspectMeter;
     public float suspectMeterAmount;
+    public PlayerLastPlaceIndicator playerLastPlaceIndicator;
 
     public Animator animator;
 

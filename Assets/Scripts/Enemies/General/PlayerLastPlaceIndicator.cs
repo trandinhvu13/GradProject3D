@@ -26,20 +26,22 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
     public void Show(Vector3 pos)
     {
         Debug.Log("Show");
+        KillAllTween();
         if (isShow)
         {
             indicator.DOFade(0, 0);
             transform.localScale = new Vector3(0,  0, 0);
         }
+        isShow = true;
         transform.parent = null;
         transform.position = pos;
-        isShow = true;
         indicator.DOFade(1, showTime).SetEase(showTweenType);
         transform.DOScale(scaleUpAmount, showTime).SetEase(scaleUpTweenType);
     }
 
     public void Hide()
     {
+        KillAllTween();
         Debug.Log("Hide");
         isShow = false;
         indicator.DOFade(0, hideTime).SetEase(hideTweenType);
@@ -47,5 +49,11 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
         {
             transform.parent = parent;
         });
+    }
+
+    private void KillAllTween()
+    {
+        DOTween.Kill(indicator);
+        DOTween.Kill(transform);
     }
 }

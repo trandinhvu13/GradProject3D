@@ -22,6 +22,7 @@ public class StationGuardIdle : BaseState
     {
         base.Enter();
 
+        stationGuard.playerLastPlaceIndicator.Hide();
         if (!stationGuard.data.isInStation)
         {
             stationGuard.seekerScript.StartPath(stationGuard.transform.position, stationGuard.data.stationPos,

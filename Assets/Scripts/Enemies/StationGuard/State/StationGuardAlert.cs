@@ -16,6 +16,7 @@ public class StationGuardAlert : BaseState
     public override void Enter()
     {
         base.Enter();
+        stationGuard.playerLastPlaceIndicator.Hide();
         stationGuard.canMove = true; 
         stationGuard.data.isMoving = true;
         stationGuard.data.isRunning = true;

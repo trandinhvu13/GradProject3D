@@ -25,7 +25,6 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
 
     public void Show(Vector3 pos)
     {
-        Debug.Log("Show");
         KillAllTween();
         if (isShow)
         {
@@ -42,7 +41,6 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
     public void Hide()
     {
         KillAllTween();
-        Debug.Log("Hide");
         isShow = false;
         indicator.DOFade(0, hideTime).SetEase(hideTweenType);
         transform.DOScale(Vector3.zero, hideTime).SetEase(hideTweenType).OnComplete(() =>

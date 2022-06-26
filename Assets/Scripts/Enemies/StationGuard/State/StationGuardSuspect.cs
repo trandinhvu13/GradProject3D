@@ -27,6 +27,7 @@ public class StationGuardSuspect : BaseState
             (Path p) =>
             {
                 Helper.SetTriggerAnimator(stationGuard.animator, "Walk");
+                stationGuard.playerLastPlaceIndicator.Show(LevelManager.instance.player.transform.position);
             });
     }
 
@@ -56,6 +57,9 @@ public class StationGuardSuspect : BaseState
 
     public void OnHearPlayer()
     {
-        stationGuard.seekerScript.StartPath(stationGuard.transform.position, LevelManager.instance.player.transform.position);
+        stationGuard.seekerScript.StartPath(stationGuard.transform.position, LevelManager.instance.player.transform.position,(Path p) =>
+        {
+            stationGuard.playerLastPlaceIndicator.Show(LevelManager.instance.player.transform.position);
+        });
     }
 }

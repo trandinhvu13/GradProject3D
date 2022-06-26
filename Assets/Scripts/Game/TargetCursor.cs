@@ -13,13 +13,15 @@ public class TargetCursor : MonoBehaviour
         cam = Camera.main;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(ray, out hitInfo, 100,layerMask)&& hitInfo.transform.gameObject.CompareTag("CursorDetect"))
+        if (Physics.Raycast(ray, out hitInfo, 100, layerMask) &&
+            hitInfo.transform.gameObject.CompareTag("CursorDetect"))
         {
+            if (!LevelManager.instance.player) return;
             transform.position = hitInfo.point;
         }
     }

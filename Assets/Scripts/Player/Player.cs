@@ -10,7 +10,6 @@ public class Player : AIPath
     [SerializeField] private CharacterController characterController;
     public Animator animator;
     public SpriteRenderer soundRing;
-    [SerializeField] private LayerMask groundLayer;
 
     // Input
     private Camera cam;

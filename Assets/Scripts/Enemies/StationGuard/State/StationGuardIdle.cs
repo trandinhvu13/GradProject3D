@@ -42,7 +42,6 @@ public class StationGuardIdle : BaseState
         stationGuard.data.isMoving = false;
         stationGuard.canMove = false;
         stationGuard.data.isInStation = true;
-        Debug.Log("Guard idle");
     }
 
     public override void UpdateLogic()

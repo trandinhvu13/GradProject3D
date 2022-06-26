@@ -28,8 +28,6 @@ public class StationGuardSuspect : BaseState
             {
                 Helper.SetTriggerAnimator(stationGuard.animator, "Walk");
             });
-
-        Debug.Log("Guard suspect");
     }
 
     public override void UpdateLogic()

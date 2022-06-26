@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using UnityEditor.SceneTemplate;
 using UnityEngine;
 
 public class LevelManager : MonoSingleton<LevelManager>
@@ -29,6 +28,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     [SerializeField] private AstarPath astarPath;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private CinemachineTargetGroup cinemachineTargetGroup;
     [SerializeField] private ItemsListHUD itemsListHUD;
 
     public Player player;
@@ -50,7 +50,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public bool isWin = false;
     public int numOFItemsToCollect;
     public int currentItemsAmount;
-    
+
 
     private void Update()
     {
@@ -111,8 +111,11 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void SetupVirtualCam()
     {
-        virtualCamera.Follow = player.transform;
-        virtualCamera.LookAt = player.transform;
+        CinemachineTargetGroup.Target playerTarget = new CinemachineTargetGroup.Target();
+        playerTarget.target = player.transform;
+        playerTarget.weight = 2;
+        playerTarget.radius = 2;
+        cinemachineTargetGroup.m_Targets[1] = playerTarget;
     }
 
     private void SetupItemsToCollect()
@@ -132,6 +135,8 @@ public class LevelManager : MonoSingleton<LevelManager>
         destinationTransform = levelToLoad.destination;
         numOFItemsToCollect = levelToLoad.itemsToCollect.Count;
         currentItemsAmount = 0;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void CollectItem(int id)

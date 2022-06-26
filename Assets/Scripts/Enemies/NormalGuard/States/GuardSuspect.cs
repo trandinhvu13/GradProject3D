@@ -22,13 +22,14 @@ public class GuardSuspect : BaseState
         normalGuard.data.isMoving = true;
         normalGuard.data.isRunning = false;
         normalGuard.maxSpeed = normalGuard.data.suspectSpeed;
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.player.transform.position,
+        
+        var position = LevelManager.instance.player.transform.position;
+        normalGuard.seekerScript.StartPath(normalGuard.transform.position, position,
             (Path p) =>
             {
                 Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
             });
-
-        Debug.Log("Guard suspect");
+        normalGuard.playerLastPlaceIndicator.Show(position);
     }
 
     public override void UpdateLogic()
@@ -53,10 +54,13 @@ public class GuardSuspect : BaseState
     public void OnTargetReached()
     {
         normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+        normalGuard.playerLastPlaceIndicator.Hide();
     }
 
     public void OnHearPlayer()
     {
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.player.transform.position);
+        var position = LevelManager.instance.player.transform.position;
+        normalGuard.seekerScript.StartPath(normalGuard.transform.position, position);
+        normalGuard.playerLastPlaceIndicator.Show(position);
     }
 }

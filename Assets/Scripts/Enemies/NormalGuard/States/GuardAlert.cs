@@ -23,6 +23,7 @@ public class GuardAlert : BaseState
         //normalGuard.seekerScript.StartPath(normalGuard.transform.position, LevelManager.instance.playerTransform.position);
         normalGuard.onSearchPath += UpdateLogic;
         Helper.SetTriggerAnimator(normalGuard.animator, "Run");
+        normalGuard.playerLastPlaceIndicator.Hide();
     }
 
     public void Chase()

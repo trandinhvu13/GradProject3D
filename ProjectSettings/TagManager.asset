@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Destination
+  - CursorDetect
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - CursorDetect
   - Cursor
   - 
   - 
@@ -42,4 +43,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 3377549317
+    locked: 0
+  - name: HUD
+    uniqueID: 4059419173
     locked: 0

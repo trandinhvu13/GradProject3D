@@ -13,6 +13,8 @@ public class NormalGuard : AIPath
     [SerializeField] private Canvas canvas;
 
     [SerializeField] private SuspectMeter suspectMeter;
+    public PlayerLastPlaceIndicator playerLastPlaceIndicator;
+    
     public float suspectMeterAmount;
 
     public Animator animator;
@@ -80,7 +82,6 @@ public class NormalGuard : AIPath
     {
         if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
         {
-            Debug.Log("Hear player");
             suspectMeterAmount += data.suspectMeterMax / 4;
             OnHearPlayer();
         }

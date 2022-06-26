@@ -25,7 +25,7 @@ public class GuardPatrol : BaseState
         {
             Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
         });
-        
+        normalGuard.playerLastPlaceIndicator.Hide();
         Debug.Log("Guard Patrol");
     }
 

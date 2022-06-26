@@ -865,6 +865,9 @@ MonoBehaviour:
   characterController: {fileID: 1832931807}
   animator: {fileID: 3457691709511062169}
   soundRing: {fileID: 37342196}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &4649703693526848148
 MonoBehaviour:
   m_ObjectHideFlags: 0

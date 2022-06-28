@@ -144,7 +144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10842438, guid: 0b5e7793d4d1e854385c5ce9b1e79f47, type: 3}
       propertyPath: m_Color.g
-      value: 0.61737466
+      value: 0.57372385
+      objectReference: {fileID: 0}
+    - target: {fileID: 10842438, guid: 0b5e7793d4d1e854385c5ce9b1e79f47, type: 3}
+      propertyPath: m_Intensity
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 10842438, guid: 0b5e7793d4d1e854385c5ce9b1e79f47, type: 3}
       propertyPath: m_Lightmapping

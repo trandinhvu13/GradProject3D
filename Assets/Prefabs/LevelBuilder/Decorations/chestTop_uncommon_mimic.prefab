@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8802128735743802161}
   - component: {fileID: 6756391453868724219}
   - component: {fileID: 2202225622431002213}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: chestTop_uncommon_mimic
   m_TagString: Untagged
   m_Icon: {fileID: 0}

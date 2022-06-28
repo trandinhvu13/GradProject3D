@@ -51,9 +51,22 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
+  hudImage: {fileID: 0}
+  id: 0
   delayTime: 0.1
   isCollected: 0
   checkRadius: 2
+  moveUpAmount: 0
+  moveUpTime: 0
+  moveUpTweenType: 0
+  scaleUpAmount: {x: 0, y: 0, z: 0}
+  scaleUpTime: 0
+  scaleUpTweenType: 0
+  scaleDownAmount: {x: 0, y: 0, z: 0}
+  scaleDownTime: 0
+  scaleDownTweenType: 0
+  moveDownTime: 0
+  moveDownTweenType: 0
 --- !u!1001 &8858916527117886944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,6 +118,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2b99219b5cde1c943a0d64780f2f4b13, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: de9a276579b7bbd4cafbbfc0465a509b, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 2b99219b5cde1c943a0d64780f2f4b13, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b2bc5a8b1a788734b9c04e3beb2f5f5e, type: 2}
     - target: {fileID: 919132149155446097, guid: 2b99219b5cde1c943a0d64780f2f4b13, type: 3}
       propertyPath: m_Name
       value: artifact

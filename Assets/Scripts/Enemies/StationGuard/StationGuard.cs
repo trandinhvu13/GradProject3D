@@ -10,7 +10,6 @@ public class StationGuard : AIPath
     public Seeker seekerScript;
     [SerializeField] private StationGuardStateMachine stationGuardStateMachine;
     public FieldOfView fieldOfView;
-    [SerializeField] private Canvas canvas;
 
     [SerializeField] public SuspectMeter suspectMeter;
     public float suspectMeterAmount;
@@ -25,7 +24,6 @@ public class StationGuard : AIPath
     {
         base.Awake();
         data.isInStation = true;
-        canvas.worldCamera = Camera.main;
     }
 
     protected override void OnEnable()
@@ -69,7 +67,7 @@ public class StationGuard : AIPath
         }
         else
         {
-            suspectMeterAmount -= Time.deltaTime / 1.5f;
+            suspectMeterAmount -= Time.deltaTime / 5f;
 
             if (suspectMeterAmount < 0)
             {
@@ -84,7 +82,7 @@ public class StationGuard : AIPath
     {
         if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
         {
-            suspectMeterAmount += data.suspectMeterMax / 4;
+            suspectMeterAmount += data.suspectMeterMax / 3;
             OnHearPlayer();
         }
     }

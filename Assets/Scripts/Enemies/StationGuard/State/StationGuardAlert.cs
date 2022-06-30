@@ -24,12 +24,13 @@ public class StationGuardAlert : BaseState
         stationGuard.maxSpeed = stationGuard.data.alertSpeed;
         stationGuard.onSearchPath += UpdateLogic;
         Helper.SetTriggerAnimator(stationGuard.animator, "Run");
+        Debug.Log("Alert");
     }
 
     public void Chase()
     {
-        Transform player = LevelManager.instance.player.transform;
-        if (player != null) stationGuard.destination = player.position;
+        stationGuard.playerLastPlaceIndicator.Hide();
+        stationGuard.destination = LevelManager.instance.player.transform.position;
         if(stationGuard.suspectMeterAmount <= 0) stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
     }
 
@@ -52,6 +53,6 @@ public class StationGuardAlert : BaseState
 
     public void OnTargetReached()
     {
-        stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
+        stationGuard.playerLastPlaceIndicator.Hide();
     }
 }

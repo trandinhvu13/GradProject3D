@@ -33,6 +33,7 @@ public class StationGuardIdle : BaseState
             SetupIdle();
             stationGuard.lookAroundCoroutine = stationGuard.StartCoroutine(LookAround());
         }
+        Debug.Log("Idle");
     }
 
     private void SetupIdle()
@@ -66,6 +67,7 @@ public class StationGuardIdle : BaseState
 
     private void SightOfPlayer()
     {
+        if (!stationGuard.fieldOfView.isSeeingPlayer) return;
         if (stationGuard.suspectMeterAmount > 0 && stationGuard.suspectMeterAmount < stationGuard.data.suspectMeterMax)
         {
             stationGuardStateMachine.ChangeState(stationGuardStateMachine.suspectState);

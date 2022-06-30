@@ -113,7 +113,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         CinemachineTargetGroup.Target playerTarget = new CinemachineTargetGroup.Target();
         playerTarget.target = player.transform;
-        playerTarget.weight = 2;
+        playerTarget.weight = 1.5f;
         playerTarget.radius = 2;
         cinemachineTargetGroup.m_Targets[1] = playerTarget;
     }

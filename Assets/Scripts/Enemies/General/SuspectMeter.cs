@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class SuspectMeter : MonoBehaviour
 {
-    [SerializeField] private Image suspectMeterImage;
     [SerializeField] private Shape suspectMeterShape;
+    [SerializeField] private Transform parent;
     private Camera cam;
 
     private void Awake()
@@ -18,22 +18,29 @@ public class SuspectMeter : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.LookAt(cam.transform);
-        transform.rotation = cam.transform.rotation;
+        parent.transform.LookAt(cam.transform);
+        parent.transform.rotation=cam.transform.rotation;
     }
 
     public void ChangeValueSuspectMeter(float amount)
     {
-        suspectMeterImage.fillAmount = amount;
+        if (amount == 0)
+        {
+            suspectMeterShape.settings.startAngle = 0.01f;
+        }
+        else
+        {
+            suspectMeterShape.settings.startAngle = 360 * amount;
+        }
+
+        
     }
 
     public void FadeIn()
     {
-        
     }
 
     public void FadeOut()
     {
-        
     }
 }

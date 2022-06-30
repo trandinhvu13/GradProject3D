@@ -20,38 +20,24 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
     private void Start()
     {
         indicator.DOFade(0, 0);
-        transform.localScale = new Vector3(0,  0, 0);
+        transform.localScale = new Vector3(0, 0, 0);
     }
 
     public void Show(Vector3 pos)
     {
-        KillAllTween();
-        if (isShow)
-        {
-            indicator.DOFade(0, 0);
-            transform.localScale = new Vector3(0,  0, 0);
-        }
         isShow = true;
         transform.parent = null;
         transform.position = pos;
-        indicator.DOFade(1, showTime).SetEase(showTweenType);
-        transform.DOScale(scaleUpAmount, showTime).SetEase(scaleUpTweenType);
+        indicator.DOFade(1, 0);
+        transform.DOScale(scaleUpAmount, 0);
     }
 
     public void Hide()
     {
-        KillAllTween();
+        if (!isShow) return;
         isShow = false;
-        indicator.DOFade(0, hideTime).SetEase(hideTweenType);
-        transform.DOScale(Vector3.zero, hideTime).SetEase(hideTweenType).OnComplete(() =>
-        {
-            transform.parent = parent;
-        });
-    }
-
-    private void KillAllTween()
-    {
-        DOTween.Kill(indicator);
-        DOTween.Kill(transform);
+        indicator.DOFade(0, 0);
+        transform.DOScale(Vector3.zero, 0);
+        transform.parent = parent;
     }
 }

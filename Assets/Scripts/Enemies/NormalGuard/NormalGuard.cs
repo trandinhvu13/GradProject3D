@@ -10,7 +10,6 @@ public class NormalGuard : AIPath
     public Seeker seekerScript;
     [SerializeField] private NormalGuardStateMachine normalGuardStateMachine;
     [SerializeField] private FieldOfView fieldOfView;
-    [SerializeField] private Canvas canvas;
 
     [SerializeField] private SuspectMeter suspectMeter;
     public PlayerLastPlaceIndicator playerLastPlaceIndicator;
@@ -25,7 +24,6 @@ public class NormalGuard : AIPath
     protected override void Awake()
     {
         base.Awake();
-        canvas.worldCamera = Camera.main;
     }
 
     protected override void OnEnable()
@@ -67,7 +65,7 @@ public class NormalGuard : AIPath
         }
         else
         {
-            suspectMeterAmount -= Time.deltaTime / 1.5f;
+            suspectMeterAmount -= Time.deltaTime / 5f;
 
             if (suspectMeterAmount < 0)
             {
@@ -82,7 +80,7 @@ public class NormalGuard : AIPath
     {
         if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
         {
-            suspectMeterAmount += data.suspectMeterMax / 4;
+            suspectMeterAmount += data.suspectMeterMax / 3;
             OnHearPlayer();
         }
     }

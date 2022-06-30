@@ -29,6 +29,7 @@ public class StationGuardSuspect : BaseState
                 Helper.SetTriggerAnimator(stationGuard.animator, "Walk");
                 stationGuard.playerLastPlaceIndicator.Show(LevelManager.instance.player.transform.position);
             });
+        Debug.Log("Suspect");
     }
 
     public override void UpdateLogic()

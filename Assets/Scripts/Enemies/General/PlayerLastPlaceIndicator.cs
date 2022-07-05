@@ -8,12 +8,7 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
 {
     [SerializeField] private Transform parent;
     [SerializeField] private SpriteRenderer indicator;
-    [SerializeField] private float showTime;
-    [SerializeField] private Ease showTweenType;
     [SerializeField] private Vector3 scaleUpAmount;
-    [SerializeField] private Ease scaleUpTweenType;
-    [SerializeField] private float hideTime;
-    [SerializeField] private Ease hideTweenType;
     [SerializeField] private bool isShow = false;
 
 

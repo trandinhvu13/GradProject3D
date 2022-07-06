@@ -16,6 +16,7 @@ public class PlayerIdle : BaseState
     public override void Enter()
     {
         base.Enter();
+        player.EnableSmokeTrail(false);
         Helper.SetTriggerAnimator(player.animator, "Idle");
     }
 

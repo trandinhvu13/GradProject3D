@@ -48,16 +48,13 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     //Game State
     public bool isWin = false;
-    public int numOFItemsToCollect;
+    public int numOfItemsToCollect;
     public int currentItemsAmount;
 
 
     private void Update()
     {
-        if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
-        {
-            Debug.Log("Win");
-        }
+        CheckWin();
     }
 
     private void Start()
@@ -65,6 +62,13 @@ public class LevelManager : MonoSingleton<LevelManager>
         LoadLevel(1);
     }
 
+    public void CheckWin()
+    {
+        if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
+        {
+            Debug.Log("Win");
+        }
+    }
     public void LoadLevel(int levelId)
     {
         GroupLoader.Instance.LoadResources(new List<Resource>
@@ -120,7 +124,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void SetupItemsToCollect()
     {
-        for (int i = 0; i < levelToLoad.itemsToCollect.Count; i++)
+        numOfItemsToCollect = levelToLoad.itemsToCollect.Count;
+        for (int i = 0; i < numOfItemsToCollect; i++)
         {
             levelToLoad.itemsToCollect[i].id = i;
             levelToLoad.itemsToCollect[i].isCollected = false;
@@ -133,7 +138,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         isWin = false;
         destinationTransform = levelToLoad.destination;
-        numOFItemsToCollect = levelToLoad.itemsToCollect.Count;
+        numOfItemsToCollect = levelToLoad.itemsToCollect.Count;
         currentItemsAmount = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.lockState = CursorLockMode.None;
@@ -144,5 +149,10 @@ public class LevelManager : MonoSingleton<LevelManager>
         currentItemsAmount++;
         levelToLoad.itemsToCollect[id].isCollected = true;
         itemsListHUD.CollectItem(id);
+
+        if (currentItemsAmount >= numOfItemsToCollect)
+        {
+            Debug.Log("Find all the items");
+        }
     }
 }

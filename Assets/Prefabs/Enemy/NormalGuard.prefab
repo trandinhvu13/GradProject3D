@@ -900,7 +900,7 @@ MonoBehaviour:
   settings:
     _blur: 0
     _endAngle: 360
-    _fillColor: {r: 1, g: 0, b: 0.03513527, a: 1}
+    _fillColor: {r: 1, g: 0, b: 0.03513527, a: 0.56078434}
     _fillColor2: {r: 1, g: 0.86919725, b: 0, a: 1}
     _fillOffset: {x: 0, y: 0}
     _fillPathLoops: 0
@@ -956,12 +956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 1376085619524769768}
   indicator: {fileID: 7589544074494125365}
-  showTime: 0.2
-  showTweenType: 6
   scaleUpAmount: {x: 1, y: 1, z: 1}
-  scaleUpTweenType: 27
-  hideTime: 0.2
-  hideTweenType: 6
   isShow: 0
 --- !u!1 &6529355213332993098
 GameObject:

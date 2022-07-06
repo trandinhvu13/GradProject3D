@@ -10,6 +10,7 @@ public class Player : AIPath
     [SerializeField] private CharacterController characterController;
     public Animator animator;
     public SpriteRenderer soundRing;
+    public ParticleSystem smokeTrail;
 
     // Input
     private Camera cam;
@@ -103,5 +104,11 @@ public class Player : AIPath
                     GameEvent.instance.PlayerWhistle(transform, data.whistleRadius);
                 }
             });
+    }
+
+    public void EnableSmokeTrail(bool isEnabled)
+    {
+        var emission = smokeTrail.emission;
+            emission.enabled = isEnabled;
     }
 }

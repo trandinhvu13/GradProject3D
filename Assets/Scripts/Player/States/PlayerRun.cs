@@ -20,6 +20,7 @@ public class PlayerRun : BaseState
     public override void Enter()
     {
         base.Enter();
+        player.EnableSmokeTrail(true);
         player.maxSpeed = player.data.runSpeed;
         Helper.SetTriggerAnimator(player.animator, "Run");
         MakeSound();

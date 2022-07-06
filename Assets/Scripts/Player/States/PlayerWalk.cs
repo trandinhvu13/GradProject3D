@@ -16,6 +16,7 @@ public class PlayerWalk : BaseState
     public override void Enter()
     {
         base.Enter();
+        player.EnableSmokeTrail(false);
         player.maxSpeed = player.data.walkSpeed;
         Helper.SetTriggerAnimator(player.animator, "Walk");
 

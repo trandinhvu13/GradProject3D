@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5891967223109556092}
   - component: {fileID: 5891967223109556093}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CoinMedium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: coinsMedium
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0eea626cf027de74a8c94cb4d4d25ee3, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eea626cf027de74a8c94cb4d4d25ee3, type: 3}
 --- !u!4 &198090516370847287 stripped
@@ -140,6 +144,14 @@ PrefabInstance:
     - target: {fileID: 137732, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
       propertyPath: m_Name
       value: SparkleAreaWhite
+      objectReference: {fileID: 0}
+    - target: {fileID: 137732, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 198968, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 417248, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
       propertyPath: m_RootOrder

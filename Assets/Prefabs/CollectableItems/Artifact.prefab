@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8557856169323188097}
   - component: {fileID: 8557856169323188096}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Artifact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,6 +78,14 @@ PrefabInstance:
     - target: {fileID: 137732, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
       propertyPath: m_Name
       value: SparkleAreaWhite
+      objectReference: {fileID: 0}
+    - target: {fileID: 137732, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 198968, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 417248, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
       propertyPath: m_RootOrder
@@ -228,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2b99219b5cde1c943a0d64780f2f4b13, type: 3}
       propertyPath: m_Name
       value: artifact
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2b99219b5cde1c943a0d64780f2f4b13, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b99219b5cde1c943a0d64780f2f4b13, type: 3}

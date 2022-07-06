@@ -46,6 +46,7 @@ public class StationGuard : AIPath
         base.Start();
         data.stationPos = transform.position;
         data.stationRotation = transform.eulerAngles;
+        StartCoroutine(CheckDistancePlayer());
     }
 
     protected override void Update()
@@ -75,8 +76,8 @@ public class StationGuard : AIPath
                 suspectMeterAmount = 0;
             }
         }
-        
-        suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount/data.suspectMeterMax);
+
+        suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount / data.suspectMeterMax);
     }
 
     public void HearPlayer(Transform playerPosTransform, float radius)
@@ -124,5 +125,17 @@ public class StationGuard : AIPath
         }
     }
 
-    
+    IEnumerator CheckDistancePlayer()
+    {
+        while (true)
+        {
+            if (LevelManager.instance.isLevelLoad && !LevelManager.instance.isLose &&
+                Vector3.Distance(transform.position, LevelManager.instance.player.transform.position) < 1.75f)
+            {
+                LevelManager.instance.Lose();
+            }
+
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 }

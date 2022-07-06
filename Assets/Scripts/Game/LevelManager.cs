@@ -40,6 +40,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
 
     //Level
+    public bool isLevelLoad;
     public Level levelToLoad;
     public int itemsToCollectNum;
     public GameObject playerPrefab;
@@ -47,10 +48,17 @@ public class LevelManager : MonoSingleton<LevelManager>
     public GameObject stationGuardPrefab;
 
     //Game State
-    public bool isWin = false;
+    public bool isWin;
+    public bool isLose;
     public int numOfItemsToCollect;
     public int currentItemsAmount;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        isWin = false;
+        isLose = false;
+    }
 
     private void Update()
     {
@@ -59,14 +67,16 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
+        isLevelLoad = false;
         LoadLevel(1);
     }
 
     public void CheckWin()
     {
+        if (isWin) return;
         if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
         {
-            Debug.Log("Win");
+            Win();
         }
     }
     public void LoadLevel(int levelId)
@@ -85,6 +95,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             () =>
             {
                 Debug.Log("All prefabs loaded!");
+                isLevelLoad = true;
                 SetupAstar();
                 SetupPlayer();
                 SetupEnemy();
@@ -154,5 +165,17 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             Debug.Log("Find all the items");
         }
+    }
+
+    public void Win()
+    {
+        isWin = true;
+        Debug.Log("Win");
+    }
+
+    public void Lose()
+    {
+        isLose = true;
+        Debug.Log("Lose");
     }
 }

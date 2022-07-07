@@ -31,7 +31,7 @@ public class StationGuardAlert : BaseState
     {
         stationGuard.playerLastPlaceIndicator.Hide();
         stationGuard.destination = LevelManager.instance.player.transform.position;
-        if(stationGuard.suspectMeterAmount <= 0) stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
+        //if(stationGuard.suspectMeterAmount <= 0) stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
     }
 
     public override void UpdateLogic()

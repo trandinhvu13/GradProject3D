@@ -170,12 +170,12 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void Win()
     {
         isWin = true;
-        Debug.Log("Win");
+        GameEvent.instance.PlayerWin();
     }
 
     public void Lose()
     {
         isLose = true;
-        Debug.Log("Lose");
+        GameEvent.instance.PlayerLose();
     }
 }

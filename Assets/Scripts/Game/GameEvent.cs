@@ -49,6 +49,23 @@ public class GameEvent : MonoSingleton<GameEvent>
 
     #endregion
 
+    #region Level
+
+    public event Action OnPlayerWin;
+
+    public void PlayerWin()
+    {
+        OnPlayerWin?.Invoke();
+    }
+    
+    public event Action OnPlayerLose;
+
+    public void PlayerLose()
+    {
+        OnPlayerLose?.Invoke();
+    }
+
+    #endregion
 
     #region Itemn
 

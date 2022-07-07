@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using DG.Tweening;
 using Pathfinding;
 using UnityEngine;
@@ -6,11 +7,13 @@ using UnityEngine;
 public class Player : AIPath
 {
     public PlayerData data;
-    [SerializeField] private Seeker seekerScript;
-    [SerializeField] private CharacterController characterController;
+    public Seeker seekerScript;
+    [SerializeField] private PlayerStateMachine playerStateMachine;
     public Animator animator;
     public SpriteRenderer soundRing;
     public ParticleSystem smokeTrail;
+    public CinemachineVirtualCamera endGameCamera;
+    
 
     // Input
     private Camera cam;
@@ -30,6 +33,20 @@ public class Player : AIPath
         SetUpSoundRing();
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        GameEvent.instance.OnPlayerWin += Win;
+        GameEvent.instance.OnPlayerLose += Lose;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Win;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Lose;
+    }
+
     private void SetUpSoundRing()
     {
         soundRing.transform.localScale = new Vector3(data.whistleRadius * 2, data.whistleRadius * 2, 1);
@@ -44,11 +61,20 @@ public class Player : AIPath
 
     public override void OnTargetReached()
     {
-        ReachTarget();
+        GameEvent.instance.HideIndicator();
+        if (playerStateMachine.GetCurrentState() == playerStateMachine.winState)
+        {
+            playerStateMachine.winState.OnTargetReached();
+        }
+        else
+        {
+            data.isMoving = false;
+        }
     }
 
     private void CheckInput()
     {
+        if (LevelManager.instance.isWin || LevelManager.instance.isLose) return;
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             if (Input.GetMouseButtonDown(0))
@@ -82,12 +108,6 @@ public class Player : AIPath
         ;
     }
 
-    private void ReachTarget()
-    {
-        data.isMoving = false;
-        GameEvent.instance.HideIndicator();
-    }
-
     private void Whistle()
     {
         if (whistleTween.IsActive() && whistleTween != null && whistleTween.IsPlaying()) return;
@@ -110,5 +130,15 @@ public class Player : AIPath
     {
         var emission = smokeTrail.emission;
             emission.enabled = isEnabled;
+    }
+
+    public void Win()
+    {
+         playerStateMachine.ChangeState(playerStateMachine.winState);
+    }
+
+    public void Lose()
+    {
+        playerStateMachine.ChangeState(playerStateMachine.loseState);
     }
 }

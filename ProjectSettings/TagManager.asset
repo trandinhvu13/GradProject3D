@@ -19,7 +19,7 @@ TagManager:
   - Obstacle
   - Enemy
   - Light
-  - 
+  - CollectableItem
   - 
   - 
   - CursorDetect

@@ -21,16 +21,26 @@ public class WalkableIndicator : MonoBehaviour
     {
         GameEvent.instance.OnShowIndicator += Show;
         GameEvent.instance.OnHideIndicator += Hide;
+        GameEvent.instance.OnPlayerWin += Hide;
+        GameEvent.instance.OnPlayerLose += Hide;
     }
 
     private void OnDisable()
     {
         if (GameEvent.instance) GameEvent.instance.OnShowIndicator -= Show;
         if (GameEvent.instance) GameEvent.instance.OnHideIndicator -= Hide;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Hide;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Hide;
     }
 
     private void Show(Vector3 pos)
     {
+        if (LevelManager.instance.state is LevelManager.LevelState.Win or LevelManager.LevelState.Lose)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         transform.DOScale(Vector3.zero, 0);
         //Fade in
         indicator.DOFade(0, 0);

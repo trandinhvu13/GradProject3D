@@ -13,7 +13,7 @@ public class NormalGuard : AIPath
 
     [SerializeField] private SuspectMeter suspectMeter;
     public PlayerLastPlaceIndicator playerLastPlaceIndicator;
-    
+
     public float suspectMeterAmount;
 
     public Animator animator;
@@ -43,6 +43,7 @@ public class NormalGuard : AIPath
     protected override void Start()
     {
         base.Start();
+        StartCoroutine(CheckDistancePlayer());
     }
 
     protected override void Update()
@@ -72,8 +73,8 @@ public class NormalGuard : AIPath
                 suspectMeterAmount = 0;
             }
         }
-        
-        suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount/data.suspectMeterMax);
+
+        suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount / data.suspectMeterMax);
     }
 
     public void HearPlayer(Transform playerPosTransform, float radius)
@@ -119,11 +120,26 @@ public class NormalGuard : AIPath
             normalGuardStateMachine.idleState.OnHearPlayer();
             return;
         }
-        
+
         if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.suspectState)
         {
             normalGuardStateMachine.suspectState.OnHearPlayer();
             return;
+        }
+    }
+
+    IEnumerator CheckDistancePlayer()
+    {
+        while (true)
+        {
+            if (LevelManager.instance.isLevelLoad && LevelManager.instance.state == LevelManager.LevelState.Normal &&
+                Vector3.Distance(transform.position, LevelManager.instance.player.transform.position) < 1.75f)
+            {
+                Debug.Log("Lose");
+                GameEvent.instance.PlayerLose();
+            }
+
+            yield return new WaitForSeconds(0.2f);
         }
     }
 }

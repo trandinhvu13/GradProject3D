@@ -129,10 +129,11 @@ public class StationGuard : AIPath
     {
         while (true)
         {
-            if (LevelManager.instance.isLevelLoad && !LevelManager.instance.isLose &&
+            if (LevelManager.instance.isLevelLoad && LevelManager.instance.state == LevelManager.LevelState.Normal &&
                 Vector3.Distance(transform.position, LevelManager.instance.player.transform.position) < 1.75f)
             {
-                LevelManager.instance.Lose();
+                Debug.Log("Lose");
+                GameEvent.instance.PlayerLose();
             }
 
             yield return new WaitForSeconds(0.2f);

@@ -13,7 +13,6 @@ public class Player : AIPath
     public SpriteRenderer soundRing;
     public ParticleSystem smokeTrail;
     public CinemachineVirtualCamera endGameCamera;
-    
 
     // Input
     private Camera cam;
@@ -74,7 +73,8 @@ public class Player : AIPath
 
     private void CheckInput()
     {
-        if (LevelManager.instance.isWin || LevelManager.instance.isLose) return;
+        if (LevelManager.instance.state == LevelManager.LevelState.Win ||
+            LevelManager.instance.state == LevelManager.LevelState.Lose) return;
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             if (Input.GetMouseButtonDown(0))
@@ -129,12 +129,12 @@ public class Player : AIPath
     public void EnableSmokeTrail(bool isEnabled)
     {
         var emission = smokeTrail.emission;
-            emission.enabled = isEnabled;
+        emission.enabled = isEnabled;
     }
 
     public void Win()
     {
-         playerStateMachine.ChangeState(playerStateMachine.winState);
+        playerStateMachine.ChangeState(playerStateMachine.winState);
     }
 
     public void Lose()

@@ -17,6 +17,7 @@ public class SuspectMeter : MonoBehaviour
     [SerializeField] private ParticleSystem angryEmoji;
     [SerializeField] private ParticleSystem suspectEmoji;
     [SerializeField] private MeterState state;
+
     private enum MeterState
     {
         Normal,
@@ -34,7 +35,18 @@ public class SuspectMeter : MonoBehaviour
         isShow = false;
         transform.localScale = Vector3.zero;
         state = MeterState.Normal;
+    }
 
+    private void OnEnable()
+    {
+        GameEvent.instance.OnPlayerLose += FadeOut;
+        GameEvent.instance.OnPlayerWin += FadeOut;
+    }
+
+    private void OnDisable()
+    {
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= FadeOut;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= FadeOut;
     }
 
     private void LateUpdate()
@@ -45,7 +57,9 @@ public class SuspectMeter : MonoBehaviour
 
     public void ChangeValueSuspectMeter(float amount)
     {
-        if (state==MeterState.Angry) return;
+        if (LevelManager.instance.state == LevelManager.LevelState.Win ||
+            LevelManager.instance.state == LevelManager.LevelState.Lose) return;
+        if (state == MeterState.Angry) return;
         if (amount <= 0)
         {
             if (isShow)
@@ -55,7 +69,7 @@ public class SuspectMeter : MonoBehaviour
 
             suspectMeterShape.settings.startAngle = 0.01f;
         }
-        else if(amount<1)
+        else if (amount < 1)
         {
             if (!isShow)
             {
@@ -79,14 +93,12 @@ public class SuspectMeter : MonoBehaviour
 
     public void FadeIn()
     {
-        Debug.Log("fade in");
         isShow = true;
-        transform.DOScale(new Vector3(1, 1, 1), showTweenTime*2).SetEase(showEase);
+        transform.DOScale(new Vector3(1, 1, 1), showTweenTime * 2).SetEase(showEase);
     }
 
     public void FadeOut()
     {
-        Debug.Log("fade out");
         isShow = false;
         transform.DOScale(Vector3.zero, showTweenTime).SetEase(showEase);
     }

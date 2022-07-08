@@ -24,15 +24,20 @@ namespace Game
         private void OnEnable()
         {
             GameEvent.instance.OnClickOnGround += Click;
+            GameEvent.instance.OnPlayerLose += Hide;
+            GameEvent.instance.OnPlayerWin += Hide;
         }
 
         private void OnDisable()
         {
             if (GameEvent.instance) GameEvent.instance.OnClickOnGround -= Click;
+            if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Hide;
+            if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Hide;
         }
 
         private void Update()
         {
+            if (LevelManager.instance.state is LevelManager.LevelState.Lose or LevelManager.LevelState.Win) return;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, 100) && hitInfo.transform.gameObject.CompareTag("Ground"))
@@ -61,6 +66,12 @@ namespace Game
         {
             transform.DOScale(scaleIn, scaleTime).SetEase(scaleTween);
             transform.DOScale(scaleOut, scaleTime).SetEase(scaleTween).SetDelay(scaleTime);
+        }
+
+        private void Hide()
+        {
+            Cursor.visible = true;
+            transform.gameObject.SetActive(false);
         }
     }
 }

@@ -18,6 +18,18 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
         transform.localScale = new Vector3(0, 0, 0);
     }
 
+    private void OnEnable()
+    {
+        GameEvent.instance.OnPlayerLose += Hide;
+        GameEvent.instance.OnPlayerWin += Hide;
+    }
+
+    private void OnDisable()
+    {
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Hide;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Hide;
+    }
+
     public void Show(Vector3 pos)
     {
         isShow = true;

@@ -18,10 +18,12 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     protected override void InternalOnDisable()
     {
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Lose;
     }
 
     protected override void InternalOnEnable()
     {
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose += Lose;
     }
 
     #endregion
@@ -36,28 +38,28 @@ public class LevelManager : MonoSingleton<LevelManager>
     public Transform levelTransformPos;
     public float destinationRadius;
 
-    public List<Transform> enemyTransforms = new List<Transform>();
-
 
     //Level
     public bool isLevelLoad;
     public Level levelToLoad;
     public int itemsToCollectNum;
     public GameObject playerPrefab;
-    public GameObject normalGuardPrefab;
-    public GameObject stationGuardPrefab;
-
     //Game State
-    public bool isWin;
-    public bool isLose;
+    public LevelState state;
+    public enum LevelState
+    {
+        Normal,
+        Pause,
+        Win,
+        Lose,
+    }
     public int numOfItemsToCollect;
     public int currentItemsAmount;
 
     protected override void Awake()
     {
         base.Awake();
-        isWin = false;
-        isLose = false;
+        state = LevelState.Normal;
     }
 
     private void Update()
@@ -73,7 +75,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void CheckWin()
     {
-        if (isWin) return;
+        if (state==LevelState.Win) return;
         if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
         {
             Win();
@@ -147,7 +149,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void SetupGame()
     {
-        isWin = false;
+        state = LevelState.Normal;
         destinationTransform = levelToLoad.destination;
         numOfItemsToCollect = levelToLoad.itemsToCollect.Count;
         currentItemsAmount = 0;
@@ -169,13 +171,12 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void Win()
     {
-        isWin = true;
+        state = LevelState.Win;
         GameEvent.instance.PlayerWin();
     }
 
     public void Lose()
     {
-        isLose = true;
-        GameEvent.instance.PlayerLose();
+        state = LevelState.Lose;
     }
 }

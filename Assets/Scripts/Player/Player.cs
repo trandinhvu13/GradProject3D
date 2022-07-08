@@ -12,7 +12,10 @@ public class Player : AIPath
     public Animator animator;
     public SpriteRenderer soundRing;
     public ParticleSystem smokeTrail;
-    public CinemachineVirtualCamera endGameCamera;
+    public CinemachineVirtualCamera winGameCamera;
+    public CinemachineVirtualCamera loseGameCamera;
+    public GameObject winParticle;
+    public GameObject loseParticle;
 
     // Input
     private Camera cam;
@@ -134,11 +137,13 @@ public class Player : AIPath
 
     public void Win()
     {
+        if (LevelManager.instance.state == LevelManager.LevelState.Lose) return;
         playerStateMachine.ChangeState(playerStateMachine.winState);
     }
 
     public void Lose()
     {
+        if (LevelManager.instance.state == LevelManager.LevelState.Win) return;
         playerStateMachine.ChangeState(playerStateMachine.loseState);
     }
 }

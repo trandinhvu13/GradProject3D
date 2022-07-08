@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 
 public class PlayerLose : BaseState
@@ -11,7 +12,13 @@ public class PlayerLose : BaseState
         playerStateMachine = stateMachine;
         player = playerStateMachine.player;
     }
-    
+    public override void Enter()
+    {
+        base.Enter();
+        player.canMove=false;
+        Helper.SetTriggerAnimator(player.animator, "Lose");
+    }
+
     public override void UpdateLogic()
     {
         base.UpdateLogic();

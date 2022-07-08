@@ -7210,6 +7210,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2044534188136569611, guid: ece79b9a717aa114baa4cca84c6472ee, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044534188136569611, guid: ece79b9a717aa114baa4cca84c6472ee, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5065028015178154473, guid: ece79b9a717aa114baa4cca84c6472ee, type: 3}
       propertyPath: m_Name
       value: Destination

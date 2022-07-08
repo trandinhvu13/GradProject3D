@@ -27,7 +27,9 @@ public class PlayerWin : BaseState
 
     public void OnTargetReached()
     {
-        player.endGameCamera.gameObject.SetActive(true);
+        player.canMove=false;
+        player.winGameCamera.gameObject.SetActive(true);
+        player.winParticle.SetActive(true);
         Helper.SetTriggerAnimator(player.animator, "Win");
     }
 

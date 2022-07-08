@@ -20,14 +20,14 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvent.instance.OnPlayerLose += Hide;
-        GameEvent.instance.OnPlayerWin += Hide;
+        GameEvent.instance.OnPlayerLose += Disable;
+        GameEvent.instance.OnPlayerWin += Disable;
     }
 
     private void OnDisable()
     {
-        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Hide;
-        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Hide;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Disable;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Disable;
     }
 
     public void Show(Vector3 pos)
@@ -46,5 +46,10 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
         indicator.DOFade(0, 0);
         transform.DOScale(Vector3.zero, 0);
         transform.parent = parent;
+    }
+
+    public void Disable()
+    {
+        transform.gameObject.SetActive(false);
     }
 }

@@ -136,7 +136,7 @@ public class NormalGuard : AIPath
                 Vector3.Distance(transform.position, LevelManager.instance.player.transform.position) < 1.75f)
             {
                 Debug.Log("Lose");
-                GameEvent.instance.PlayerLose();
+                normalGuardStateMachine.ChangeState(normalGuardStateMachine.winState);
             }
 
             yield return new WaitForSeconds(0.2f);

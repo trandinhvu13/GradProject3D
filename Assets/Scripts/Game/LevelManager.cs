@@ -37,8 +37,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     public Transform destinationTransform;
     public Transform levelTransformPos;
     public float destinationRadius;
-
-
+    public Transform detectedEnemy;
+    
     //Level
     public bool isLevelLoad;
     public Level levelToLoad;

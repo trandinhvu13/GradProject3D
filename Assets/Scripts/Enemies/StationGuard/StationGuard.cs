@@ -133,7 +133,7 @@ public class StationGuard : AIPath
                 Vector3.Distance(transform.position, LevelManager.instance.player.transform.position) < 1.75f)
             {
                 Debug.Log("Lose");
-                GameEvent.instance.PlayerLose();
+                stationGuardStateMachine.ChangeState(stationGuardStateMachine.winState);
             }
 
             yield return new WaitForSeconds(0.2f);

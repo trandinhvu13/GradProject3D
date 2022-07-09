@@ -10,6 +10,7 @@ public class NormalGuardStateMachine : StateMachine
     [HideInInspector] public GuardPatrol patrolState;
     [HideInInspector] public GuardSuspect suspectState;
     [HideInInspector] public GuardAlert alertState;
+    [HideInInspector] public GuardWin winState;
 
 
     protected override BaseState GetInitialState()
@@ -23,5 +24,6 @@ public class NormalGuardStateMachine : StateMachine
         patrolState = new GuardPatrol(this);
         alertState = new GuardAlert(this);
         suspectState = new GuardSuspect(this);
+        winState = new GuardWin(this);
     }
 }

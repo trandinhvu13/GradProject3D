@@ -7,7 +7,7 @@ public class GuardIdle : BaseState
 {
     private NormalGuard normalGuard;
     private NormalGuardStateMachine normalGuardStateMachine;
-    [SerializeField] private bool isPause = false;
+    private bool isPause = false;
 
     private Tween rotateTween;
 

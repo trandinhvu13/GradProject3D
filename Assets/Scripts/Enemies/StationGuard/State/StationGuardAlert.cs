@@ -16,6 +16,7 @@ public class StationGuardAlert : BaseState
     public override void Enter()
     {
         base.Enter();
+        GameEvent.instance.EnemyAlert(stationGuard.transform);
         stationGuard.playerLastPlaceIndicator.Hide();
         stationGuard.canMove = true; 
         stationGuard.data.isMoving = true;

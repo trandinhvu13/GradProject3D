@@ -45,7 +45,12 @@ public class GameEvent : MonoSingleton<GameEvent>
 
     #region Enemy
 
-   
+    public event Action<Transform> OnEnemyAlert;
+
+    public void EnemyAlert(Transform transform)
+    {
+        OnEnemyAlert?.Invoke(transform);
+    }
 
     #endregion
 

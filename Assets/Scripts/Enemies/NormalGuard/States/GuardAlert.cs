@@ -16,6 +16,7 @@ public class GuardAlert : BaseState
     public override void Enter()
     {
         base.Enter();
+        GameEvent.instance.EnemyAlert(normalGuard.transform);
         normalGuard.canMove = true; 
         normalGuard.data.isMoving = true;
         normalGuard.data.isRunning = true;

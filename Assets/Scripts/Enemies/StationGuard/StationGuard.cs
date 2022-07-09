@@ -32,6 +32,8 @@ public class StationGuard : AIPath
         base.OnEnable();
         GameEvent.instance.OnPlayerWhistle += HearPlayer;
         GameEvent.instance.OnPlayerRun += HearPlayer;
+        GameEvent.instance.OnPlayerWin += GameEnd;
+        GameEvent.instance.OnPlayerLose += GameEnd;
     }
 
     protected override void OnDisable()
@@ -39,6 +41,8 @@ public class StationGuard : AIPath
         base.OnDisable();
         if (GameEvent.instance) GameEvent.instance.OnPlayerWhistle -= HearPlayer;
         if (GameEvent.instance) GameEvent.instance.OnPlayerRun -= HearPlayer;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= GameEnd;
+        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= GameEnd;
     }
 
     protected override void Start()
@@ -138,5 +142,11 @@ public class StationGuard : AIPath
 
             yield return new WaitForSeconds(0.2f);
         }
+    }
+    
+    private void GameEnd()
+    {
+        canMove = false;
+        if (transform != LevelManager.instance.detectedEnemy) transform.gameObject.SetActive(false);
     }
 }

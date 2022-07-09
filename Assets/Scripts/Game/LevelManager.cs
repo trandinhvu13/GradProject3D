@@ -19,11 +19,13 @@ public class LevelManager : MonoSingleton<LevelManager>
     protected override void InternalOnDisable()
     {
         if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Lose;
+        if (GameEvent.instance) GameEvent.instance.OnEnemyAlert -= PlayerGetChased;
     }
 
     protected override void InternalOnEnable()
     {
-        if (GameEvent.instance) GameEvent.instance.OnPlayerLose += Lose;
+        GameEvent.instance.OnPlayerLose += Lose;
+        GameEvent.instance.OnEnemyAlert += PlayerGetChased;
     }
 
     #endregion
@@ -169,6 +171,26 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
 
+    private void PlayerGetChased(Transform enemyTransform)
+    {
+        Debug.Log("add player");
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 2;
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 3;
+        
+        CinemachineTargetGroup.Target enemyTarget = new CinemachineTargetGroup.Target();
+        enemyTarget.target = enemyTransform;
+        enemyTarget.weight = 1.5f;
+        enemyTarget.radius = 2;
+
+        for (int i = 0; i < cinemachineTargetGroup.m_Targets.Length; i++)
+        {
+            if (cinemachineTargetGroup.m_Targets[i].radius==0)
+            {
+                cinemachineTargetGroup.m_Targets[i] = enemyTarget;
+                break;
+            }
+        }
+    }
     public void Win()
     {
         state = LevelState.Win;

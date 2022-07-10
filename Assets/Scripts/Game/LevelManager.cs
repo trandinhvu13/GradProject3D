@@ -33,7 +33,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     [SerializeField] private AstarPath astarPath;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private CinemachineTargetGroup cinemachineTargetGroup;
-    [SerializeField] private ItemsListHUD itemsListHUD;
+    
 
     public Player player;
     public Transform destinationTransform;
@@ -146,7 +146,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             levelToLoad.itemsToCollect[i].isCollected = false;
         }
 
-        itemsListHUD.LoadItemInLevel(levelToLoad.itemsToCollect);
+        GameUIManager.instance.SetupItemsToCollect(levelToLoad.itemsToCollect);
     }
 
     private void SetupGame()
@@ -163,7 +163,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         currentItemsAmount++;
         levelToLoad.itemsToCollect[id].isCollected = true;
-        itemsListHUD.CollectItem(id);
+        GameUIManager.instance.itemsListHUD.CollectItem(id);
 
         if (currentItemsAmount >= numOfItemsToCollect)
         {

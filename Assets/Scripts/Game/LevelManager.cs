@@ -78,6 +78,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void CheckWin()
     {
         if (state==LevelState.Win) return;
+        if (!isLevelLoad) return;
         if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
         {
             Win();
@@ -99,13 +100,12 @@ public class LevelManager : MonoSingleton<LevelManager>
             () =>
             {
                 Debug.Log("All prefabs loaded!");
-                isLevelLoad = true;
                 SetupAstar();
                 SetupPlayer();
-                SetupEnemy();
                 SetupVirtualCam();
                 SetupItemsToCollect();
                 SetupGame();
+                isLevelLoad = true;
             });
     }
 
@@ -122,10 +122,6 @@ public class LevelManager : MonoSingleton<LevelManager>
         player = Instantiate(playerPrefab, levelToLoad.player.position,
             levelToLoad.player.rotation,
             levelToLoad.playerParent).GetComponent<Player>();
-    }
-
-    private void SetupEnemy()
-    {
     }
 
     private void SetupVirtualCam()
@@ -163,7 +159,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         currentItemsAmount++;
         levelToLoad.itemsToCollect[id].isCollected = true;
-        GameUIManager.instance.itemsListHUD.CollectItem(id);
+        GameUIManager.instance.itemsListHUD.CollectItem();
 
         if (currentItemsAmount >= numOfItemsToCollect)
         {

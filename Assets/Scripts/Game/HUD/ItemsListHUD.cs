@@ -1,27 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ItemsListHUD : MonoBehaviour
 {
-    [SerializeField] private List<ItemsHUD> itemsHuds;
+    [SerializeField] private TextMeshProUGUI itemsText;
 
     public void LoadItemInLevel(List<CollectableItem> collectableItems)
     {
-        foreach (var itemsHud in itemsHuds)
-        {
-            itemsHud.gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < collectableItems.Count; i++)
-        {
-            itemsHuds[i].gameObject.SetActive(true);
-            itemsHuds[i].Setup(collectableItems[i].hudImage);
-        }
+        itemsText.text = $"0/{collectableItems.Count} ITEMS";
     }
 
-    public void CollectItem(int id)
+    public void CollectItem()
     {
-        itemsHuds[id].GetCollected();
+        itemsText.text = $"{LevelManager.instance.currentItemsAmount}/{LevelManager.instance.numOfItemsToCollect} ITEMS";
     }
 }

@@ -142,12 +142,13 @@ public class LevelManager : MonoSingleton<LevelManager>
             levelToLoad.itemsToCollect[i].isCollected = false;
         }
 
-        GameUIManager.instance.SetupItemsToCollect(levelToLoad.itemsToCollect);
+        GameUIManager.instance.itemsListHUD.LoadItemInLevel(levelToLoad.itemsToCollect);
     }
 
     private void SetupGame()
     {
         state = LevelState.Normal;
+        GameUIManager.instance.gameTimer.StartTime();
         destinationTransform = levelToLoad.destination;
         numOfItemsToCollect = levelToLoad.itemsToCollect.Count;
         currentItemsAmount = 0;
@@ -196,5 +197,6 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void Lose()
     {
         state = LevelState.Lose;
+        GameUIManager.instance.GetDialog("LoseDialog").Open();
     }
 }

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameUIManager : MonoSingleton<GameUIManager>
 {
     public ItemsListHUD itemsListHUD;
+    public GameTimer gameTimer;
+    public List<Dialog> gameDialogs; 
 
     protected override void InternalInit()
     {
@@ -25,10 +28,15 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     {
         
     }
-    
-    
-    public void SetupItemsToCollect(List<CollectableItem> collectableItems)
+
+    public Dialog GetDialog(string id)
     {
-        itemsListHUD.LoadItemInLevel(collectableItems);
+        return gameDialogs.Find(x => x.id == id);
     }
+
+    private void MoveOutHUD()
+    {
+        
+    }
+    
 }

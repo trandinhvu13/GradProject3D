@@ -46,6 +46,10 @@ public class LevelManager : MonoSingleton<LevelManager>
     public Level levelToLoad;
     public int itemsToCollectNum;
     public GameObject playerPrefab;
+    public float finishTime;
+    public List<float> milestoneTimes;
+    public int finishMilestone;
+
     //Game State
     public LevelState state;
     public enum LevelState
@@ -148,12 +152,14 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void SetupGame()
     {
         state = LevelState.Normal;
+        milestoneTimes = levelToLoad.milestoneTimes;
         GameUIManager.instance.gameTimer.StartTime();
         destinationTransform = levelToLoad.destination;
         numOfItemsToCollect = levelToLoad.itemsToCollect.Count;
         currentItemsAmount = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.lockState = CursorLockMode.None;
+        //TEST Dialog
     }
 
     public void CollectItem(int id)
@@ -192,6 +198,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         state = LevelState.Win;
         GameEvent.instance.PlayerWin();
+        finishTime = GameUIManager.instance.gameTimer.currentTime;
+        GameUIManager.instance.GetDialog("WinDialog").Open();
     }
 
     public void Lose()

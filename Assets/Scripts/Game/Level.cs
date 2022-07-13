@@ -13,6 +13,7 @@ public class Level : MonoBehaviour
     public List<NormalGuard> normalGuards;
     public List<StationGuard> stationGuards;
     public List<CollectableItem> itemsToCollect;
+    public List<float> milestoneTimes;
 
     public Transform playerParent;
     public Transform enemyParent;

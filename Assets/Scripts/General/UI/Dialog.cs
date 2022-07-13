@@ -11,6 +11,7 @@ public class Dialog : MonoBehaviour
     public Ease openEase;
     public float closeTime;
     public Ease closeEase;
+    public bool isOpen = false;
 
     public virtual void Init()
     {
@@ -20,6 +21,8 @@ public class Dialog : MonoBehaviour
     
     public void Open()
     {
+        if (isOpen) return;
+        isOpen = true;
         Init();
         transform.DOScale(new Vector3(1, 1, 1), openTime).SetEase(openEase).OnComplete(Intro);
     }
@@ -30,6 +33,7 @@ public class Dialog : MonoBehaviour
 
     public void Close()
     {
+        isOpen = false;
         transform.DOScale(Vector3.zero, closeTime).SetEase(closeEase).OnStart(Outro).OnComplete(() =>
         {
             transform.gameObject.SetActive(false);

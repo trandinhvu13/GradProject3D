@@ -44,7 +44,6 @@ public class LevelManager : MonoSingleton<LevelManager>
     //Level
     public bool isLevelLoad;
     public Level levelToLoad;
-    public int itemsToCollectNum;
     public GameObject playerPrefab;
     public float finishTime;
     public List<float> milestoneTimes;
@@ -83,9 +82,23 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         if (state==LevelState.Win) return;
         if (!isLevelLoad) return;
-        if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
+        if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius )
         {
-            Win();
+            if (currentItemsAmount >= numOfItemsToCollect)
+            {
+                Win();
+            }
+            else
+            {
+                if (!GameUIManager.instance.GetDialog("NotEnoughItemDialog").isOpen)
+                    GameUIManager.instance.GetDialog("NotEnoughItemDialog").Open();
+            }
+            
+        }
+        else
+        {
+            if (GameUIManager.instance.GetDialog("NotEnoughItemDialog").isOpen)
+                GameUIManager.instance.GetDialog("NotEnoughItemDialog").Close();
         }
     }
     public void LoadLevel(int levelId)
@@ -199,6 +212,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         state = LevelState.Win;
         GameEvent.instance.PlayerWin();
         finishTime = GameUIManager.instance.gameTimer.currentTime;
+        finishMilestone = CalculateMilestone();
         GameUIManager.instance.GetDialog("WinDialog").Open();
     }
 
@@ -207,4 +221,17 @@ public class LevelManager : MonoSingleton<LevelManager>
         state = LevelState.Lose;
         GameUIManager.instance.GetDialog("LoseDialog").Open();
     }
+
+    private int CalculateMilestone()
+    {
+        for (int i = 2; i >= 0; i--)
+        {
+            if (finishTime <= milestoneTimes[i])
+            {
+                return i;
+            }
+        }
+
+        return 0;
+    } 
 }

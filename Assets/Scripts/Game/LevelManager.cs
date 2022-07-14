@@ -31,14 +31,14 @@ public class LevelManager : MonoSingleton<LevelManager>
     [SerializeField] private AstarPath astarPath;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private CinemachineTargetGroup cinemachineTargetGroup;
-    
+
 
     public Player player;
     public Transform destinationTransform;
     public Transform levelTransformPos;
     public float destinationRadius;
     public Transform detectedEnemy;
-    
+
     //Level
     public bool isLevelLoad;
     public Level levelToLoad;
@@ -49,6 +49,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     //Game State
     public LevelState state;
+
     public enum LevelState
     {
         Normal,
@@ -56,6 +57,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         Win,
         Lose,
     }
+
     public int numOfItemsToCollect;
     public int currentItemsAmount;
 
@@ -78,9 +80,9 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void CheckWin()
     {
-        if (state==LevelState.Win) return;
+        if (state == LevelState.Win) return;
         if (!isLevelLoad) return;
-        if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius )
+        if (player && Vector3.Distance(player.transform.position, destinationTransform.position) < destinationRadius)
         {
             if (currentItemsAmount >= numOfItemsToCollect)
             {
@@ -91,7 +93,6 @@ public class LevelManager : MonoSingleton<LevelManager>
                 if (!GameUIManager.instance.GetDialog("NotEnoughItemDialog").isOpen)
                     GameUIManager.instance.GetDialog("NotEnoughItemDialog").Open();
             }
-            
         }
         else
         {
@@ -99,6 +100,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                 GameUIManager.instance.GetDialog("NotEnoughItemDialog").Close();
         }
     }
+
     public void LoadLevel(int levelId)
     {
         GroupLoader.Instance.LoadResources(new List<Resource>
@@ -168,7 +170,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         currentItemsAmount = 0;
         //TEST Dialog
     }
-    
+
     private void SetupUI()
     {
         GameUIManager.instance.SetupNewGame(levelToLoad.itemsToCollect);
@@ -194,7 +196,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         Debug.Log("add player");
         virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 2;
         virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 3;
-        
+
         CinemachineTargetGroup.Target enemyTarget = new CinemachineTargetGroup.Target();
         enemyTarget.target = enemyTransform;
         enemyTarget.weight = 1.5f;
@@ -202,16 +204,17 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         for (int i = 0; i < cinemachineTargetGroup.m_Targets.Length; i++)
         {
-            if (cinemachineTargetGroup.m_Targets[i].radius==0)
+            if (cinemachineTargetGroup.m_Targets[i].radius == 0)
             {
                 cinemachineTargetGroup.m_Targets[i] = enemyTarget;
                 break;
             }
         }
     }
+
     private void Win()
     {
-        if(state == LevelState.Win) return;
+        if (state == LevelState.Win) return;
         state = LevelState.Win;
         DisableEndgameGameObjects();
         finishTime = GameUIManager.instance.gameTimer.currentTime;
@@ -221,7 +224,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void Lose()
     {
-        if(state == LevelState.Lose) return;
+        if (state == LevelState.Lose) return;
         state = LevelState.Lose;
         DisableEndgameGameObjects();
         GameEvent.instance.PlayerLose();
@@ -246,5 +249,37 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
 
         return 0;
-    } 
+    }
+
+    public void ResetGame()
+    {
+        levelToLoad = null;
+        isLevelLoad = false;
+
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0.5f;
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0.5f;
+
+        CinemachineTargetGroup.Target blank = new CinemachineTargetGroup.Target();
+        blank.target = null;
+        blank.weight = 1.5f;
+        blank.radius = 2;
+
+        for (int i = 0; i < cinemachineTargetGroup.m_Targets.Length; i++)
+        {
+            if (i > 1)
+            {
+                cinemachineTargetGroup.m_Targets[i] = blank;
+            }
+        }
+        
+    }
+
+    public void Retry()
+    {
+        Debug.Log("Click retry");
+        GroupLoader.Instance.Cleanup();
+        Destroy(levelToLoad.gameObject);
+        ResetGame();
+        LoadLevel(1);
+    }
 }

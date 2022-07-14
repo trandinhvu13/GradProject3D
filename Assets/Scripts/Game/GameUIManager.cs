@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Game;
 using UnityEngine;
 
 public class GameUIManager : MonoSingleton<GameUIManager>
@@ -12,6 +13,12 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     public GameObject leftHUD;
     public GameObject rightHUD;
 
+    public WalkableIndicator walkableIndicator;
+    public WalkableCursor walkableCursor;
+    public TargetCursor targetCursor;
+
+    //TODO: check for opening dialog and close it
+    
     protected override void InternalInit()
     {
         
@@ -54,6 +61,10 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     public void SetupNewGame(List<CollectableItem> collectableItems)
     {
         MoveInStatsHUD();
+        
+        walkableCursor.Show();
+        walkableIndicator.gameObject.SetActive(true);
+        targetCursor.Show();
         
         gameTimer.SetupNew();
         itemsListHUD.LoadItemInLevel(collectableItems);

@@ -73,5 +73,11 @@ namespace Game
             Cursor.visible = true;
             transform.gameObject.SetActive(false);
         }
+
+        public void Show()
+        {
+            Cursor.visible = false;
+            transform.gameObject.SetActive(true);
+        }
     }
 }

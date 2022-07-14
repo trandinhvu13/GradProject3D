@@ -69,10 +69,17 @@ public class GameEvent : MonoSingleton<GameEvent>
     {
         OnPlayerLose?.Invoke();
     }
+    
+    public event Action OnGameSetup;
+
+    public void GameSetup()
+    {
+        OnGameSetup?.Invoke();
+    }
 
     #endregion
 
-    #region Itemn
+    #region Item
 
     
 

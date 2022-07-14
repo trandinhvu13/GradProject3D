@@ -17,6 +17,7 @@ public class TargetCursor : MonoBehaviour
     {
         GameEvent.instance.OnPlayerLose += Hide;
         GameEvent.instance.OnPlayerWin += Hide;
+        GameEvent.instance.OnGameSetup += Show;
     }
 
     private void OnDisable()
@@ -43,5 +44,10 @@ public class TargetCursor : MonoBehaviour
     private void Hide()
     {
         transform.gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        transform.gameObject.SetActive(true);
     }
 }

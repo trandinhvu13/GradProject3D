@@ -11,6 +11,7 @@ public class LoseDialog : Dialog
     {
         base.Init();
         Debug.Log("Init lose");
+        retryButton.onClick.AddListener(LevelManager.instance.Retry);
     }
 
     public override void Intro()

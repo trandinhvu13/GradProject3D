@@ -326,6 +326,11 @@ MonoBehaviour:
   gridGraphWidth: 98
   gridGraphDepth: 102
   gridGraphNodeSize: 0.5
+  disableEndgameGameObjects:
+  - {fileID: 2309626492663758481}
+  - {fileID: 8509058967164741827}
+  - {fileID: 7506595060213356844}
+  - {fileID: 1215994274412762412}
 --- !u!1 &1215994275931493689
 GameObject:
   m_ObjectHideFlags: 0

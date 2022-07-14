@@ -18,13 +18,11 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     protected override void InternalOnDisable()
     {
-        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Lose;
         if (GameEvent.instance) GameEvent.instance.OnEnemyAlert -= PlayerGetChased;
     }
 
     protected override void InternalOnEnable()
     {
-        GameEvent.instance.OnPlayerLose += Lose;
         GameEvent.instance.OnEnemyAlert += PlayerGetChased;
     }
 
@@ -122,6 +120,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                 SetupVirtualCam();
                 SetupItemsToCollect();
                 SetupGame();
+                SetupUI();
                 isLevelLoad = true;
             });
     }
@@ -158,21 +157,24 @@ public class LevelManager : MonoSingleton<LevelManager>
             levelToLoad.itemsToCollect[i].id = i;
             levelToLoad.itemsToCollect[i].isCollected = false;
         }
-
-        GameUIManager.instance.itemsListHUD.LoadItemInLevel(levelToLoad.itemsToCollect);
     }
 
     private void SetupGame()
     {
         state = LevelState.Normal;
         milestoneTimes = levelToLoad.milestoneTimes;
-        GameUIManager.instance.gameTimer.StartTime();
         destinationTransform = levelToLoad.destination;
         numOfItemsToCollect = levelToLoad.itemsToCollect.Count;
         currentItemsAmount = 0;
+        //TEST Dialog
+    }
+    
+    private void SetupUI()
+    {
+        GameUIManager.instance.SetupNewGame(levelToLoad.itemsToCollect);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.lockState = CursorLockMode.None;
-        //TEST Dialog
     }
 
     public void CollectItem(int id)
@@ -207,19 +209,30 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
         }
     }
-    public void Win()
+    private void Win()
     {
+        if(state == LevelState.Win) return;
         state = LevelState.Win;
-        GameEvent.instance.PlayerWin();
+        DisableEndgameGameObjects();
         finishTime = GameUIManager.instance.gameTimer.currentTime;
         finishMilestone = CalculateMilestone();
-        GameUIManager.instance.GetDialog("WinDialog").Open();
+        GameEvent.instance.PlayerWin();
     }
 
     public void Lose()
     {
+        if(state == LevelState.Lose) return;
         state = LevelState.Lose;
-        GameUIManager.instance.GetDialog("LoseDialog").Open();
+        DisableEndgameGameObjects();
+        GameEvent.instance.PlayerLose();
+    }
+
+    private void DisableEndgameGameObjects()
+    {
+        foreach (GameObject disableEndgameGameObject in levelToLoad.disableEndgameGameObjects)
+        {
+            disableEndgameGameObject.SetActive(false);
+        }
     }
 
     private int CalculateMilestone()

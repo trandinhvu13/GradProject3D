@@ -22,6 +22,6 @@ public class GuardWin : BaseState
         normalGuard.data.isMoving = false;
         normalGuard.canMove = false;
         normalGuard.playerLastPlaceIndicator.Hide();
-        GameEvent.instance.PlayerLose();
+        LevelManager.instance.Lose();
     }
 }

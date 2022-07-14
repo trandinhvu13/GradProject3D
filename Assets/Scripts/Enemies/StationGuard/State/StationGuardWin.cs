@@ -22,6 +22,6 @@ public class StationGuardWin : BaseState
         stationGuard.data.isMoving = false;
         stationGuard.canMove = false;
         stationGuard.playerLastPlaceIndicator.Hide();
-        GameEvent.instance.PlayerLose();
+        LevelManager.instance.Lose();
     }
 }

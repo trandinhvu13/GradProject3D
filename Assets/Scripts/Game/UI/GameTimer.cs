@@ -22,7 +22,7 @@ public class GameTimer : MonoBehaviour
 
     private void Start()
     {
-        text.text = "00:00";
+        SetupNew();
     }
 
     private void Update()
@@ -32,6 +32,12 @@ public class GameTimer : MonoBehaviour
         SetTextTime();
     }
 
+    public void SetupNew()
+    {
+        text.text = "00:00";
+        StartTime();
+    }
+    
     public void StartTime()
     {
         isTimeStart = true;
@@ -41,11 +47,6 @@ public class GameTimer : MonoBehaviour
     public void StopTime()
     {
         isTimeStart = false;
-    }
-
-    public void ResetTime()
-    {
-        currentTime = 0;
     }
 
     private void SetTextTime()

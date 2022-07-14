@@ -6,8 +6,7 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     public int id;
-    public List<CollectableItem> itemsInLevel;
-    
+
     public Transform player;
     public Transform destination;
     public List<NormalGuard> normalGuards;
@@ -25,5 +24,6 @@ public class Level : MonoBehaviour
     public int gridGraphDepth;
     public float gridGraphNodeSize;
 
+    public List<GameObject> disableEndgameGameObjects;
 
 }

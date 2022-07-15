@@ -15,7 +15,6 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     public List<Dialog> gameDialogs;
     public GameObject leftHUD;
     public GameObject rightHUD;
-    public Button pauseButton;
 
     public WalkableIndicator walkableIndicator;
     public WalkableCursor walkableCursor;
@@ -24,7 +23,6 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     public Dialog currentDialog;
     protected override void InternalInit()
     {
-        pauseButton.onClick.AddListener(LevelManager.instance.PauseGame);
     }
 
     protected override void InternalOnDestroy()

@@ -76,8 +76,8 @@ public class Player : AIPath
 
     private void CheckInput()
     {
-        if (LevelManager.instance.state == LevelManager.LevelState.Win ||
-            LevelManager.instance.state == LevelManager.LevelState.Lose) return;
+        if (LevelManager.instance.state is LevelManager.LevelState.Win or LevelManager.LevelState.Lose or LevelManager.LevelState.Pause) return;
+        
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             if (Input.GetMouseButtonDown(0))
@@ -107,8 +107,6 @@ public class Player : AIPath
         {
             Whistle();
         }
-
-        ;
     }
 
     private void Whistle()

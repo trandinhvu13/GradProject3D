@@ -40,6 +40,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public Transform detectedEnemy;
 
     //Level
+    public int currentLevelID;
     public bool isLevelLoad;
     public Level levelToLoad;
     public GameObject playerPrefab;
@@ -69,13 +70,20 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (state == LevelState.Normal) PauseGame();
+            else if (state == LevelState.Pause) ResumeGame();
+        }
+
         CheckWin();
     }
 
     private void Start()
     {
         isLevelLoad = false;
-        LoadLevel(1);
+        currentLevelID = 1;
+        LoadLevel(currentLevelID);
     }
 
     public void CheckWin()
@@ -271,15 +279,32 @@ public class LevelManager : MonoSingleton<LevelManager>
                 cinemachineTargetGroup.m_Targets[i] = blank;
             }
         }
-        
+    }
+
+    public void PauseGame()
+    {
+        if (state == LevelState.Pause) return;
+        state = LevelState.Pause;
+        Time.timeScale = 0;
+        cinemachineTargetGroup.gameObject.SetActive(false);
+        GameUIManager.instance.GetDialog("PauseDialog").Open(true);
+    }
+
+    public void ResumeGame()
+    {
+        state = LevelState.Normal;
+        Cursor.visible = true;
+        Time.timeScale = 1;
+        cinemachineTargetGroup.gameObject.SetActive(true);
+        GameUIManager.instance.CloseCurrentDialog();
     }
 
     public void Retry()
     {
-        Debug.Log("Click retry");
+        GameUIManager.instance.CloseCurrentDialog();
         GroupLoader.Instance.Cleanup();
         Destroy(levelToLoad.gameObject);
         ResetGame();
-        LoadLevel(1);
+        LoadLevel(currentLevelID);
     }
 }

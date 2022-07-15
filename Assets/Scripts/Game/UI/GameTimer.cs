@@ -35,13 +35,13 @@ public class GameTimer : MonoBehaviour
     public void SetupNew()
     {
         text.text = "00:00";
+        currentTime = 0;
         StartTime();
     }
     
     public void StartTime()
     {
         isTimeStart = true;
-        currentTime = 0;
     }
 
     public void StopTime()

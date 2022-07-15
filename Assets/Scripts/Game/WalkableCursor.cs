@@ -37,7 +37,7 @@ namespace Game
 
         private void Update()
         {
-            if (LevelManager.instance.state is LevelManager.LevelState.Lose or LevelManager.LevelState.Win) return;
+            if (LevelManager.instance.state is LevelManager.LevelState.Lose or LevelManager.LevelState.Win or LevelManager.LevelState.Pause) return;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, 100) && hitInfo.transform.gameObject.CompareTag("Ground"))

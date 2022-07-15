@@ -4,24 +4,27 @@ using System.Linq;
 using DG.Tweening;
 using Game;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameUIManager : MonoSingleton<GameUIManager>
 {
+    public Image fadeBackground;
+    
     public ItemsListHUD itemsListHUD;
     public GameTimer gameTimer;
     public List<Dialog> gameDialogs;
     public GameObject leftHUD;
     public GameObject rightHUD;
+    public Button pauseButton;
 
     public WalkableIndicator walkableIndicator;
     public WalkableCursor walkableCursor;
     public TargetCursor targetCursor;
-
-    //TODO: check for opening dialog and close it
     
+    public Dialog currentDialog;
     protected override void InternalInit()
     {
-        
+        pauseButton.onClick.AddListener(LevelManager.instance.PauseGame);
     }
 
     protected override void InternalOnDestroy()
@@ -70,6 +73,20 @@ public class GameUIManager : MonoSingleton<GameUIManager>
         itemsListHUD.LoadItemInLevel(collectableItems);
     }
 
+    public void FadeInBackground()
+    {
+        fadeBackground.gameObject.SetActive(true);
+        fadeBackground.DOFade(0.75f, 0.2f).SetEase(Ease.OutQuad).SetUpdate(true);
+    }
+
+    public void FadeOutBackground()
+    {
+        fadeBackground.DOFade(0, 0.2f).SetEase(Ease.InQuad).SetUpdate(true).OnComplete(() =>
+        {
+            fadeBackground.gameObject.SetActive(false);
+        });
+    }
+
     private void Win()
     {
         MoveOutStatsHUD();
@@ -80,6 +97,12 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     {
         MoveOutStatsHUD();
         GetDialog("LoseDialog").Open();
+    }
+
+    public void CloseCurrentDialog()
+    {
+        if (currentDialog == null) return;
+        currentDialog.Close();
     }
     
 }

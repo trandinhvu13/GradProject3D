@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseDialog : Dialog
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Button resume;
+    [SerializeField] private Button retry;
+    [SerializeField] private Button exit;
 
-    // Update is called once per frame
-    void Update()
+    public override void Init()
     {
-        
+        base.Init();
+        resume.onClick.AddListener(LevelManager.instance.ResumeGame);
     }
 }

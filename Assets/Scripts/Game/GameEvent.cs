@@ -77,6 +77,13 @@ public class GameEvent : MonoSingleton<GameEvent>
         OnGameSetup?.Invoke();
     }
 
+    public event Action OnTransitionComplete;
+
+    public void TransitionComplete()
+    {
+        OnTransitionComplete?.Invoke();
+    }
+
     #endregion
 
     #region Item

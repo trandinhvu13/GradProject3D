@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Main;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +12,7 @@ public class MenuButtons : MonoBehaviour
     {
         play.onClick.AddListener(() =>
             {
+                gameObject.SetActive(false);
                 SceneController.instance.Load("Main", null, () => { GameUIManager.instance.gameTimer.StartTime(); });
             });
     }

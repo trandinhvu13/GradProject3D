@@ -16,4 +16,9 @@ public class ItemsListHUD : MonoBehaviour
     {
         itemsText.text = $"{LevelManager.instance.currentItemsAmount}/{LevelManager.instance.numOfItemsToCollect} ITEMS";
     }
+
+    public void DoneCollectItem()
+    {
+        itemsText.text = $"DONE!";
+    }
 }

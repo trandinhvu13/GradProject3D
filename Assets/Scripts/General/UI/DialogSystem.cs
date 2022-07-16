@@ -42,8 +42,6 @@ public class DialogSystem : MonoSingleton<DialogSystem>
                 dialogsCount--;
             }
         }
-        
-        Debug.Log("end" + currentDialogs.Count);
     }
 
     public void CloseTopDialog()

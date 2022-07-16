@@ -196,17 +196,18 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         currentItemsAmount++;
         levelToLoad.itemsToCollect[id].isCollected = true;
-        GameUIManager.instance.itemsListHUD.CollectItem();
-
         if (currentItemsAmount >= numOfItemsToCollect)
         {
-            Debug.Log("Find all the items");
+            GameUIManager.instance.itemsListHUD.DoneCollectItem();
+        }
+        else
+        {
+            GameUIManager.instance.itemsListHUD.CollectItem();
         }
     }
 
     private void PlayerGetChased(Transform enemyTransform)
     {
-        Debug.Log("add player");
         virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 2;
         virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 3;
 
@@ -307,7 +308,6 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void Retry()
     {
-        Debug.Log("retry");
         GroupLoader.Instance.Cleanup();
         Destroy(levelToLoad.gameObject);
         ResetGame();

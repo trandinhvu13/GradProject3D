@@ -131,6 +131,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                 SetupItemsToCollect();
                 SetupGame();
                 SetupUI();
+                Debug.Log("Level to load is" + levelToLoad);
                 isLevelLoad = true;
             });
     }
@@ -279,6 +280,8 @@ public class LevelManager : MonoSingleton<LevelManager>
                 cinemachineTargetGroup.m_Targets[i] = blank;
             }
         }
+        
+        GameEvent.instance.HideIndicator();
     }
 
     public void PauseGame()
@@ -301,10 +304,12 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void Retry()
     {
+        Debug.Log("retry");
         GameUIManager.instance.CloseCurrentDialog();
         GroupLoader.Instance.Cleanup();
         Destroy(levelToLoad.gameObject);
         ResetGame();
+        if(state == LevelState.Pause) ResumeGame();
         LoadLevel(currentLevelID);
     }
 }

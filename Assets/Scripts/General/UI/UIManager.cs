@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Shapes2D;
 using UnityEngine;
 
 public class UIManager : MonoSingleton<UIManager>
 {
     public bool isDoneTransition;
+    public Shape transition;
     protected override void InternalInit()
     {
     }
@@ -21,12 +23,12 @@ public class UIManager : MonoSingleton<UIManager>
     {
     }
 
-    public void MoveInLoading()
+    public void TransitionIn()
     {
         
     }
 
-    public void MoveOutLoading()
+    public void TransitionOut()
     {
         
     }

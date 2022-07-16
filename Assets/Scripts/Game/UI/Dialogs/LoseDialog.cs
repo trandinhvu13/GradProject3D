@@ -24,5 +24,6 @@ public class LoseDialog : Dialog
     {
         base.Outro();
         Debug.Log("Outro lose");
+        retryButton.onClick.RemoveAllListeners();
     }
 }

@@ -100,6 +100,7 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     public void CloseCurrentDialog()
     {
         if (currentDialog == null) return;
+        Debug.Log("Call close current");
         currentDialog.Close();
     }
     

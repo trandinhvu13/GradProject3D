@@ -13,5 +13,13 @@ public class PauseDialog : Dialog
     {
         base.Init();
         resume.onClick.AddListener(LevelManager.instance.ResumeGame);
+        retry.onClick.AddListener(LevelManager.instance.Retry);
+    }
+
+    public override void Outro()
+    {
+        base.Outro();
+        resume.onClick.RemoveAllListeners();
+        retry.onClick.RemoveAllListeners();
     }
 }

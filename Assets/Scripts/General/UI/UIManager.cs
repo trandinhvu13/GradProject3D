@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIManager : MonoSingleton<UIManager>
 {
     public bool isDoneTransition;
-    public Shape transition;
+    public TransitionScreen transitionScreen;
     protected override void InternalInit()
     {
     }

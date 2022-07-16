@@ -36,7 +36,6 @@ public class GameTimer : MonoBehaviour
     {
         text.text = "00:00";
         currentTime = 0;
-        StartTime();
     }
     
     public void StartTime()

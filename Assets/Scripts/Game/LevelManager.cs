@@ -73,7 +73,11 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (state == LevelState.Normal) PauseGame();
-            else if (state == LevelState.Pause) ResumeGame();
+            else if (state == LevelState.Pause)
+            {
+                DialogSystem.instance.CloseTopDialog();
+                ResumeGame();
+            }
         }
 
         CheckWin();
@@ -98,14 +102,14 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
             else
             {
-                if (!GameUIManager.instance.GetDialog("NotEnoughItemDialog").isOpen)
-                    GameUIManager.instance.GetDialog("NotEnoughItemDialog").Open();
+                if (!DialogSystem.instance.GetDialog("NotEnoughItemDialog").isOpen)
+                    DialogSystem.instance.GetDialog("NotEnoughItemDialog").Open();
             }
         }
         else
         {
-            if (GameUIManager.instance.GetDialog("NotEnoughItemDialog").isOpen)
-                GameUIManager.instance.GetDialog("NotEnoughItemDialog").Close();
+            if (DialogSystem.instance.GetDialog("NotEnoughItemDialog").isOpen)
+                DialogSystem.instance.GetDialog("NotEnoughItemDialog").Close();
         }
     }
 
@@ -290,22 +294,20 @@ public class LevelManager : MonoSingleton<LevelManager>
         state = LevelState.Pause;
         Time.timeScale = 0;
         cinemachineTargetGroup.gameObject.SetActive(false);
-        GameUIManager.instance.GetDialog("PauseDialog").Open(true);
+        DialogSystem.instance.GetDialog("PauseDialog").Open(true);
     }
 
     public void ResumeGame()
     {
         state = LevelState.Normal;
-        Cursor.visible = true;
+        Cursor.visible = false;
         Time.timeScale = 1;
         cinemachineTargetGroup.gameObject.SetActive(true);
-        GameUIManager.instance.CloseCurrentDialog();
     }
 
     public void Retry()
     {
         Debug.Log("retry");
-        GameUIManager.instance.CloseCurrentDialog();
         GroupLoader.Instance.Cleanup();
         Destroy(levelToLoad.gameObject);
         ResetGame();

@@ -12,7 +12,6 @@ namespace Main
 
         private AsyncOperation loadingAsyncOperation = null;
         [SerializeField] private TransitionScreen transitionScreen;
-        public Button testButton;
 
         #endregion
 
@@ -20,10 +19,10 @@ namespace Main
 
         protected override void InternalInit()
         {
-            testButton.onClick.AddListener(() =>
+            /*testButton.onClick.AddListener(() =>
             {
                 Load("Main", null, () => { GameUIManager.instance.gameTimer.StartTime(); });
-            });
+            });*/
         }
 
         protected override void InternalOnDestroy()

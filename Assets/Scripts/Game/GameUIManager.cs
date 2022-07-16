@@ -12,15 +12,12 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     
     public ItemsListHUD itemsListHUD;
     public GameTimer gameTimer;
-    public List<Dialog> gameDialogs;
     public GameObject leftHUD;
     public GameObject rightHUD;
 
     public WalkableIndicator walkableIndicator;
     public WalkableCursor walkableCursor;
     public TargetCursor targetCursor;
-    
-    public Dialog currentDialog;
     protected override void InternalInit()
     {
     }
@@ -40,11 +37,6 @@ public class GameUIManager : MonoSingleton<GameUIManager>
     {
         if(GameEvent.instance) GameEvent.instance.OnPlayerWin -= Win;
         if(GameEvent.instance) GameEvent.instance.OnPlayerLose -= Lose;
-    }
-
-    public Dialog GetDialog(string id)
-    {
-        return gameDialogs.Find(x => x.id == id);
     }
 
     public void MoveOutStatsHUD()
@@ -71,37 +63,16 @@ public class GameUIManager : MonoSingleton<GameUIManager>
         itemsListHUD.LoadItemInLevel(collectableItems);
     }
 
-    public void FadeInBackground()
-    {
-        fadeBackground.gameObject.SetActive(true);
-        fadeBackground.DOFade(0.75f, 0.2f).SetEase(Ease.OutQuad).SetUpdate(true);
-    }
-
-    public void FadeOutBackground()
-    {
-        fadeBackground.DOFade(0, 0.2f).SetEase(Ease.InQuad).SetUpdate(true).OnComplete(() =>
-        {
-            fadeBackground.gameObject.SetActive(false);
-        });
-    }
-
     private void Win()
     {
         MoveOutStatsHUD();
-        GetDialog("WinDialog").Open();
+        DialogSystem.instance.GetDialog("WinDialog").Open();
     }
 
     private void Lose()
     {
         MoveOutStatsHUD();
-        GetDialog("LoseDialog").Open();
+        DialogSystem.instance.GetDialog("LoseDialog").Open();
     }
 
-    public void CloseCurrentDialog()
-    {
-        if (currentDialog == null) return;
-        Debug.Log("Call close current");
-        currentDialog.Close();
-    }
-    
 }

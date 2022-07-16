@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Dialog : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class Dialog : MonoBehaviour
     public float closeTime;
     public Ease closeEase;
     public bool isOpen = false;
+    public Image fadeBackground;
     public bool isHaveBackground = false;
+    public Canvas canvas;
 
     public virtual void Init()
     {
@@ -17,17 +20,20 @@ public class Dialog : MonoBehaviour
         transform.gameObject.SetActive(true);
     }
     
-    public void Open(bool isHaveBackground = false)
+    public void Open(bool isHaveBackground = false, bool isCloseCurrentDialog = false)
     {
         if (isOpen) return;
-        this.isHaveBackground = isHaveBackground;
         isOpen = true;
-        if(GameUIManager.instance) GameUIManager.instance.currentDialog = this;
+
+        this.isHaveBackground = isHaveBackground;
+        
+        if(DialogSystem.instance) DialogSystem.instance.AddDialog(this);
         Init();
         transform.DOScale(new Vector3(1, 1, 1), openTime).SetEase(openEase).OnComplete(Intro).SetUpdate(true);
-        if (this.isHaveBackground)
+        
+        if (isHaveBackground)
         {
-            GameUIManager.instance.FadeInBackground();
+            FadeInBackground();
         }
     }
 
@@ -38,7 +44,7 @@ public class Dialog : MonoBehaviour
     public void Close()
     {
         isOpen = false;
-        if (GameUIManager.instance) GameUIManager.instance.currentDialog = null;
+        if (DialogSystem.instance) DialogSystem.instance.RemoveTopDialog();
         transform.DOScale(Vector3.zero, closeTime).SetEase(closeEase).OnStart(Outro).OnComplete(() =>
         {
             transform.gameObject.SetActive(false);
@@ -46,8 +52,22 @@ public class Dialog : MonoBehaviour
         
         if (isHaveBackground)
         {
-            GameUIManager.instance.FadeOutBackground();
+            FadeOutBackground();
         }
+    }
+
+    private void FadeInBackground()
+    {
+        fadeBackground.gameObject.SetActive(true);
+        fadeBackground.DOFade(0.75f, 0.2f).SetEase(Ease.OutQuad).SetUpdate(true);
+    }
+
+    private void FadeOutBackground()
+    {
+        fadeBackground.DOFade(0, 0.2f).SetEase(Ease.InQuad).SetUpdate(true).OnComplete(() =>
+        {
+            fadeBackground.gameObject.SetActive(false);
+        });
     }
     
     public virtual void Outro()

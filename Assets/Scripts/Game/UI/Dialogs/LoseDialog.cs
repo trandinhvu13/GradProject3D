@@ -10,20 +10,21 @@ public class LoseDialog : Dialog
     public override void Init()
     {
         base.Init();
-        Debug.Log("Init lose");
-        retryButton.onClick.AddListener(LevelManager.instance.Retry);
+        retryButton.onClick.AddListener(()=>
+        {
+            Close();
+            LevelManager.instance.Retry();
+        });
     }
 
     public override void Intro()
     {
         base.Intro();
-        Debug.Log("Intro lose");
     }
 
     public override void Outro()
     {
         base.Outro();
-        Debug.Log("Outro lose");
         retryButton.onClick.RemoveAllListeners();
     }
 }

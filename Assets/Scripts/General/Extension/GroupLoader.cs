@@ -205,7 +205,6 @@ public class GroupLoader
     {
         get => _loading;
     }
-
     /*
      Gets a resource from the cache
     */

@@ -115,6 +115,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void LoadLevel(int levelId)
     {
+        GroupLoader.Instance.Cleanup();
         GroupLoader.Instance.LoadResources(new List<Resource>
             {
                 new Resource
@@ -138,6 +139,22 @@ public class LevelManager : MonoSingleton<LevelManager>
                 Debug.Log("Level to load is" + levelToLoad);
                 isLevelLoad = true;
             });
+    }
+
+    public void ReloadLevel(int levelID)
+    {
+        LoadingResource loadedLevel = GroupLoader.Instance.GetResource($"Levels/Level{levelID}") as LoadingResource;
+        GameObject gameObjectToLoad = loadedLevel.Result as GameObject;
+        levelToLoad = Instantiate(gameObjectToLoad, levelTransformPos).GetComponent<Level>();
+        SetupAstar();
+        SetupPlayer();
+        SetupVirtualCam();
+        SetupItemsToCollect();
+        SetupGame();
+        SetupUI();
+        Debug.Log("Level to load is" + levelToLoad);
+        isLevelLoad = true;
+        
     }
 
     private void SetupAstar()
@@ -308,10 +325,12 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void Retry()
     {
-        GroupLoader.Instance.Cleanup();
+        int levelID = levelToLoad.id;
+        //GroupLoader.Instance.Cleanup();
         Destroy(levelToLoad.gameObject);
         ResetGame();
         if(state == LevelState.Pause) ResumeGame();
-        LoadLevel(currentLevelID);
+        //LoadLevel(currentLevelID);
+        ReloadLevel(levelID);
     }
 }

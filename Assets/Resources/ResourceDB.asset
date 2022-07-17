@@ -1,0 +1,232 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc93647ee932deb43ba04bda69824b6e, type: 3}
+  m_Name: ResourceDB
+  m_EditorClassIdentifier: 
+  items:
+  - name: handles_aaline
+    ext: png
+    path: 
+    type: 2
+    objectTypeName: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Levels
+    ext: 
+    path: 
+    type: 1
+    objectTypeName: 
+  - name: Level1
+    ext: prefab
+    path: Levels
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Shapes2D Sprites
+    ext: 
+    path: 
+    type: 1
+    objectTypeName: 
+  - name: Circle
+    ext: png
+    path: Shapes2D Sprites
+    type: 2
+    objectTypeName: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: DOTweenSettings
+    ext: asset
+    path: 
+    type: 2
+    objectTypeName: DG.Tweening.Core.DOTweenSettings, DOTween, Version=1.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - name: Shapes2D
+    ext: 
+    path: 
+    type: 1
+    objectTypeName: 
+  - name: Materials
+    ext: 
+    path: Shapes2D
+    type: 1
+    objectTypeName: 
+  - name: Shape
+    ext: mat
+    path: Shapes2D/Materials
+    type: 2
+    objectTypeName: UnityEngine.Material, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Prefabs
+    ext: 
+    path: Shapes2D
+    type: 1
+    objectTypeName: 
+  - name: Arc
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Button
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Curve
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Donut
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Ellipse
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Filled Path
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Line Path
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Panel
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Pie
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Polygon
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Rectangle
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Rounded Rectangle
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Triangle
+    ext: prefab
+    path: Shapes2D/Prefabs
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: 1x1
+    ext: png
+    path: Shapes2D
+    type: 2
+    objectTypeName: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Sprite Template
+    ext: prefab
+    path: Shapes2D
+    type: 2
+    objectTypeName: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: Fonts & Materials
+    ext: 
+    path: 
+    type: 1
+    objectTypeName: 
+  - name: LiberationSans SDF - Drop Shadow
+    ext: mat
+    path: Fonts & Materials
+    type: 2
+    objectTypeName: UnityEngine.Material, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: LiberationSans SDF - Fallback
+    ext: asset
+    path: Fonts & Materials
+    type: 2
+    objectTypeName: TMPro.TMP_FontAsset, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - name: LiberationSans SDF - Outline
+    ext: mat
+    path: Fonts & Materials
+    type: 2
+    objectTypeName: UnityEngine.Material, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: LiberationSans SDF
+    ext: asset
+    path: Fonts & Materials
+    type: 2
+    objectTypeName: TMPro.TMP_FontAsset, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - name: Sprite Assets
+    ext: 
+    path: 
+    type: 1
+    objectTypeName: 
+  - name: EmojiOne
+    ext: asset
+    path: Sprite Assets
+    type: 2
+    objectTypeName: TMPro.TMP_SpriteAsset, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - name: Style Sheets
+    ext: 
+    path: 
+    type: 1
+    objectTypeName: 
+  - name: Default Style Sheet
+    ext: asset
+    path: Style Sheets
+    type: 2
+    objectTypeName: TMPro.TMP_StyleSheet, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - name: LineBreaking Following Characters
+    ext: txt
+    path: 
+    type: 2
+    objectTypeName: UnityEngine.TextAsset, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: LineBreaking Leading Characters
+    ext: txt
+    path: 
+    type: 2
+    objectTypeName: UnityEngine.TextAsset, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - name: TMP Settings
+    ext: asset
+    path: 
+    type: 2
+    objectTypeName: TMPro.TMP_Settings, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_FileCount: 29
+  m_FolderCount: 8
+  UpdateAutomatically: 0

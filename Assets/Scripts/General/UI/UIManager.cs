@@ -9,6 +9,8 @@ public class UIManager : MonoSingleton<UIManager>
     public TransitionScreen transitionScreen;
     protected override void InternalInit()
     {
+        ResourceItem items = ResourceDB.GetFolder("Levels");
+        Debug.Log(items.childs.Count);
     }
 
     protected override void InternalOnDestroy()

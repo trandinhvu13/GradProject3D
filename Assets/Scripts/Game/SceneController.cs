@@ -48,6 +48,7 @@ namespace Main
 
         private IEnumerator LoadSceneAsync(string scene, Action actionIntro = null, Action actionOutro = null)
         {
+            Debug.Log("load scene");
             // trigger the transition screen
             transitionScreen.Intro(() => { actionIntro?.Invoke(); });
             yield return new WaitForSecondsRealtime(transitionScreen.GetTweenTime() + 1f);
@@ -62,8 +63,11 @@ namespace Main
                 {
                     loadingAsyncOperation.allowSceneActivation = true;
 
-                    yield return new WaitUntil(() => LevelManager.instance);
-                    yield return new WaitUntil(() => LevelManager.instance.isLevelLoad);
+                    if (scene == "Main")
+                    {
+                        yield return new WaitUntil(() => LevelManager.instance);
+                        yield return new WaitUntil(() => LevelManager.instance.isLevelLoad);
+                    }
                     transitionScreen.Outro(() => { actionOutro?.Invoke(); });
                 }
 

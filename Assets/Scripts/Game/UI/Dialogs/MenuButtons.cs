@@ -22,9 +22,4 @@ public class MenuButtons : MonoBehaviour
             DialogSystem.instance.GetDialog("StageDialog").Open();
         });
     }
-
-    private void OnDisable()
-    {
-        play.onClick.RemoveAllListeners();
-    }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerDataManager : MonoSingleton<PlayerDataManager>
 {
     public int levelIDToLoad;
+    public int numberOfLevel;
     protected override void InternalInit()
     {
         

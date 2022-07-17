@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ public class StageDialog : Dialog
     public override void Init()
     {
         base.Init();
-        ResourceItem items = ResourceDB.GetFolder("Levels");
+
         home.onClick.AddListener(() => { Close(); });
 
         currentStar.text = $"{PlayerDataManager.instance.GetCurrentStar()}/{PlayerDataManager.instance.GetTotalStar()}";
@@ -22,7 +23,7 @@ public class StageDialog : Dialog
 
         for (int i = 0; i < stages.Count; i++)
         {
-            if (i <= items.childs.Count - 1)
+            if (i <= PlayerDataManager.instance.numberOfLevel - 1)
                 stages[i].Setup(this, i, currentLevel);
             else
             {
@@ -34,6 +35,5 @@ public class StageDialog : Dialog
     public override void Outro()
     {
         base.Outro();
-        home.onClick.RemoveAllListeners();
     }
 }

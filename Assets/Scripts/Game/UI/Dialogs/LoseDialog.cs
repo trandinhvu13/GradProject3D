@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Main;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,14 @@ public class LoseDialog : Dialog
             Close();
             LevelManager.instance.Retry();
         });
+        
+        homeButton.onClick.AddListener(() =>
+        {
+            SceneController.instance.Load("Menu", () =>
+            {
+                Close();
+            }, null);
+        });
     }
 
     public override void Intro()
@@ -25,6 +34,5 @@ public class LoseDialog : Dialog
     public override void Outro()
     {
         base.Outro();
-        retryButton.onClick.RemoveAllListeners();
     }
 }

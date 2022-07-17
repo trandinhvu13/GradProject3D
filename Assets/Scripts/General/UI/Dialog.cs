@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class Dialog : MonoBehaviour
     public Image fadeBackground;
     public bool isHaveBackground = false;
     public Canvas canvas;
+    public List<Button> buttons;
 
     public virtual void Init()
     {
@@ -44,6 +46,10 @@ public class Dialog : MonoBehaviour
     public void Close()
     {
         isOpen = false;
+        foreach (Button button in buttons)
+        {
+            button.onClick.RemoveAllListeners();
+        }
         if (DialogSystem.instance) DialogSystem.instance.RemoveTopDialog();
         transform.DOScale(Vector3.zero, closeTime).SetEase(closeEase).OnStart(Outro).OnComplete(() =>
         {

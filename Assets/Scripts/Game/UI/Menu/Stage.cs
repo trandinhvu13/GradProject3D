@@ -61,8 +61,12 @@ public class Stage : MonoBehaviour
                 {
                     stageDialog.Close();
                 }, () => { GameUIManager.instance.gameTimer.StartTime(); });
-                Debug.Log("change level");
             });
         }
+    }
+
+    private void OnDisable()
+    {
+        playButton.onClick.RemoveAllListeners();
     }
 }

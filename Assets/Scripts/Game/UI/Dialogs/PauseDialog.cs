@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Main;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,12 +23,19 @@ public class PauseDialog : Dialog
             Close();
             LevelManager.instance.Retry();
         });
+        exit.onClick.AddListener(() =>
+        {
+            SceneController.instance.Load("Menu", () =>
+            {
+                Close();
+            }, null);
+        });
     }
 
     public override void Outro()
     {
         base.Outro();
-        resume.onClick.RemoveAllListeners();
-        retry.onClick.RemoveAllListeners();
+        GroupLoader.Instance.Cleanup();
+        Time.timeScale = 1;
     }
 }

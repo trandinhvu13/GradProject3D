@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using Shapes2D;
 using UnityEngine;
 
-public class UIManager : MonoSingleton<UIManager>
+public class MenuUIManager : MonoSingleton<MenuUIManager>
 {
-    public bool isDoneTransition;
-    public TransitionScreen transitionScreen;
     protected override void InternalInit()
     {
         ResourceItem items = ResourceDB.GetFolder("Levels");

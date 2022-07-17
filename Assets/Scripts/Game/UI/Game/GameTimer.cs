@@ -40,6 +40,7 @@ public class GameTimer : MonoBehaviour
     
     public void StartTime()
     {
+        Debug.Log("start time");
         isTimeStart = true;
     }
 

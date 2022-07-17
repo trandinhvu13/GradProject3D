@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Shapes2D;
 using UnityEngine;
 
-public class MenuUIManager : MonoSingleton<MenuUIManager>
+public class PlayerDataManager : MonoSingleton<PlayerDataManager>
 {
+    public int levelIDToLoad;
     protected override void InternalInit()
     {
         
@@ -12,23 +12,36 @@ public class MenuUIManager : MonoSingleton<MenuUIManager>
 
     protected override void InternalOnDestroy()
     {
+
     }
 
     protected override void InternalOnDisable()
     {
+
     }
 
     protected override void InternalOnEnable()
     {
+
     }
 
-    public void TransitionIn()
+    public int GetCurrentStar()
     {
-        
+        return 100;
     }
 
-    public void TransitionOut()
+    public int GetTotalStar()
     {
-        
+        return 1000;
+    }
+
+    public int GetStarByLevel(int levelID)
+    {
+        return 1;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return 0;
     }
 }

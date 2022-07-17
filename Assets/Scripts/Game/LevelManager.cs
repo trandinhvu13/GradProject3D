@@ -66,6 +66,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         base.Awake();
         state = LevelState.Normal;
+        isLevelLoad = false;
     }
 
     private void Update()
@@ -85,9 +86,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        isLevelLoad = false;
-        currentLevelID = 1;
-        LoadLevel(currentLevelID);
+        LoadLevel(PlayerDataManager.instance.levelIDToLoad);
     }
 
     public void CheckWin()
@@ -115,6 +114,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void LoadLevel(int levelId)
     {
+        currentLevelID = levelId;
         GroupLoader.Instance.Cleanup();
         GroupLoader.Instance.LoadResources(new List<Resource>
             {

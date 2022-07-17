@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Main;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class Stage : MonoBehaviour
     [SerializeField] private GameObject completeState;
     [SerializeField] private GameObject currentState;
     [SerializeField] private GameObject lockedState;
+    [SerializeField] private Button playButton;
 
     private void Awake()
     {
@@ -19,21 +22,18 @@ public class Stage : MonoBehaviour
         lockedState.SetActive(false);
     }
 
-    public void Setup(int levelID)
+    public void Setup(StageDialog stageDialog, int levelID, int currentLevel)
     {
         foreach (TextMeshProUGUI levelText in levelTexts)
         {
             levelText.text = levelID.ToString();
         }
 
-        //get current level from player prefs
-        int currentLevel = 3;
-
         if (levelID < currentLevel)
         {
             completeState.SetActive(true);
-            //get star from player prefs from level id
-            int star = 1;
+
+            int star = PlayerDataManager.instance.GetStarByLevel(levelID);
 
             for (int i = 0; i < stars.Count; i++)
             {
@@ -50,6 +50,19 @@ public class Stage : MonoBehaviour
         else
         {
             lockedState.SetActive(true);
+        }
+
+        if (levelID <= currentLevel)
+        {
+            playButton.onClick.AddListener(() =>
+            {
+                PlayerDataManager.instance.levelIDToLoad = levelID;
+                SceneController.instance.Load("Main", () =>
+                {
+                    stageDialog.Close();
+                }, () => { GameUIManager.instance.gameTimer.StartTime(); });
+                Debug.Log("change level");
+            });
         }
     }
 }

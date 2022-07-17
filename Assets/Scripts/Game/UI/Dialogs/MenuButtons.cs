@@ -1,3 +1,4 @@
+using System;
 using Main;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +11,20 @@ public class MenuButtons : MonoBehaviour
     [SerializeField] private Button exit;
     private void Start()
     {
-        play.onClick.AddListener(() =>
+        /*play.onClick.AddListener(() =>
             {
                 gameObject.SetActive(false);
                 SceneController.instance.Load("Main", null, () => { GameUIManager.instance.gameTimer.StartTime(); });
-            });
+            });*/
+
+        play.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("StageDialog").Open();
+        });
+    }
+
+    private void OnDisable()
+    {
+        play.onClick.RemoveAllListeners();
     }
 }

@@ -45,6 +45,7 @@ public class TransitionScreen : MonoBehaviour
             circle.settings.innerCutout = new Vector2(value, value);
         }).OnComplete(() =>
         {
+            Debug.Log(action);
             image.raycastTarget = false;
             action?.Invoke();
         });

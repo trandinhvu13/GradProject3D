@@ -1107,6 +1107,7 @@ MonoBehaviour:
   completeState: {fileID: 6077938847071036095}
   currentState: {fileID: 6077938845635203804}
   lockedState: {fileID: 6077938845708497522}
+  playButton: {fileID: 6077938847489188406}
 --- !u!1 &6077938847609799866
 GameObject:
   m_ObjectHideFlags: 0

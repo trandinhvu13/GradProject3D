@@ -73,4 +73,39 @@ public static class Helper
             yield return new WaitForSeconds(waitTime);
         }
     }
+
+    public static string ChangeTimeToTextString(float time)
+    {
+        int min = (int)time / 60;
+        int sec = (int)time % 60;
+
+        string minString = min.ToString();
+        string secString = sec.ToString();
+        string milisecString = (time - (int)time).ToString().Substring(2, 3);
+
+        if (min < 10)
+        {
+            minString = $"0{min}";
+        }
+
+        if (sec < 10)
+        {
+            secString = $"0{sec}";
+        }
+
+        return $"{minString}:{secString}.{milisecString}";
+    }
+    
+    public static int CalculateMilestone(float time, List<float> milestoneTimes)
+    {
+        for (int i = 3; i > 0; i--)
+        {
+            if (time <= milestoneTimes[i-1])
+            {
+                return i;
+            }
+        }
+
+        return 0;
+    }
 }

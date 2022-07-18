@@ -34,13 +34,12 @@ public class GameTimer : MonoBehaviour
 
     public void SetupNew()
     {
-        text.text = "00:00";
+        text.text = "00:00.000";
         currentTime = 0;
     }
     
     public void StartTime()
     {
-        Debug.Log("start time");
         isTimeStart = true;
     }
 
@@ -52,22 +51,7 @@ public class GameTimer : MonoBehaviour
     private void SetTextTime()
     {
         float time = currentTime;
-        int min = (int)time / 60;
-        int sec = (int)time % 60;
 
-        string minString = min.ToString();
-        string secString = sec.ToString();
-        
-        if (min < 10)
-        {
-            minString = $"0{min}";
-        }
-
-        if (sec < 10)
-        {
-            secString = $"0{sec}";
-        }
-
-        text.text = $"{minString}:{secString}";
+        text.text = Helper.ChangeTimeToTextString(time);
     }
 }

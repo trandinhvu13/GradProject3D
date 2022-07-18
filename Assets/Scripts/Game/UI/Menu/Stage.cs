@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Stage : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> levelTexts;
-    private List<GameObject> stars;
+    [SerializeField] private List<GameObject> stars;
     [SerializeField] private GameObject completeState;
     [SerializeField] private GameObject currentState;
     [SerializeField] private GameObject lockedState;
@@ -26,7 +26,7 @@ public class Stage : MonoBehaviour
     {
         foreach (TextMeshProUGUI levelText in levelTexts)
         {
-            levelText.text = levelID.ToString();
+            levelText.text = (levelID + 1).ToString();
         }
 
         if (levelID < currentLevel)
@@ -35,11 +35,11 @@ public class Stage : MonoBehaviour
 
             int star = PlayerDataManager.instance.GetStarByLevel(levelID);
 
-            for (int i = 0; i < stars.Count; i++)
+            for (int i = 1; i <= stars.Count; i++)
             {
                 if (i > star)
                 {
-                    stars[i].SetActive(false);
+                    stars[i-1].SetActive(false);
                 }
             }
         }
@@ -57,10 +57,8 @@ public class Stage : MonoBehaviour
             playButton.onClick.AddListener(() =>
             {
                 PlayerDataManager.instance.levelIDToLoad = levelID;
-                SceneController.instance.Load("Main", () =>
-                {
-                    stageDialog.Close();
-                }, () => { GameUIManager.instance.gameTimer.StartTime(); });
+                SceneController.instance.Load("Main", () => { stageDialog.Close(); },
+                    () => { GameUIManager.instance.gameTimer.StartTime(); });
             });
         }
     }

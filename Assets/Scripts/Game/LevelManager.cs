@@ -112,7 +112,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
 
-    public void LoadLevel(int levelId)
+    private void LoadLevel(int levelId)
     {
         currentLevelID = levelId;
         GroupLoader.Instance.Cleanup();
@@ -136,7 +136,6 @@ public class LevelManager : MonoSingleton<LevelManager>
                 SetupItemsToCollect();
                 SetupGame();
                 SetupUI();
-                Debug.Log("Level to load is" + levelToLoad);
                 isLevelLoad = true;
             });
     }
@@ -152,7 +151,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         SetupItemsToCollect();
         SetupGame();
         SetupUI();
-        Debug.Log("Level to load is" + levelToLoad);
+        GameUIManager.instance.gameTimer.StartTime();
         isLevelLoad = true;
         
     }
@@ -249,7 +248,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         state = LevelState.Win;
         DisableEndgameGameObjects();
         finishTime = GameUIManager.instance.gameTimer.currentTime;
-        finishMilestone = CalculateMilestone();
+        finishMilestone = Helper.CalculateMilestone(finishTime, milestoneTimes);
         GameEvent.instance.PlayerWin();
     }
 
@@ -267,19 +266,6 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             disableEndgameGameObject.SetActive(false);
         }
-    }
-
-    private int CalculateMilestone()
-    {
-        for (int i = 2; i >= 0; i--)
-        {
-            if (finishTime <= milestoneTimes[i])
-            {
-                return i;
-            }
-        }
-
-        return 0;
     }
 
     public void ResetGame()
@@ -332,5 +318,6 @@ public class LevelManager : MonoSingleton<LevelManager>
         if(state == LevelState.Pause) ResumeGame();
         //LoadLevel(currentLevelID);
         ReloadLevel(levelID);
+        
     }
 }

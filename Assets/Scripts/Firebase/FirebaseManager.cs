@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using TMPro;
 using UnityEngine.UI;
 
@@ -13,22 +14,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
     [Header("Firebase")] public DependencyStatus dependencyStatus;
     public FirebaseAuth auth;
     public FirebaseUser user;
-    public bool isSignedIn = false;
-
-    //Login variables
-    [Header("Login")] public TMP_InputField emailLoginField;
-    public TMP_InputField passwordLoginField;
-    public TMP_Text warningLoginText;
-    public TMP_Text confirmLoginText;
-    public Button loginButton;
-
-    //Register variables
-    [Header("Register")] public TMP_InputField usernameRegisterField;
-    public TMP_InputField emailRegisterField;
-    public TMP_InputField passwordRegisterField;
-    public TMP_InputField passwordRegisterVerifyField;
-    public TMP_Text warningRegisterText;
-    public Button registerButton;
+    public DatabaseReference dbreference;
 
     protected override void InternalInit()
     {

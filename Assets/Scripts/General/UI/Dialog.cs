@@ -46,10 +46,7 @@ public class Dialog : MonoBehaviour
     public void Close()
     {
         isOpen = false;
-        foreach (Button button in buttons)
-        {
-            button.onClick.RemoveAllListeners();
-        }
+        UnbindAllButtons();
         if (DialogSystem.instance) DialogSystem.instance.RemoveTopDialog();
         transform.DOScale(Vector3.zero, closeTime).SetEase(closeEase).OnStart(Outro).OnComplete(() =>
         {
@@ -75,8 +72,16 @@ public class Dialog : MonoBehaviour
             fadeBackground.gameObject.SetActive(false);
         });
     }
-    
+
+    public void UnbindAllButtons()
+    {
+        
+    }
     public virtual void Outro()
     {
+        foreach (Button button in buttons)
+        {
+            button.onClick.RemoveAllListeners();
+        }
     }
 }

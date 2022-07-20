@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerDataManager : MonoSingleton<PlayerDataManager>
 {
-    public int playerID;
+    public int username;
     public int levelIDToLoad;
     public int numberOfLevel;
 
@@ -44,7 +44,7 @@ public class PlayerDataManager : MonoSingleton<PlayerDataManager>
 
     public int GetStarByLevel(int levelID)
     {
-        string key = $"{playerID}/Score/{levelID}";
+        string key = $"{username}/Score/{levelID}";
         string score = SPrefs.GetString(key, "");
 
         if (score == "")
@@ -59,13 +59,13 @@ public class PlayerDataManager : MonoSingleton<PlayerDataManager>
 
     public int GetCurrentLevel()
     {
-        return SPrefs.GetInt($"{playerID}/Data/Progress/CurrentLevel", 0);
+        return SPrefs.GetInt($"{username}/Data/Progress/CurrentLevel", 0);
     }
 
     public void SaveScore(int levelID, float time, int star)
     {
         //to local
-        string key = $"{playerID}/Score/{levelID}";
+        string key = $"{username}/Score/{levelID}";
         string value = $"{time}/{star}";
         SPrefs.SetString(key, value);
 
@@ -75,7 +75,7 @@ public class PlayerDataManager : MonoSingleton<PlayerDataManager>
     public void SaveProgress(int currentLevel)
     {
         //to local
-        string keyCurrentLevel = $"{playerID}/Data/Progress/CurrentLevel";
+        string keyCurrentLevel = $"{username}/Data/Progress/CurrentLevel";
         SPrefs.SetInt(keyCurrentLevel, currentLevel);
 
         //to firebase

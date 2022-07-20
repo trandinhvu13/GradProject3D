@@ -45,7 +45,7 @@ public class WinDialog : Dialog
     {
         float currentFinishTime = LevelManager.instance.finishTime;
 
-        string key = $"{PlayerDataManager.instance.playerID}/Score/{currentFinishTime}";
+        string key = $"{PlayerDataManager.instance.username}/Score/{currentFinishTime}";
         string oldScore = SPrefs.GetString(key, "");
 
         if (oldScore == "")

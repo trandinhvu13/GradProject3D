@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "435155224449",
+    "firebase_url": "https://graduationgame-d3044-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "graduationgame-d3044",
+    "storage_bucket": "graduationgame-d3044.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435155224449:android:ac5a8f6408ed1bf1808a80",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.Stealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435155224449-e4uhg98dhk4pnotul68ugamu8bcc79ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNTnUgA3uLqRob05tgJkY1DvjxQWm6H_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435155224449-e4uhg98dhk4pnotul68ugamu8bcc79ad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

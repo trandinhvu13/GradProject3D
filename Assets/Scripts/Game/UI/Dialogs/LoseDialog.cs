@@ -19,10 +19,7 @@ public class LoseDialog : Dialog
         
         homeButton.onClick.AddListener(() =>
         {
-            SceneController.instance.Load("Menu", () =>
-            {
-                Close();
-            }, null);
+            SceneController.instance.Load("Menu", Close, null);
         });
     }
 

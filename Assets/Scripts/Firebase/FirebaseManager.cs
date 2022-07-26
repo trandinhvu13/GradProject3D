@@ -195,8 +195,36 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         auth.SignOut();
     }
     
-    public void SaveScoreLevel(Score score)
+    public IEnumerator SaveScoreLevel(Score score)
     {
+        string userKey = user.UserId;
+        int levelID = score.levelID;
+        float levelScore = score.score;
+        int star = score.star;
+        
+        var DBTask1 = dbreference.Child("levels").Child(levelID.ToString()).Child(userKey).Child("score").SetValueAsync(levelScore);
+        var DBTask2 = dbreference.Child("levels").Child(levelID.ToString()).Child(userKey).Child("star").SetValueAsync(star);
+        
+        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
+        yield return new WaitUntil(predicate: () => DBTask2.IsCompleted);
+        
+        if (DBTask1.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Done upload score for level {levelID}:{levelScore}");
+        }
+        
+        if (DBTask2.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask2.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Done upload star for level {levelID}:{star} star");
+        }
     }
 
     public Score GetPlayerHighScoreInLevel(int levelID)
@@ -214,18 +242,98 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         return 0;
     }
 
-    public int GetPlayerTotalStar()
+    private IEnumerator GetUserData()
     {
-        return 0;
+        //Get the currently logged in user data
+        var DBTask = dbreference.Child("users").Child(user.UserId).GetValueAsync();
+
+        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+        if (DBTask.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
+        }
+        else if (DBTask.Result.Value == null)
+        {
+            //No data exists yet
+            xpField.text = "0";
+            killsField.text = "0";
+            deathsField.text = "0";
+        }
+        else
+        {
+            //Data has been retrieved
+            DataSnapshot snapshot = DBTask.Result;
+
+            xpField.text = snapshot.Child("xp").Value.ToString();
+            killsField.text = snapshot.Child("kills").Value.ToString();
+            deathsField.text = snapshot.Child("deaths").Value.ToString();
+        }
     }
 
     public List<int> GetPlayerStarForEachLevel(string userKey)
     {
+        
         return new List<int>();
     }
-    public void RegisterUser(string userKey, string username, string email, string currentLevel)
+
+    public IEnumerator UpdateUsernameAuth(string _username)
     {
+        //Create a user profile and set the username
+        UserProfile profile = new UserProfile { DisplayName = _username };
+
+        //Call the Firebase auth update user profile function passing the profile with the username
+        var ProfileTask = user.UpdateUserProfileAsync(profile);
+        //Wait until the task completes
+        yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
+
+        if (ProfileTask.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Done upload user auth {_username}");
+        }        
+    }
+    
+    private IEnumerator UpdateUsersDatabase(string userKey, string username, string email, int currentLevel)
+    {
+        //Set the currently logged in user username in the database user.UserId
+        var DBTask1 = dbreference.Child("users").Child(userKey).Child("username").SetValueAsync(username);
+        var DBTask2 = dbreference.Child("users").Child(userKey).Child("email").SetValueAsync(email);
+        var DBTask3 = dbreference.Child("users").Child(userKey).Child("currentLevel").SetValueAsync(currentLevel);
+
+        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
+        yield return new WaitUntil(predicate: () => DBTask2.IsCompleted);
+        yield return new WaitUntil(predicate: () => DBTask3.IsCompleted);
+
+        if (DBTask1.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Done upload user with username: {username}");
+        }
         
+        if (DBTask2.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask2.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Done upload user with email: {email}");
+        }
+        
+        if (DBTask3.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask3.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Done upload user with current level: {currentLevel}");
+        }
     }
 }
 

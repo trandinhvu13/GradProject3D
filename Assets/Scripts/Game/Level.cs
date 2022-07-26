@@ -18,7 +18,7 @@ public class Level : MonoBehaviour
     public Transform enemyParent;
     public Transform itemsParent; 
     
-    //AstarPathSettings
+    //AstarPathSettings 
     public Vector3 gridGraphCenter;
     public int gridGraphWidth;
     public int gridGraphDepth;

@@ -115,7 +115,6 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void LoadLevel(int levelId)
     {
         currentLevelID = levelId;
-        GroupLoader.Instance.Cleanup();
         GroupLoader.Instance.LoadResources(new List<Resource>
             {
                 new Resource

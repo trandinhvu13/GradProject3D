@@ -81,7 +81,15 @@ public static class Helper
 
         string minString = min.ToString();
         string secString = sec.ToString();
-        string milisecString = (time - (int)time).ToString().Substring(2, 3);
+        string milisecString = (time - (int)time).ToString();
+        if (milisecString.Length >= 2)
+        {
+            milisecString=milisecString.Substring(2, 3);
+        }
+        else
+        {
+            milisecString = "000";
+        }
 
         if (min < 10)
         {

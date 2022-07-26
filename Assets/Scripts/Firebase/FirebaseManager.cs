@@ -51,9 +51,10 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         Debug.Log("Setting up Firebase Auth");
         //Set the authentication instance object
         auth = FirebaseAuth.DefaultInstance;
+        dbreference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
-    public IEnumerator Login(string _email, string _password, LoginDialog loginDialog=null)
+    public IEnumerator Login(string _email, string _password, LoginDialog loginDialog = null)
     {
         Credential credential = EmailAuthProvider.GetCredential(_email, _password);
 
@@ -96,7 +97,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         {
             user = loginTask.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
-            
+
             if (loginDialog != null)
             {
                 StartCoroutine(loginDialog.ShowMessage($"Welcome {user.DisplayName}!"));
@@ -104,7 +105,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         }
     }
 
-    public IEnumerator Register(string _username, string _email, string _password, RegisterDialog registerDialog=null)
+    public IEnumerator Register(string _username, string _email, string _password, RegisterDialog registerDialog = null)
     {
         if (_username == "")
         {
@@ -158,7 +159,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                 {
                     //Create a user profile and set the username
                     UserProfile profile = new UserProfile { DisplayName = _username };
-                    
+
                     var profileTask = user.UpdateUserProfileAsync(profile);
                     yield return new WaitUntil(predicate: () => profileTask.IsCompleted);
 
@@ -192,5 +193,54 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
     public void SignOut()
     {
         auth.SignOut();
+    }
+    
+    public void SaveScoreLevel(Score score)
+    {
+    }
+
+    public Score GetPlayerHighScoreInLevel(int levelID)
+    {
+        return new Score();
+    }
+
+    public List<Score> ReturnLevelTop3(int levelID)
+    {
+        return new List<Score>();
+    }
+
+    public int GetPlayerPos(int levelID)
+    {
+        return 0;
+    }
+
+    public int GetPlayerTotalStar()
+    {
+        return 0;
+    }
+
+    public List<int> GetPlayerStarForEachLevel(string userKey)
+    {
+        return new List<int>();
+    }
+    public void RegisterUser(string userKey, string username, string email, string currentLevel)
+    {
+        
+    }
+}
+
+public class Score
+{
+    public string userKey;
+    public int levelID;
+    public float score;
+    public int star;
+
+    public Score(string userKey = null, int levelID = 0 , float score = 0, int star = 0)
+    {
+        this.userKey = userKey;
+        this.levelID = levelID;
+        this.score = score;
+        this.star = star;
     }
 }

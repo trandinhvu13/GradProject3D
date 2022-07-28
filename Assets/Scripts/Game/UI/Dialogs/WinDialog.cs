@@ -44,11 +44,9 @@ public class WinDialog : Dialog
     private void SetupText()
     {
         float currentFinishTime = LevelManager.instance.finishTime;
+        float oldScore = LevelManager.instance.oldFinishTime;
 
-        string key = $"{PlayerDataManager.instance.username}/Score/{currentFinishTime}";
-        string oldScore = SPrefs.GetString(key, "");
-
-        if (oldScore == "")
+        if (oldScore == 0)
         {
             finishTime.text = $"FINISH TIME: {Helper.ChangeTimeToTextString(currentFinishTime)} (NEW)";
             bestTime.text = $"PERSONAL BEST: {Helper.ChangeTimeToTextString(currentFinishTime)}";
@@ -56,8 +54,7 @@ public class WinDialog : Dialog
         }
         else
         {
-            float oldTime = float.Parse(oldScore.Split("/")[0]);
-            if (currentFinishTime > oldTime)
+            if (currentFinishTime > oldScore)
             {
                 finishTime.text = $"FINISH TIME: {Helper.ChangeTimeToTextString(currentFinishTime)} (NEW)";
                 bestTime.text = $"PERSONAL BEST: {Helper.ChangeTimeToTextString(currentFinishTime)}";
@@ -66,7 +63,7 @@ public class WinDialog : Dialog
             else
             {
                 finishTime.text = $"FINISH TIME: {Helper.ChangeTimeToTextString(currentFinishTime)}";
-                bestTime.text = $"PERSONAL BEST: {Helper.ChangeTimeToTextString(oldTime)}";
+                bestTime.text = $"PERSONAL BEST: {Helper.ChangeTimeToTextString(oldScore)}";
             }
         }
 
@@ -103,7 +100,7 @@ public class WinDialog : Dialog
 
         for (int i = 1; i <= stars.Count; i++)
         {
-            if (i <= LevelManager.instance.finishMilestone-1)
+            if (i <= LevelManager.instance.finishMilestone)
             {
                 stars[i-1].Show(true);
             }

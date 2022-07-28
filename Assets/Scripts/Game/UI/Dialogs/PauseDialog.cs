@@ -35,7 +35,6 @@ public class PauseDialog : Dialog
     public override void Outro()
     {
         base.Outro();
-        GroupLoader.Instance.Cleanup();
         Time.timeScale = 1;
     }
 }

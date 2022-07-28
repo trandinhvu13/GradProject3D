@@ -186,7 +186,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                             StartCoroutine(registerDialog.ShowMessage($"Success!"));
                         }
 
-                        StartCoroutine(UpdateUsername(_username));
+                        StartCoroutine(UpdateUsersDatabase(user.UserId,_username,_email,0));
                     }
                 }
             }
@@ -291,7 +291,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         }
     }
 
-    private IEnumerator GetLevelAllScore(int levelID, Action<DataSnapshot> callback)
+    public IEnumerator GetLevelAllScore(int levelID, Action<DataSnapshot> callback)
     {
         //Get the currently logged in user data
 
@@ -409,21 +409,5 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         {
             Debug.Log($"Done upload user with current level: {currentLevel}");
         }
-    }
-}
-
-public class Score
-{
-    public string userKey;
-    public int levelID;
-    public float score;
-    public int star;
-
-    public Score(string userKey = null, int levelID = 0, float score = 0, int star = 0)
-    {
-        this.userKey = userKey;
-        this.levelID = levelID;
-        this.score = score;
-        this.star = star;
     }
 }

@@ -201,11 +201,12 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
     public IEnumerator SaveUserScoreLevel(Score score)
     {
         string userKey = user.UserId;
+        string username = user.DisplayName;
         int levelID = score.levelID;
         float levelScore = score.score;
         int star = score.star;
 
-        var DBTask1 = dbreference.Child("levels").Child(levelID.ToString()).Child(userKey).SetValueAsync(levelScore);
+        var DBTask1 = dbreference.Child("levels").Child(levelID.ToString()).Child(username).SetValueAsync(levelScore);
         var DBTask2 = dbreference.Child("users").Child(userKey).Child("levelScore").Child(levelID.ToString())
             .Child("score").SetValueAsync(levelScore);
         var DBTask3 = dbreference.Child("users").Child(userKey).Child("levelScore").Child(levelID.ToString())
@@ -295,7 +296,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
     {
         //Get the currently logged in user data
 
-        var DBTask = dbreference.Child("levels").Child(levelID.ToString()).GetValueAsync();
+        var DBTask = dbreference.Child("levels").Child(levelID.ToString()).OrderByValue().GetValueAsync();
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 

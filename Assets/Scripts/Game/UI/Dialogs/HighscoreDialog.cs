@@ -7,7 +7,6 @@ using UnityEngine;
 public class HighscoreDialog : Dialog
 {
     private List<HighscoreItem> highscoreItems;
-
     private void OnEnable()
     {
         Init();
@@ -61,19 +60,5 @@ public class HighscoreDialog : Dialog
     public override void Outro()
     {
         base.Outro();
-    }
-}
-
-public class HighscoreItem
-{
-    public int levelID;
-    public string username;
-    public float time;
-
-    public HighscoreItem(int levelID, string username, float time)
-    {
-        this.levelID = levelID;
-        this.username = username;
-        this.time = time;
     }
 }

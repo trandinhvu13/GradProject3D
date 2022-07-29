@@ -83,6 +83,11 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            DialogSystem.instance.GetDialog("HighscoreDialog").Open(true);
+        }
+
         CheckWin();
     }
 

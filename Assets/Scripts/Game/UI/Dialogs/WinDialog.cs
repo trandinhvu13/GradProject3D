@@ -88,6 +88,11 @@ public class WinDialog : Dialog
             SceneController.instance.Load("Main", () => { Close(); },
                 () => { GameUIManager.instance.gameTimer.StartTime(); });
         });
+        
+        highScoreButton.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("HighscoreDialog").Open();
+        });
     }
 
     IEnumerator ShowAnimation()

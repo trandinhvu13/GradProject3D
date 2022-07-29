@@ -3,27 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using Firebase.Database;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HighscoreDialog : Dialog
 {
+    public Button close;
     private List<HighscoreItem> highscoreItems;
     public GameObject playerInTop3Parent;
     public GameObject playerNotInTop3Parent;
     public List<LeaderboardItem> playerNotInTop3leaderboardItems;
     public List<LeaderboardItem> playerInTop3leaderboardItems;
     public LeaderboardItem playerLeaderboardItem;
-    private void OnEnable()
-    {
-        Init();
-    }
 
     public override void Init()
     {
         base.Init();
+        close.onClick.AddListener(Close);
         playerInTop3Parent.SetActive(false);
         playerNotInTop3Parent.SetActive(false);
-        playerNotInTop3leaderboardItems = new List<LeaderboardItem>();
-        playerInTop3leaderboardItems = new List<LeaderboardItem>();
         highscoreItems = new List<HighscoreItem>();
         StartCoroutine(FirebaseManager.instance.GetLevelAllScore(LevelManager.instance.levelToLoad.id, (snapshot) =>
         {
@@ -40,6 +37,8 @@ public class HighscoreDialog : Dialog
             int userRank = highscoreItems.FindIndex(x => x.username == FirebaseManager.instance.user.DisplayName);
             
             Debug.Log($"User rank is at  {userRank}");
+            Debug.Log(highscoreItems[2].username);
+            Debug.Log(highscoreItems[2].time);
 
             if (userRank <= 2)
             {

@@ -14,13 +14,14 @@ public class LeaderboardItem : MonoBehaviour
 
     public void Setup(int rank, HighscoreItem highscoreItem)
     {
+        Debug.Log("setting up rank "+ rank);
         int finalRank = rank;
         foreach (var image in rankImages)
         {
             image.SetActive(false);
         }
         
-        rankImages[Mathf.Clamp(finalRank,0,2)].SetActive(true);
+        rankImages[Mathf.Clamp(finalRank,0,3)].SetActive(true);
 
         rankAbove3Text.text = $"{rank + 1}";
         name.text = highscoreItem.username;

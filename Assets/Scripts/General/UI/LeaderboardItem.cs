@@ -12,9 +12,9 @@ public class LeaderboardItem : MonoBehaviour
     public TextMeshProUGUI rankAbove3Text;
     public List<GameObject> rankImages;
 
-    public void Setup(int rank, string username, string time)
+    public void Setup(int rank, HighscoreItem highscoreItem)
     {
-        int finalRank = 0;
+        int finalRank = rank;
         foreach (var image in rankImages)
         {
             image.SetActive(false);
@@ -22,9 +22,9 @@ public class LeaderboardItem : MonoBehaviour
         
         rankImages[Mathf.Clamp(finalRank,0,2)].SetActive(true);
 
-        rankAbove3Text.text = $"No. {rank + 1}";
-        name.text = username;
-        this.time.text = time;
+        rankAbove3Text.text = $"{rank + 1}";
+        name.text = highscoreItem.username;
+        time.text = Helper.ChangeTimeToTextString(highscoreItem.time);
     }
     
 }

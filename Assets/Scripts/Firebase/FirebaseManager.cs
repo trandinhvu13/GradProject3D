@@ -186,7 +186,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                             StartCoroutine(registerDialog.ShowMessage($"Success!"));
                         }
 
-                        StartCoroutine(UpdateUsersDatabase(user.UserId,_username,_email,0));
+                        StartCoroutine(UpdateUsersDatabase(user.UserId, _username, _email, 0));
                     }
                 }
             }
@@ -257,22 +257,37 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         }
     }
 
-    public IEnumerator GetUserLevelData(bool isGetByLevelID, int levelID, Action<DataSnapshot> callback)
+    public IEnumerator GetUserLevelData(Action<DataSnapshot> callback)
     {
-        //Get the currently logged in user data
-        Task<DataSnapshot> DBTask;
+        Debug.Log("get all");
+        Task<DataSnapshot> DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore").OrderByKey()
+            .GetValueAsync();
 
-        if (isGetByLevelID)
+        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+        if (DBTask.Exception != null)
         {
-            DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore").Child(levelID.ToString())
-                .GetValueAsync();
+            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
+        }
+        else if (DBTask.Result.Value == null)
+        {
+            callback(null);
         }
         else
         {
-            DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore").OrderByKey().GetValueAsync();
+            //Data has been retrieved
+            DataSnapshot snapshot = DBTask.Result;
+
+            callback(snapshot);
         }
+    }
 
-
+    public IEnumerator GetUserLevelDataByLevel(int levelID, Action<DataSnapshot> callback)
+    {
+        Task<DataSnapshot> DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore")
+            .Child(levelID.ToString())
+            .GetValueAsync();
+        
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
         if (DBTask.Exception != null)
@@ -341,10 +356,12 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
             Debug.Log($"Done upload user auth {_username}");
         }
     }
+
     private IEnumerator UpdateUsername(string username)
     {
         //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("username").SetValueAsync(username);
+        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("username")
+            .SetValueAsync(username);
 
         yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
 
@@ -357,11 +374,12 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
             Debug.Log($"Done upload user with username: {username}");
         }
     }
-    
+
     private IEnumerator UpdateCurrentLevel(int levelID)
     {
         //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("currentLevel").SetValueAsync(levelID);
+        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("currentLevel")
+            .SetValueAsync(levelID);
 
         yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
 
@@ -378,11 +396,13 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
     private IEnumerator UpdateUsersDatabase(string userKey, string username, string email, int currentLevel)
     {
         //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("username").SetValueAsync(username);
+        var DBTask1 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("username")
+            .SetValueAsync(username);
         var DBTask2 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("email").SetValueAsync(email);
-        var DBTask3 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("currentLevel").SetValueAsync(currentLevel);
+        var DBTask3 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("currentLevel")
+            .SetValueAsync(currentLevel);
 
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted&&DBTask2.IsCompleted&&DBTask3.IsCompleted);
+        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted && DBTask2.IsCompleted && DBTask3.IsCompleted);
 
         if (DBTask1.Exception != null)
         {

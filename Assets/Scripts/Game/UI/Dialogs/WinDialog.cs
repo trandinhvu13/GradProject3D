@@ -34,13 +34,6 @@ public class WinDialog : Dialog
         base.Outro();
     }
 
-    private void SaveNewScore()
-    {
-        PlayerDataManager.instance.SaveScore(LevelManager.instance.currentLevelID, LevelManager.instance.finishTime,
-            LevelManager.instance.finishMilestone);
-        PlayerDataManager.instance.SaveProgress(PlayerDataManager.instance.GetCurrentLevel() + 1);
-    }
-
     private void SetupText()
     {
         float currentFinishTime = LevelManager.instance.finishTime;
@@ -50,15 +43,13 @@ public class WinDialog : Dialog
         {
             finishTime.text = $"FINISH TIME: {Helper.ChangeTimeToTextString(currentFinishTime)} (NEW)";
             bestTime.text = $"PERSONAL BEST: {Helper.ChangeTimeToTextString(currentFinishTime)}";
-            SaveNewScore();
         }
         else
         {
-            if (currentFinishTime > oldScore)
+            if (currentFinishTime < oldScore)
             {
                 finishTime.text = $"FINISH TIME: {Helper.ChangeTimeToTextString(currentFinishTime)} (NEW)";
                 bestTime.text = $"PERSONAL BEST: {Helper.ChangeTimeToTextString(currentFinishTime)}";
-                SaveNewScore();
             }
             else
             {

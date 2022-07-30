@@ -106,9 +106,9 @@ public static class Helper
     
     public static int CalculateMilestone(float time, List<float> milestoneTimes)
     {
-        for (int i = 3; i > 0; i--)
+        for (int i = 2; i >= 0; i--)
         {
-            if (time <= milestoneTimes[i-1])
+            if (time <= milestoneTimes[i])
             {
                 return i;
             }

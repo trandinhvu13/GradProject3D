@@ -22,28 +22,29 @@ public class Stage : MonoBehaviour
         lockedState.SetActive(false);
     }
 
-    public void Setup(StageDialog stageDialog, int levelID, int currentLevel)
+    public void Setup(StageDialog stageDialog, StageData stageData, int currentLevel)
     {
+        int id = stageData.levelID;
         foreach (TextMeshProUGUI levelText in levelTexts)
         {
-            levelText.text = (levelID + 1).ToString();
+            levelText.text = (id + 1).ToString();
         }
 
-        if (levelID < currentLevel)
+        if (id < currentLevel)
         {
             completeState.SetActive(true);
 
-            int star = PlayerDataManager.instance.GetStarByLevel(levelID);
+            int star = stageData.star;
 
-            for (int i = 1; i <= stars.Count; i++)
+            for (int i = 0; i < stars.Count; i++)
             {
                 if (i > star)
                 {
-                    stars[i-1].SetActive(false);
+                    stars[i].SetActive(false);
                 }
             }
         }
-        else if (levelID == currentLevel)
+        else if (id == currentLevel)
         {
             currentState.SetActive(true);
         }
@@ -52,11 +53,11 @@ public class Stage : MonoBehaviour
             lockedState.SetActive(true);
         }
 
-        if (levelID <= currentLevel)
+        if (id <= currentLevel)
         {
             playButton.onClick.AddListener(() =>
             {
-                PlayerDataManager.instance.levelIDToLoad = levelID;
+                PlayerDataManager.instance.levelIDToLoad = id;
                 SceneController.instance.Load("Main", () => { stageDialog.Close(); },
                     () => { GameUIManager.instance.gameTimer.StartTime(); });
             });

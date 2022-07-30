@@ -8,6 +8,8 @@ public class PlayerDataManager : MonoSingleton<PlayerDataManager>
     public int username;
     public int levelIDToLoad;
     public int numberOfLevel;
+    public int currentLevel;
+    public int currentStar;
 
     protected override void InternalInit()
     {
@@ -27,13 +29,6 @@ public class PlayerDataManager : MonoSingleton<PlayerDataManager>
 
     public int GetCurrentStar()
     {
-        int currentStar = 0;
-
-        for (int i = 0; i < numberOfLevel; i++)
-        {
-            currentStar += GetStarByLevel(i);
-        }
-
         return currentStar;
     }
 
@@ -59,7 +54,7 @@ public class PlayerDataManager : MonoSingleton<PlayerDataManager>
 
     public int GetCurrentLevel()
     {
-        return SPrefs.GetInt($"{username}/Data/Progress/CurrentLevel", 0);
+        return currentLevel;
     }
 
     public void SaveScore(int levelID, float time, int star)

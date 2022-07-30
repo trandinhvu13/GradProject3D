@@ -148,10 +148,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void ReloadLevel(int levelID)
     {
-        
         LoadingResource loadedLevel = GroupLoader.Instance.GetResource($"Levels/Level{levelID}") as LoadingResource;
-        Debug.Log(loadedLevel);
-        Debug.Log(loadedLevel.Result);
         GameObject gameObjectToLoad = loadedLevel.Result as GameObject;
         levelToLoad = Instantiate(gameObjectToLoad, levelTransformPos).GetComponent<Level>();
         SetupAstar();
@@ -162,7 +159,6 @@ public class LevelManager : MonoSingleton<LevelManager>
         SetupUI();
         GameUIManager.instance.gameTimer.StartTime();
         isLevelLoad = true;
-        
     }
 
     private void SetupAstar()
@@ -207,14 +203,14 @@ public class LevelManager : MonoSingleton<LevelManager>
         numOfItemsToCollect = levelToLoad.itemsToCollect.Count;
         currentItemsAmount = 0;
 
-        StartCoroutine(FirebaseManager.instance.GetUserLevelData(true, levelToLoad.id, (snapshot) =>
+        StartCoroutine(FirebaseManager.instance.GetUserLevelDataByLevel(levelToLoad.id, (snapshot) =>
         {
             oldFinishTime = 0;
-            if (snapshot!=null)
+            if (snapshot != null)
             {
                 oldFinishTime = float.Parse(snapshot.Child("score").Value.ToString());
             }
-            Debug.Log(oldFinishTime);
+            
         }));
         //TEST Dialog
     }
@@ -268,8 +264,13 @@ public class LevelManager : MonoSingleton<LevelManager>
         DisableEndgameGameObjects();
         finishTime = GameUIManager.instance.gameTimer.currentTime;
         finishMilestone = Helper.CalculateMilestone(finishTime, milestoneTimes);
-        Score levelScore = new Score(FirebaseManager.instance.user.UserId, levelToLoad.id,finishTime,finishMilestone);
-        StartCoroutine(FirebaseManager.instance.SaveUserScoreLevel(levelScore));
+        if (oldFinishTime == 0 || oldFinishTime > finishTime)
+        {
+            Score levelScore = new Score(FirebaseManager.instance.user.UserId, levelToLoad.id, finishTime,
+                finishMilestone);
+            StartCoroutine(FirebaseManager.instance.SaveUserScoreLevel(levelScore));
+        }
+
         GameEvent.instance.PlayerWin();
     }
 
@@ -308,7 +309,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                 cinemachineTargetGroup.m_Targets[i] = blank;
             }
         }
-        
+
         GameEvent.instance.HideIndicator();
     }
 
@@ -335,7 +336,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         //GroupLoader.Instance.Cleanup();
         Destroy(levelToLoad.gameObject);
         ResetGame();
-        if(state == LevelState.Pause) ResumeGame();
+        if (state == LevelState.Pause) ResumeGame();
         //LoadLevel(currentLevelID);
         ReloadLevel(levelID);
     }

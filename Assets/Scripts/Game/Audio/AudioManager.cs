@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class AudioManager : MonoSingleton<AudioManager>
@@ -125,6 +126,16 @@ public class AudioManager : MonoSingleton<AudioManager>
         {
             effectSource.volume = amount;
         }
+    }
+
+    public void FadeInMusic()
+    {
+        MusicSource.DOFade(1, 0.5f).SetUpdate(UpdateType.Normal,true);
+    }
+
+    public void FadeOutMusic()
+    {
+        MusicSource.DOFade(0, 0.5f).SetUpdate(UpdateType.Normal,true);
     }
     #endregion
 

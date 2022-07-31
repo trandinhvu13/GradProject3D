@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Main
 {
@@ -47,6 +48,7 @@ namespace Main
         {
             Debug.Log("load scene");
             // trigger the transition screen
+            AudioManager.instance.FadeOutMusic();
             transitionScreen.Intro(() => { actionIntro?.Invoke(); });
             yield return new WaitForSecondsRealtime(transitionScreen.GetTweenTime() + 1f);
 
@@ -70,6 +72,8 @@ namespace Main
 
                     if (scene == "Main")
                     {
+                        int rand = Random.Range(1, 4);
+                        AudioManager.instance.PlayMusic("GameScreen" + rand);
                     }
                     else if (scene == "Login")
                     {
@@ -77,7 +81,10 @@ namespace Main
                     }
                     else if (scene == "Menu")
                     {
+                        AudioManager.instance.PlayMusic("MenuScreen");
                     }
+
+                    AudioManager.instance.FadeInMusic();
                 }
 
                 yield return null;

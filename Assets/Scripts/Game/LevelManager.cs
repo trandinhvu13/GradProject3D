@@ -226,6 +226,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void CollectItem(int id)
     {
         currentItemsAmount++;
+        AudioManager.instance.PlayEffect("CollectItem");
         levelToLoad.itemsToCollect[id].isCollected = true;
         if (currentItemsAmount >= numOfItemsToCollect)
         {
@@ -261,7 +262,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         if (state == LevelState.Win) return;
         state = LevelState.Win;
-        DisableEndgameGameObjects();
+        AudioManager.instance.FadeOutMusic();
+        AudioManager.instance.PlayEffect("Win");
         finishTime = GameUIManager.instance.gameTimer.currentTime;
         finishMilestone = Helper.CalculateMilestone(finishTime, milestoneTimes);
         if (oldFinishTime == 0 || oldFinishTime > finishTime)
@@ -278,6 +280,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         if (state == LevelState.Lose) return;
         state = LevelState.Lose;
+        AudioManager.instance.FadeOutMusic();
+        AudioManager.instance.PlayEffect("Lose");
         DisableEndgameGameObjects();
         GameEvent.instance.PlayerLose();
     }
@@ -309,7 +313,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                 cinemachineTargetGroup.m_Targets[i] = blank;
             }
         }
-
+        AudioManager.instance.FadeInMusic();
         GameEvent.instance.HideIndicator();
     }
 
@@ -317,7 +321,9 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         if (state == LevelState.Pause) return;
         state = LevelState.Pause;
+        AudioManager.instance.FadeOutMusic();
         Time.timeScale = 0;
+        Cursor.visible = true;
         cinemachineTargetGroup.gameObject.SetActive(false);
         DialogSystem.instance.GetDialog("PauseDialog").Open(true);
     }
@@ -325,6 +331,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void ResumeGame()
     {
         state = LevelState.Normal;
+        AudioManager.instance.FadeInMusic();
         Cursor.visible = false;
         Time.timeScale = 1;
         cinemachineTargetGroup.gameObject.SetActive(true);

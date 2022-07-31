@@ -55,6 +55,8 @@ public class LoginDialog : Dialog
 
     private void ForgotPassword()
     {
+        Close();
+        DialogSystem.instance.GetDialog("ResetPasswordDialog").Open(true);
     }
 
     public IEnumerator ShowError(string text)

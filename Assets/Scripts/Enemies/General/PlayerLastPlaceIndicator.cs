@@ -35,6 +35,7 @@ public class PlayerLastPlaceIndicator : MonoBehaviour
         isShow = true;
         transform.parent = null;
         transform.position = pos;
+        AudioManager.instance.PlayEffect("DetectPlayer");
         indicator.DOFade(1, 0);
         transform.DOScale(scaleUpAmount, 0);
     }

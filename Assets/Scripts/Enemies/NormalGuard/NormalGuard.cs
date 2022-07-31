@@ -113,6 +113,7 @@ public class NormalGuard : AIPath
 
     public void OnHearPlayer()
     {
+        Debug.Log("Still hear player");
         if (normalGuardStateMachine.GetCurrentState() == normalGuardStateMachine.patrolState)
         {
             normalGuardStateMachine.patrolState.OnHearPlayer();

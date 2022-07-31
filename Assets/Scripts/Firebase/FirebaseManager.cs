@@ -6,6 +6,7 @@ using UnityEngine;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Extensions;
 using TMPro;
 using UnityEngine.UI;
 
@@ -430,5 +431,23 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         {
             Debug.Log($"Done upload user with current level: {currentLevel}");
         }
+    }
+    
+    public void SendResetPassword(string _email, ResetPasswordDialog resetPasswordDialog = null)
+    {
+        auth.SendPasswordResetEmailAsync(_email).ContinueWithOnMainThread(task => {
+                if (task.IsCanceled) {
+                    Debug.LogError("SendPasswordResetEmailAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted) {
+                    Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+                    StartCoroutine(resetPasswordDialog.ShowError("Email is wrong, please try again"));
+                    return;
+                }
+
+                Debug.Log("Password reset email sent successfully.");
+                StartCoroutine(resetPasswordDialog.ShowMessage("Please check your mail!"));
+            });
     }
 }

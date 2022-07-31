@@ -21,5 +21,15 @@ public class MenuButtons : MonoBehaviour
         {
             DialogSystem.instance.GetDialog("StageDialog").Open();
         });
+        
+        setting.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("SettingDialog").Open();
+        });
+        
+        exit.onClick.AddListener(() =>
+        {
+            Application.Quit();
+        });
     }
 }

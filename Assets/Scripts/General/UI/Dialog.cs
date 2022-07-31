@@ -32,7 +32,7 @@ public class Dialog : MonoBehaviour
         if(DialogSystem.instance) DialogSystem.instance.AddDialog(this);
         Init();
         transform.DOScale(new Vector3(1, 1, 1), openTime).SetEase(openEase).OnComplete(Intro).SetUpdate(true);
-        
+        AudioManager.instance.PlayEffect("DialogOpen");
         if (isHaveBackground)
         {
             FadeInBackground();
@@ -52,7 +52,7 @@ public class Dialog : MonoBehaviour
         {
             transform.gameObject.SetActive(false);
         }).SetUpdate(true);
-        
+        AudioManager.instance.PlayEffect("DialogClose");
         if (isHaveBackground)
         {
             FadeOutBackground();

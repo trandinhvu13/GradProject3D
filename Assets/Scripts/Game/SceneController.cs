@@ -19,10 +19,7 @@ namespace Main
 
         protected override void InternalInit()
         {
-            /*testButton.onClick.AddListener(() =>
-            {
-                Load("Main", null, () => { GameUIManager.instance.gameTimer.StartTime(); });
-            });*/
+            AudioManager.instance.PlayMusic("LoginScreen");
         }
 
         protected override void InternalOnDestroy()
@@ -68,7 +65,19 @@ namespace Main
                         yield return new WaitUntil(() => LevelManager.instance);
                         yield return new WaitUntil(() => LevelManager.instance.isLevelLoad);
                     }
+
                     transitionScreen.Outro(() => { actionOutro?.Invoke(); });
+
+                    if (scene == "Main")
+                    {
+                    }
+                    else if (scene == "Login")
+                    {
+                        AudioManager.instance.PlayMusic("LoginScreen");
+                    }
+                    else if (scene == "Menu")
+                    {
+                    }
                 }
 
                 yield return null;

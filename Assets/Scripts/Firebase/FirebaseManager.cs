@@ -288,7 +288,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         Task<DataSnapshot> DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore")
             .Child(levelID.ToString())
             .GetValueAsync();
-        
+
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
         if (DBTask.Exception != null)
@@ -432,22 +432,74 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
             Debug.Log($"Done upload user with current level: {currentLevel}");
         }
     }
-    
+
     public void SendResetPassword(string _email, ResetPasswordDialog resetPasswordDialog = null)
     {
-        auth.SendPasswordResetEmailAsync(_email).ContinueWithOnMainThread(task => {
-                if (task.IsCanceled) {
-                    Debug.LogError("SendPasswordResetEmailAsync was canceled.");
-                    return;
-                }
-                if (task.IsFaulted) {
-                    Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
-                    StartCoroutine(resetPasswordDialog.ShowError("Email is wrong, please try again"));
+        auth.SendPasswordResetEmailAsync(_email).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SendPasswordResetEmailAsync was canceled.");
+                return;
+            }
+
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+                StartCoroutine(resetPasswordDialog.ShowError("Email is wrong, please try again"));
+                return;
+            }
+
+            Debug.Log("Password reset email sent successfully.");
+            StartCoroutine(resetPasswordDialog.ShowMessage("Please check your mail!"));
+        });
+    }
+
+    public void UpdateEmail(string email, Action callback = null)
+    {
+        if (user != null)
+        {
+            user.UpdateEmailAsync(email).ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("UpdateEmailAsync was canceled.");
                     return;
                 }
 
-                Debug.Log("Password reset email sent successfully.");
-                StartCoroutine(resetPasswordDialog.ShowMessage("Please check your mail!"));
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("UpdateEmailAsync encountered an error: " + task.Exception);
+                    return;
+                }
+
+                Debug.Log("User email updated successfully.");
+                callback?.Invoke();
             });
+        }
+    }
+
+    public void UpdatePassword(string newPassword, Action callback = null)
+    {
+        if (user != null)
+        {
+            user.UpdatePasswordAsync(newPassword).ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("UpdatePasswordAsync was canceled.");
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("UpdatePasswordAsync encountered an error: " + task.Exception);
+                    return;
+                }
+
+                Debug.Log("Password updated successfully.");
+                callback?.Invoke();
+            });
+        }
     }
 }

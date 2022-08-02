@@ -648,6 +648,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219a63974bce6594b834042ab81f8c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &43238263
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shapes2D Material
+  m_Shader: {fileID: 4800000, guid: 44f74e30da9814584b2fdcdbe799e51a, type: 3}
+  m_ValidKeywords:
+  - FILL_SOLID_COLOR
+  - SIMPLE_ELLIPSE
+  m_InvalidKeywords:
+  - _EMISSION
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _Shapes2D_DstAlpha: 1
+    - _Shapes2D_DstBlend: 10
+    - _Shapes2D_SrcAlpha: 1
+    - _Shapes2D_SrcBlend: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &52963596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,7 +1641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -168.17389}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 838, y: 507.6522}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &103146140
@@ -1588,9 +1679,9 @@ RectTransform:
   m_Father: {fileID: 4511187948759024569}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411.29816, y: -244.14078}
   m_SizeDelta: {x: 396.77307, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &103146142
@@ -2335,7 +2426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Login
+  m_text: Send
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
   m_sharedMaterial: {fileID: 5416806443266638455, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
@@ -3332,97 +3423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219a63974bce6594b834042ab81f8c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &303400371
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Shapes2D Material
-  m_Shader: {fileID: 4800000, guid: 44f74e30da9814584b2fdcdbe799e51a, type: 3}
-  m_ValidKeywords:
-  - FILL_SOLID_COLOR
-  - SIMPLE_ELLIPSE
-  m_InvalidKeywords:
-  - _EMISSION
-  m_LightmapFlags: 1
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _Shapes2D_DstAlpha: 1
-    - _Shapes2D_DstBlend: 10
-    - _Shapes2D_SrcAlpha: 1
-    - _Shapes2D_SrcBlend: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &319822670
 GameObject:
   m_ObjectHideFlags: 0
@@ -4080,9 +4080,9 @@ RectTransform:
   m_Father: {fileID: 4511187948759024569}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411.29816, y: -569.6618}
   m_SizeDelta: {x: 396.77307, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &371784319
@@ -4419,7 +4419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 303400371}
+  m_Material: {fileID: 43238263}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -5230,6 +5230,7 @@ GameObject:
   - component: {fileID: 477688578}
   - component: {fileID: 477688580}
   - component: {fileID: 477688579}
+  - component: {fileID: 477688581}
   m_Layer: 5
   m_Name: LogoutConfirm
   m_TagString: Untagged
@@ -5297,6 +5298,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477688577}
   m_CullTransparentMesh: 0
+--- !u!114 &477688581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477688577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 554af9a0831df824b9dfef0b9b2b77df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: LogoutConfirmDialog
+  openTime: 0.2
+  openEase: 27
+  closeTime: 0.2
+  closeEase: 5
+  isOpen: 0
+  fadeBackground: {fileID: 1057264539}
+  isHaveBackground: 0
+  canvas: {fileID: 1592275996}
+  buttons:
+  - {fileID: 1962599597}
+  - {fileID: 1698714574}
+  yes: {fileID: 1698714574}
+  no: {fileID: 1962599597}
 --- !u!1 &477939765
 GameObject:
   m_ObjectHideFlags: 0
@@ -6756,7 +6783,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1 &576940659
 GameObject:
@@ -6895,6 +6922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 583061821}
+  - component: {fileID: 583061822}
   m_Layer: 5
   m_Name: HomeScene_Popup_Update_Password
   m_TagString: Untagged
@@ -6923,6 +6951,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &583061822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583061820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbb7e5635289f84b853965cf596819a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: UpdatePasswordDialog
+  openTime: 0.2
+  openEase: 27
+  closeTime: 0.2
+  closeEase: 5
+  isOpen: 0
+  fadeBackground: {fileID: 1807118208}
+  isHaveBackground: 0
+  canvas: {fileID: 1827231399}
+  buttons:
+  - {fileID: 411525421}
+  - {fileID: 1295282905}
+  input: {fileID: 1194538601}
+  updateButton: {fileID: 1295282905}
+  closeButton: {fileID: 411525421}
 --- !u!1 &584014012
 GameObject:
   m_ObjectHideFlags: 0
@@ -6932,6 +6987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 584014013}
+  - component: {fileID: 584014014}
   m_Layer: 5
   m_Name: HomeScene_Popup_Update_Email
   m_TagString: Untagged
@@ -6960,6 +7016,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &584014014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584014012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b989ccc8c5641574f8cea537dbea1129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: UpdateEmailDialog
+  openTime: 0.2
+  openEase: 27
+  closeTime: 0.2
+  closeEase: 5
+  isOpen: 0
+  fadeBackground: {fileID: 1192889706}
+  isHaveBackground: 0
+  canvas: {fileID: 1232096751}
+  buttons:
+  - {fileID: 1389292119}
+  - {fileID: 961796938}
+  closeButton: {fileID: 1389292119}
+  updateButton: {fileID: 961796938}
+  input: {fileID: 1508617746}
+  currentEmail: {fileID: 843546163}
 --- !u!1 &593214642
 GameObject:
   m_ObjectHideFlags: 0
@@ -7241,10 +7325,10 @@ RectTransform:
   m_Father: {fileID: 4511187949147638123}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 450.06183, y: -120.3537}
+  m_SizeDelta: {x: 900.12366, y: 240.7074}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &612831367
 MonoBehaviour:
@@ -10867,8 +10951,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 419.3446, y: 402.48}
-  m_SizeDelta: {x: 593.4991, y: 119.4}
+  m_AnchoredPosition: {x: 419.3446, y: 393.34952}
+  m_SizeDelta: {x: 593.4991, y: 151.139}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &843546163
 MonoBehaviour:
@@ -10890,7 +10974,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Current mail: xxxxxxxx@gmail.com'
+  m_text: 'Current mail:
+
+    xxxxxxxx@gmail.com'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
   m_sharedMaterial: {fileID: 5416806443266638455, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
@@ -12620,7 +12706,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -152}
+  m_AnchoredPosition: {x: 0, y: -172}
   m_SizeDelta: {x: 616, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &961796938
@@ -16877,7 +16963,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1 &1234559349
 GameObject:
@@ -17843,7 +17929,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -240}
+  m_AnchoredPosition: {x: 0, y: -265}
   m_SizeDelta: {x: 624.0001, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1257913837
@@ -20198,7 +20284,7 @@ GameObject:
   - component: {fileID: 1415902094}
   - component: {fileID: 1415902093}
   m_Layer: 5
-  m_Name: DeleteAcountConfirmDialog
+  m_Name: DeleteAccountConfirmDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20285,7 +20371,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1 &1418379773
 GameObject:
@@ -23707,6 +23793,11 @@ MonoBehaviour:
   - {fileID: 5470781952957596507}
   - {fileID: 4511187949471322244}
   - {fileID: 553322221}
+  - {fileID: 584014014}
+  - {fileID: 1882889142}
+  - {fileID: 583061822}
+  - {fileID: 7246290952251933742}
+  - {fileID: 477688581}
 --- !u!4 &1584127461
 Transform:
   m_ObjectHideFlags: 0
@@ -23838,7 +23929,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1001 &1605026967
 PrefabInstance:
@@ -26833,7 +26924,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1001 &1835033050
 PrefabInstance:
@@ -27417,9 +27508,9 @@ RectTransform:
   m_Father: {fileID: 4511187948759024569}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411.29816, y: -406.90128}
   m_SizeDelta: {x: 396.77307, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1873752385
@@ -27513,6 +27604,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1882889141}
+  - component: {fileID: 1882889142}
   m_Layer: 5
   m_Name: HomeScene_Popup_Update_Username
   m_TagString: Untagged
@@ -27541,6 +27633,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1882889142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882889140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f92def530f60d9b4aaf9c3767a329db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: UpdateUsernameDialog
+  openTime: 0.2
+  openEase: 27
+  closeTime: 0.2
+  closeEase: 5
+  isOpen: 0
+  fadeBackground: {fileID: 109354710}
+  isHaveBackground: 0
+  canvas: {fileID: 555670331}
+  buttons:
+  - {fileID: 468129090}
+  - {fileID: 614042790}
+  closeButton: {fileID: 468129090}
+  updateButton: {fileID: 614042790}
+  input: {fileID: 1901595247}
+  currentUsername: {fileID: 1683793942}
 --- !u!1001 &1899051051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53740,7 +53860,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.486, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -54171,7 +54291,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -54554,9 +54674,9 @@ RectTransform:
   m_Father: {fileID: 4511187948759024569}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411.29816, y: -81.38026}
   m_SizeDelta: {x: 396.77307, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4511187948483440631
@@ -54849,10 +54969,10 @@ RectTransform:
   m_Father: {fileID: 4511187949147638123}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 450.06183, y: -601.7685}
+  m_SizeDelta: {x: 900.12366, y: 240.7074}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4511187948631570332
 CanvasRenderer:
@@ -55024,10 +55144,10 @@ RectTransform:
   m_Father: {fileID: 4511187948471621477}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411.29816, y: -325.52103}
+  m_SizeDelta: {x: 822.5963, y: 651.04205}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4511187948759024570
 MonoBehaviour:
@@ -55527,10 +55647,10 @@ RectTransform:
   m_Father: {fileID: 4511187949147638123}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 450.06183, y: -361.0611}
+  m_SizeDelta: {x: 900.12366, y: 240.7074}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4511187949094129878
 CanvasRenderer:
@@ -56164,7 +56284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4511187949471322244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56191,8 +56311,12 @@ MonoBehaviour:
   - {fileID: 4511187948483440631}
   - {fileID: 371784319}
   - {fileID: 4511187949766940083}
+  - {fileID: 103146142}
+  - {fileID: 1873752385}
   backButton: {fileID: 2616077241503023190}
   changeUsernameButton: {fileID: 4511187948483440631}
+  changeEmailButton: {fileID: 103146142}
+  changePasswordButton: {fileID: 1873752385}
   deleteAccountButton: {fileID: 371784319}
   signOutButton: {fileID: 4511187949766940083}
   fullscreenToggle: {fileID: 793107666}
@@ -56872,6 +56996,7 @@ GameObject:
   - component: {fileID: 7246290952251933715}
   - component: {fileID: 7246290952251933741}
   - component: {fileID: 7246290952251933740}
+  - component: {fileID: 7246290952251933742}
   m_Layer: 5
   m_Name: DeleteConfirm
   m_TagString: Untagged
@@ -56939,6 +57064,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7246290952251933714}
   m_CullTransparentMesh: 0
+--- !u!114 &7246290952251933742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7246290952251933714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fef4d36406b2ac4a9236dfac69f195c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: DeleteAccountConfirmDialog
+  openTime: 0.2
+  openEase: 27
+  closeTime: 0.2
+  closeEase: 5
+  isOpen: 0
+  fadeBackground: {fileID: 1268684019}
+  isHaveBackground: 0
+  canvas: {fileID: 1415902095}
+  buttons:
+  - {fileID: 1223601547}
+  - {fileID: 1287307721}
+  yes: {fileID: 1287307721}
+  no: {fileID: 1223601547}
 --- !u!114 &7246290952907531504
 MonoBehaviour:
   m_ObjectHideFlags: 0

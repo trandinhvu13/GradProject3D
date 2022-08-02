@@ -21,7 +21,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
     protected override void InternalInit()
     {
         //Check that all of the necessary dependencies for Firebase are present on the system
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
@@ -358,7 +358,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         }
     }
 
-    private IEnumerator UpdateUsername(string username)
+    public IEnumerator UpdateUsername(string username, Action callback)
     {
         //Set the currently logged in user username in the database user.UserId
         var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("username")
@@ -373,6 +373,25 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         else
         {
             Debug.Log($"Done upload user with username: {username}");
+            callback();
+        }
+    }
+    
+    public IEnumerator UpdateEmailDatabase(string email)
+    {
+        //Set the currently logged in user username in the database user.UserId
+        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("email")
+            .SetValueAsync(email);
+
+        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
+
+        if (DBTask1.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Done upload email with email: {email}");
         }
     }
 
@@ -459,7 +478,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
     {
         if (user != null)
         {
-            user.UpdateEmailAsync(email).ContinueWith(task =>
+            user.UpdateEmailAsync(email).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCanceled)
                 {
@@ -474,16 +493,16 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                 }
 
                 Debug.Log("User email updated successfully.");
-                callback?.Invoke();
+                if (callback != null) callback();
             });
         }
     }
 
-    public void UpdatePassword(string newPassword, Action callback = null)
+    public void UpdatePassword(string newPassword, Action callback)
     {
         if (user != null)
         {
-            user.UpdatePasswordAsync(newPassword).ContinueWith(task =>
+            user.UpdatePasswordAsync(newPassword).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCanceled)
                 {
@@ -497,9 +516,48 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                     return;
                 }
 
-                Debug.Log("Password updated successfully.");
-                callback?.Invoke();
+                //Debug.Log("Password updated successfully.");
+                callback();
             });
+        }
+    }
+
+    public void DeleteAccount(Action callback)
+    {
+        if (user != null)
+        {
+            string userKey = user.UserId;
+            user.DeleteAsync().ContinueWithOnMainThread(task => {
+                if (task.IsCanceled) {
+                    Debug.LogError("DeleteAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted) {
+                    Debug.LogError("DeleteAsync encountered an error: " + task.Exception);
+                    return;
+                }
+
+                StartCoroutine(DeleteUserInDatabase(userKey));
+                callback();
+                Debug.Log("User deleted successfully.");
+            });
+        }
+    }
+    
+    private IEnumerator DeleteUserInDatabase(string userKey)
+    {
+        //Set the currently logged in user username in the database user.UserId
+        var DBTask1 = dbreference.Child("users").Child(userKey).RemoveValueAsync();
+
+        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted) ;
+
+        if (DBTask1.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
+        }
+        else
+        {
+            Debug.Log($"Deleted user with key {userKey}");
         }
     }
 }

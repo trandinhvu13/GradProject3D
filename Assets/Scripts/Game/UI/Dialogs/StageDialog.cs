@@ -34,10 +34,11 @@ public class StageDialog : Dialog
                     stageDatas.Add(new StageData(level, star));
                     level++;
                 }
-                
+
                 for (int i = 0; i < stages.Count; i++)
                 {
                     if (i <= PlayerDataManager.instance.numberOfLevel - 1)
+                    {
                         if (i < stageDatas.Count)
                         {
                             stages[i].Setup(this, stageDatas[i], currentLevel);
@@ -46,7 +47,21 @@ public class StageDialog : Dialog
                         {
                             stages[i].Setup(this, new StageData(i, 0), currentLevel);
                         }
-
+                    }
+                    else
+                    {
+                        stages[i].gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < stages.Count; i++)
+                {
+                    if (i <= PlayerDataManager.instance.numberOfLevel - 1)
+                    {
+                        stages[i].Setup(this, new StageData(i, 0), currentLevel);
+                    }
                     else
                     {
                         stages[i].gameObject.SetActive(false);
@@ -54,7 +69,6 @@ public class StageDialog : Dialog
                 }
             }
         }));
-
     }
 
     public override void Outro()

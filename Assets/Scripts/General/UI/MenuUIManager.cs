@@ -29,21 +29,22 @@ public class MenuUIManager : MonoSingleton<MenuUIManager>
     {
         StartCoroutine(FirebaseManager.instance.GetUserLevelData((snapshot) =>
         {
-            int childrenCount = snapshot.Children.Count();
-            PlayerDataManager.instance.currentLevel = childrenCount;
+            int childrenCount = 0;
 
             int currentStar = 0;
             int level = 0;
 
             if (snapshot != null)
             {
+                childrenCount = snapshot.Children.Count();
                 foreach (DataSnapshot childSnapshot in snapshot.Children)
                 {
                     currentStar += int.Parse(childSnapshot.Child("star").Value.ToString()) + 1;
                     level++;
                 }
             }
-
+            
+            PlayerDataManager.instance.currentLevel = childrenCount;
             PlayerDataManager.instance.currentStar = currentStar;
         }));
     }

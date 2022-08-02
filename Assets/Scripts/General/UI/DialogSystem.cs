@@ -5,11 +5,9 @@ using UnityEngine;
 public class DialogSystem : MonoSingleton<DialogSystem>
 {
     public List<Dialog> gameDialogs;
-    private Stack<Dialog> currentDialogs;
-    
+
     protected override void InternalInit()
     {
-        currentDialogs = new Stack<Dialog>();
     }
 
     protected override void InternalOnDestroy()
@@ -29,30 +27,15 @@ public class DialogSystem : MonoSingleton<DialogSystem>
         return gameDialogs.Find(x => x.id == id);
     }
 
-    public void AddDialog(Dialog newDialog)
+    public void CloseAllOpenedDialogs()
     {
-        currentDialogs.Push(newDialog);
-
-        int dialogsCount = currentDialogs.Count;
-        if (dialogsCount>0)
+        foreach (Dialog currentDialog in gameDialogs)
         {
-            foreach (Dialog dialog in currentDialogs)
+            if (currentDialog.isOpen)
             {
-                dialog.canvas.sortingOrder = 2 + dialogsCount;
-                dialogsCount--;
+                currentDialog.Close();
             }
         }
     }
 
-    public void CloseTopDialog()
-    {
-        currentDialogs.Peek().Close();
-    }
-    
-    public void RemoveTopDialog()
-    {
-        if (currentDialogs.Count <= 0) return;
-        currentDialogs.Pop();
-    }
-    
 }

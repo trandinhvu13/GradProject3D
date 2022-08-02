@@ -78,7 +78,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             if (state == LevelState.Normal) PauseGame();
             else if (state == LevelState.Pause)
             {
-                DialogSystem.instance.CloseTopDialog();
+                DialogSystem.instance.GetDialog("PauseDialog").Close();
                 ResumeGame();
             }
         }

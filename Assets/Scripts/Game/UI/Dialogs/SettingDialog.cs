@@ -9,6 +9,8 @@ public class SettingDialog : Dialog
 {
     public Button backButton;
     public Button changeUsernameButton;
+    public Button changeEmailButton;
+    public Button changePasswordButton;
     public Button deleteAccountButton;
     public Button signOutButton;
     public Toggle fullscreenToggle;
@@ -16,22 +18,16 @@ public class SettingDialog : Dialog
     public Slider effectVolume;
 
     private bool isFullscreen = true;
-    
+
     public override void Init()
     {
         base.Init();
         musicVolume.value = 1;
         effectVolume.value = 1;
-        musicVolume.onValueChanged.AddListener((value) =>
-        {
-            AudioManager.instance.ChangeVolumeMusic(value);
-        });
-        
-        effectVolume.onValueChanged.AddListener((value) =>
-        {
-            AudioManager.instance.ChangeVolumeEffect(value);
-        });
-        
+        musicVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeMusic(value); });
+
+        effectVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeEffect(value); });
+
         fullscreenToggle.onValueChanged.AddListener((value) =>
         {
             Debug.Log(value);
@@ -44,13 +40,31 @@ public class SettingDialog : Dialog
                 Screen.fullScreenMode = FullScreenMode.Windowed;
             }
         });
-        
+
         backButton.onClick.AddListener(Close);
-        
+        changeEmailButton.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("UpdateEmailDialog").Open(true);
+        });
+
+        changeUsernameButton.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("UpdateUsernameDialog").Open(true);
+        });
+
+        changePasswordButton.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("UpdatePasswordDialog").Open(true);
+        });
+
+        deleteAccountButton.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("DeleteAccountConfirmDialog").Open(true);
+        });
+
         signOutButton.onClick.AddListener((() =>
         {
-            FirebaseManager.instance.SignOut();
-            SceneController.instance.Load("Login", Close, null);
+            DialogSystem.instance.GetDialog("LogoutConfirmDialog").Open(true);
         }));
     }
 

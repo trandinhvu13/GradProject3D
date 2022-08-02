@@ -29,7 +29,6 @@ public class Dialog : MonoBehaviour
 
         this.isHaveBackground = isHaveBackground;
         
-        if(DialogSystem.instance) DialogSystem.instance.AddDialog(this);
         Init();
         transform.DOScale(new Vector3(1, 1, 1), openTime).SetEase(openEase).OnComplete(Intro).SetUpdate(true);
         AudioManager.instance.PlayEffect("DialogOpen");
@@ -47,7 +46,6 @@ public class Dialog : MonoBehaviour
     {
         isOpen = false;
         UnbindAllButtons();
-        if (DialogSystem.instance) DialogSystem.instance.RemoveTopDialog();
         transform.DOScale(Vector3.zero, closeTime).SetEase(closeEase).OnStart(Outro).OnComplete(() =>
         {
             transform.gameObject.SetActive(false);

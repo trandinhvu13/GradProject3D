@@ -315,9 +315,9 @@ MonoBehaviour:
   - {fileID: 6503993602147553795}
   - {fileID: 7721123177124660276}
   milestoneTimes:
+  - 200
+  - 150
   - 120
-  - 90
-  - 60
   playerParent: {fileID: 1215994274707748917}
   enemyParent: {fileID: 1215994275376286855}
   itemsParent: {fileID: 8822410081458955243}

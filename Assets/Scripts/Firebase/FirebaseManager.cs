@@ -536,7 +536,8 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                     Debug.LogError("DeleteAsync encountered an error: " + task.Exception);
                     return;
                 }
-
+                
+                Debug.Log(userKey);
                 StartCoroutine(DeleteUserInDatabase(userKey));
                 callback();
                 Debug.Log("User deleted successfully.");

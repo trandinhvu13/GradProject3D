@@ -20,7 +20,7 @@ TagManager:
   - Enemy
   - Light
   - CollectableItem
-  - 
+  - StationEnemy
   - 
   - CursorDetect
   - Cursor

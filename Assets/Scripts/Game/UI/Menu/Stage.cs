@@ -34,7 +34,7 @@ public class Stage : MonoBehaviour
         {
             completeState.SetActive(true);
 
-            int star = stageData.star;
+            int star = stageData.star-1;
 
             for (int i = 0; i < stars.Count; i++)
             {
@@ -67,5 +67,8 @@ public class Stage : MonoBehaviour
     private void OnDisable()
     {
         playButton.onClick.RemoveAllListeners();
+        completeState.SetActive(false);
+        currentState.SetActive(false);
+        lockedState.SetActive(false);
     }
 }

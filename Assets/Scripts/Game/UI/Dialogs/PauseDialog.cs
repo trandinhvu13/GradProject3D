@@ -8,6 +8,7 @@ public class PauseDialog : Dialog
 {
     [SerializeField] private Button resume;
     [SerializeField] private Button retry;
+    [SerializeField] private Button setting;
     [SerializeField] private Button exit;
 
     public override void Init()
@@ -29,6 +30,10 @@ public class PauseDialog : Dialog
             {
                 Close();
             }, null);
+        });
+        setting.onClick.AddListener(() =>
+        {
+            DialogSystem.instance.GetDialog("SettingDialog").Open();
         });
     }
 

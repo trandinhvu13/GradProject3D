@@ -33,7 +33,6 @@ public class StationGuardIdle : BaseState
             SetupIdle();
             stationGuard.lookAroundCoroutine = stationGuard.StartCoroutine(LookAround());
         }
-        Debug.Log("Idle");
     }
 
     private void SetupIdle()

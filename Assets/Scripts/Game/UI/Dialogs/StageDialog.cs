@@ -22,7 +22,6 @@ public class StageDialog : Dialog
         currentStar.text = $"{PlayerDataManager.instance.GetCurrentStar()}/{PlayerDataManager.instance.GetTotalStar()}";
 
         int currentLevel = PlayerDataManager.instance.GetCurrentLevel();
-
         StartCoroutine(FirebaseManager.instance.GetUserLevelData((snapshot) =>
         {
             int level = 0;
@@ -34,7 +33,6 @@ public class StageDialog : Dialog
                     stageDatas.Add(new StageData(level, star));
                     level++;
                 }
-
                 for (int i = 0; i < stages.Count; i++)
                 {
                     if (i <= PlayerDataManager.instance.numberOfLevel - 1)

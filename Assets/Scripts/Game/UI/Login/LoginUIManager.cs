@@ -8,6 +8,7 @@ public class LoginUIManager : MonoSingleton<LoginUIManager>
 {
     public Button loginWithMailButton;
     public Button registerWithMailButton;
+    public Button exitButton;
     protected override void InternalInit()
     {
     }
@@ -34,6 +35,11 @@ public class LoginUIManager : MonoSingleton<LoginUIManager>
         registerWithMailButton.onClick.AddListener(() =>
         {
             DialogSystem.instance.GetDialog("RegisterDialog").Open(true);
+        });
+        
+        exitButton.onClick.AddListener(() =>
+        {
+            Application.Quit();
         });
     }
 }

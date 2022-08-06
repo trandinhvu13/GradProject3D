@@ -46,7 +46,6 @@ namespace Main
 
         private IEnumerator LoadSceneAsync(string scene, Action actionIntro = null, Action actionOutro = null)
         {
-            Debug.Log("load scene");
             // trigger the transition screen
             AudioManager.instance.FadeOutMusic();
             transitionScreen.Intro(() => { actionIntro?.Invoke(); });

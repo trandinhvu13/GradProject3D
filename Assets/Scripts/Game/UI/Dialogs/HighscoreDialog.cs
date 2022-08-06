@@ -28,17 +28,11 @@ public class HighscoreDialog : Dialog
             {
                 HighscoreItem highscoreItem = new HighscoreItem(LevelManager.instance.levelToLoad.id,
                     childSnapshot.Key, float.Parse(childSnapshot.Value.ToString()));
-                Debug.Log(
-                    $"Score of player {highscoreItem.username} in level {LevelManager.instance.levelToLoad.id} is {highscoreItem.time}");
-                
+
                 highscoreItems.Add(highscoreItem);
             }
 
             int userRank = highscoreItems.FindIndex(x => x.username == FirebaseManager.instance.user.DisplayName);
-            
-            Debug.Log($"User rank is at  {userRank}");
-            Debug.Log(highscoreItems[2].username);
-            Debug.Log(highscoreItems[2].time);
 
             if (userRank <= 2)
             {

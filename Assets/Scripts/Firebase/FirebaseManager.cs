@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Firebase;
@@ -260,7 +261,6 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
 
     public IEnumerator GetUserLevelData(Action<DataSnapshot> callback)
     {
-        Debug.Log("get all");
         Task<DataSnapshot> DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore").OrderByKey()
             .GetValueAsync();
 
@@ -376,7 +376,7 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
             callback();
         }
     }
-    
+
     public IEnumerator UpdateEmailDatabase(string email)
     {
         //Set the currently logged in user username in the database user.UserId
@@ -527,16 +527,20 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
         if (user != null)
         {
             string userKey = user.UserId;
-            user.DeleteAsync().ContinueWithOnMainThread(task => {
-                if (task.IsCanceled) {
+            user.DeleteAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
                     Debug.LogError("DeleteAsync was canceled.");
                     return;
                 }
-                if (task.IsFaulted) {
+
+                if (task.IsFaulted)
+                {
                     Debug.LogError("DeleteAsync encountered an error: " + task.Exception);
                     return;
                 }
-                
+
                 Debug.Log(userKey);
                 StartCoroutine(DeleteUserInDatabase(userKey));
                 callback();
@@ -544,13 +548,13 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
             });
         }
     }
-    
+
     private IEnumerator DeleteUserInDatabase(string userKey)
     {
         //Set the currently logged in user username in the database user.UserId
         var DBTask1 = dbreference.Child("users").Child(userKey).RemoveValueAsync();
 
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted) ;
+        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
 
         if (DBTask1.Exception != null)
         {

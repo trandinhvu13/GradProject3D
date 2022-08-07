@@ -47,6 +47,7 @@ public class PlayerRun : BaseState
     public override void Exit()
     {
         base.Exit();
+        AudioManager.instance.StopEffect("PlayerRun");
         runningTween.Kill();
         player.soundRing
             .DOFade(0,
@@ -57,6 +58,8 @@ public class PlayerRun : BaseState
     private void MakeSound()
     {
         //if (runningTween.IsActive() && runningTween != null && runningTween.IsPlaying()) return;
+        AudioManager.instance.PlayEffect("PlayerRun");
+        
         player.soundRing.transform.localScale = new Vector3(player.data.runSoundRadius*2, player.data.runSoundRadius*2, 1);
         player.soundRing.color = new Color(255, 255, 255, 0);
         

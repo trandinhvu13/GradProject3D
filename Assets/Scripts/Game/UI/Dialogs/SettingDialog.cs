@@ -22,8 +22,9 @@ public class SettingDialog : Dialog
     public override void Init()
     {
         base.Init();
-        musicVolume.value = 1;
-        effectVolume.value = 1;
+        musicVolume.value = AudioManager.instance.GetMusicVolume();
+        effectVolume.value = AudioManager.instance.GetEffectVolume();
+        
         musicVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeMusic(value); });
 
         effectVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeEffect(value); });

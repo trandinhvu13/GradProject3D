@@ -115,7 +115,9 @@ public class Player : AIPath
 
         soundRing.transform.localScale = new Vector3(data.whistleRadius * 2, data.whistleRadius * 2, 1);
         soundRing.color = new Color(255, 255, 255, 0);
-
+        
+        AudioManager.instance.PlayEffect("PlayerWhistle");
+        
         whistleTween = soundRing
             .DOFade(1, data.whistleRingTweenTime)
             .SetEase(data.soundRingTweenType).SetLoops(2, LoopType.Yoyo).From(0).OnStepComplete(() =>

@@ -53,6 +53,7 @@ public class GuardSuspect : BaseState
 
     public void OnTargetReached()
     {
+        normalGuard.suspectMeterAmount = 0;
         normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
         normalGuard.playerLastPlaceIndicator.Hide();
     }

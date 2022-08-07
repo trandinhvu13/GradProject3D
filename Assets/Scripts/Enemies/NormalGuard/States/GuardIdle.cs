@@ -15,6 +15,7 @@ public class GuardIdle : BaseState
     {
         normalGuardStateMachine = stateMachine;
         normalGuard = normalGuardStateMachine.normalGuard;
+        normalGuard = normalGuardStateMachine.normalGuard;
     }
 
     public override void Enter()

@@ -313,7 +313,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                 cinemachineTargetGroup.m_Targets[i] = blank;
             }
         }
-        AudioManager.instance.FadeInMusic();
+        AudioManager.instance.ResumeMusic();
         GameEvent.instance.HideIndicator();
     }
 
@@ -321,7 +321,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         if (state == LevelState.Pause) return;
         state = LevelState.Pause;
-        AudioManager.instance.FadeOutMusic();
+        AudioManager.instance.PauseMusic();
         Time.timeScale = 0;
         Cursor.visible = true;
         cinemachineTargetGroup.gameObject.SetActive(false);
@@ -331,7 +331,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void ResumeGame()
     {
         state = LevelState.Normal;
-        AudioManager.instance.FadeInMusic();
+        AudioManager.instance.ResumeMusic();
         Cursor.visible = false;
         Time.timeScale = 1;
         cinemachineTargetGroup.gameObject.SetActive(true);

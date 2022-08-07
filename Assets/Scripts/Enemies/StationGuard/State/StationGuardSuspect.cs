@@ -53,6 +53,7 @@ public class StationGuardSuspect : BaseState
 
     public void OnTargetReached()
     {
+        stationGuard.suspectMeterAmount = 0;
         stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
     }
 

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Game;
+using Game.Audio;
 using UnityEngine;
 
 public class PlayerRun : BaseState

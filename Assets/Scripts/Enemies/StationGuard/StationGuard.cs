@@ -1,152 +1,153 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
+using Enemies.General;
+using Game;
 using Pathfinding;
 using UnityEngine;
 
-public class StationGuard : AIPath
+namespace Enemies.StationGuard
 {
-    public StationGuardData data;
-    public Seeker seekerScript;
-    [SerializeField] private StationGuardStateMachine stationGuardStateMachine;
-    public FieldOfView fieldOfView;
-
-    [SerializeField] public SuspectMeter suspectMeter;
-    public float suspectMeterAmount;
-    public PlayerLastPlaceIndicator playerLastPlaceIndicator;
-
-    public Animator animator;
-
-    // Idle
-    public Coroutine lookAroundCoroutine;
-
-    protected override void Awake()
+    public class StationGuard : AIPath
     {
-        base.Awake();
-        data.isInStation = true;
-    }
+        public StationGuardData data;
+        public Seeker seekerScript;
+        [SerializeField] private StationGuardStateMachine stationGuardStateMachine;
+        public FieldOfView fieldOfView;
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        GameEvent.instance.OnPlayerWhistle += HearPlayer;
-        GameEvent.instance.OnPlayerRun += HearPlayer;
-        GameEvent.instance.OnPlayerWin += GameEnd;
-        GameEvent.instance.OnPlayerLose += GameEnd;
-    }
+        [SerializeField] public SuspectMeter suspectMeter;
+        public float suspectMeterAmount;
+        public PlayerLastPlaceIndicator playerLastPlaceIndicator;
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        if (GameEvent.instance) GameEvent.instance.OnPlayerWhistle -= HearPlayer;
-        if (GameEvent.instance) GameEvent.instance.OnPlayerRun -= HearPlayer;
-        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= GameEnd;
-        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= GameEnd;
-    }
+        public Animator animator;
 
-    protected override void Start()
-    {
-        base.Start();
-        data.stationPos = transform.position;
-        data.stationRotation = transform.eulerAngles;
-        StartCoroutine(CheckDistancePlayer());
-    }
+        // Idle
+        public Coroutine lookAroundCoroutine;
 
-    protected override void Update()
-    {
-        base.Update();
-        CheckForPlayer();
-    }
-
-    public void CheckForPlayer()
-    {
-        if (fieldOfView.isSeeingPlayer)
+        protected override void Awake()
         {
-            //normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
-            suspectMeterAmount += Time.deltaTime;
+            base.Awake();
+            data.isInStation = true;
+        }
 
-            if (suspectMeterAmount > data.suspectMeterMax)
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            GameEvent.instance.OnPlayerWhistle += HearPlayer;
+            GameEvent.instance.OnPlayerRun += HearPlayer;
+            GameEvent.instance.OnPlayerWin += GameEnd;
+            GameEvent.instance.OnPlayerLose += GameEnd;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            if (GameEvent.instance) GameEvent.instance.OnPlayerWhistle -= HearPlayer;
+            if (GameEvent.instance) GameEvent.instance.OnPlayerRun -= HearPlayer;
+            if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= GameEnd;
+            if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= GameEnd;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            data.stationPos = transform.position;
+            data.stationRotation = transform.eulerAngles;
+            StartCoroutine(CheckDistancePlayer());
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            CheckForPlayer();
+        }
+
+        public void CheckForPlayer()
+        {
+            if (fieldOfView.isSeeingPlayer)
             {
-                suspectMeterAmount = data.suspectMeterMax;
+                //normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+                suspectMeterAmount += Time.deltaTime;
+
+                if (suspectMeterAmount > data.suspectMeterMax)
+                {
+                    suspectMeterAmount = data.suspectMeterMax;
+                }
             }
-        }
-        else
-        {
-            suspectMeterAmount -= Time.deltaTime / 5f;
-
-            if (suspectMeterAmount < 0)
+            else
             {
-                suspectMeterAmount = 0;
-            }
-        }
+                suspectMeterAmount -= Time.deltaTime / 5f;
 
-        suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount / data.suspectMeterMax);
-    }
-
-    public void HearPlayer(Transform playerPosTransform, float radius)
-    {
-        if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
-        {
-            suspectMeterAmount += data.suspectMeterMax / 3;
-            OnHearPlayer();
-        }
-    }
-
-    public override void OnTargetReached()
-    {
-        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.idleState)
-        {
-            stationGuardStateMachine.idleState.OnTargetReached();
-            return;
-        }
-
-        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
-        {
-            stationGuardStateMachine.suspectState.OnTargetReached();
-            return;
-        }
-
-        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.alertState)
-        {
-            stationGuardStateMachine.alertState.OnTargetReached();
-            return;
-        }
-    }
-
-    public void OnHearPlayer()
-    {
-        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.idleState)
-        {
-            stationGuardStateMachine.idleState.OnHearPlayer();
-            return;
-        }
-
-        if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
-        {
-            stationGuardStateMachine.suspectState.OnHearPlayer();
-            return;
-        }
-    }
-
-    IEnumerator CheckDistancePlayer()
-    {
-        while (true)
-        {
-            if (LevelManager.instance.isLevelLoad && LevelManager.instance.state == LevelManager.LevelState.Normal &&
-                Vector3.Distance(transform.position, LevelManager.instance.player.transform.position) < 1.75f)
-            {
-                Debug.Log("Lose");
-                stationGuardStateMachine.ChangeState(stationGuardStateMachine.winState);
+                if (suspectMeterAmount < 0)
+                {
+                    suspectMeterAmount = 0;
+                }
             }
 
-            yield return new WaitForSeconds(0.2f);
+            suspectMeter.ChangeValueSuspectMeter(suspectMeterAmount / data.suspectMeterMax);
         }
-    }
+
+        public void HearPlayer(Transform playerPosTransform, float radius)
+        {
+            if (Vector3.Distance(transform.position, playerPosTransform.position) <= radius)
+            {
+                suspectMeterAmount += data.suspectMeterMax / 3;
+                OnHearPlayer();
+            }
+        }
+
+        public override void OnTargetReached()
+        {
+            if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.idleState)
+            {
+                stationGuardStateMachine.idleState.OnTargetReached();
+                return;
+            }
+
+            if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
+            {
+                stationGuardStateMachine.suspectState.OnTargetReached();
+                return;
+            }
+
+            if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.alertState)
+            {
+                stationGuardStateMachine.alertState.OnTargetReached();
+                return;
+            }
+        }
+
+        public void OnHearPlayer()
+        {
+            if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.idleState)
+            {
+                stationGuardStateMachine.idleState.OnHearPlayer();
+                return;
+            }
+
+            if (stationGuardStateMachine.GetCurrentState() == stationGuardStateMachine.suspectState)
+            {
+                stationGuardStateMachine.suspectState.OnHearPlayer();
+                return;
+            }
+        }
+
+        IEnumerator CheckDistancePlayer()
+        {
+            while (true)
+            {
+                if (LevelManager.instance.isLevelLoad && LevelManager.instance.state == LevelManager.LevelState.Normal &&
+                    Vector3.Distance(transform.position, LevelManager.instance.player.transform.position) < 1.75f)
+                {
+                    stationGuardStateMachine.ChangeState(stationGuardStateMachine.winState);
+                }
+
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
     
-    private void GameEnd()
-    {
-        canMove = false;
-        if (transform != LevelManager.instance.detectedEnemy) transform.gameObject.SetActive(false);
+        private void GameEnd()
+        {
+            canMove = false;
+            if (transform != LevelManager.instance.detectedEnemy) transform.gameObject.SetActive(false);
+        }
     }
 }

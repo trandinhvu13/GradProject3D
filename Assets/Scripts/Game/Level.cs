@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Enemies.NormalGuard;
+using Enemies.StationGuard;
 using Pathfinding;
 using UnityEngine;
 
@@ -9,14 +11,14 @@ public class Level : MonoBehaviour
 
     public Transform player;
     public Transform destination;
-    public List<NormalGuard> normalGuards;
-    public List<StationGuard> stationGuards;
+    [SerializeField] private List<NormalGuard> normalGuards;
+    [SerializeField] private List<StationGuard> stationGuards;
     public List<CollectableItem> itemsToCollect;
     public List<float> milestoneTimes;
 
     public Transform playerParent;
-    public Transform enemyParent;
-    public Transform itemsParent; 
+    [SerializeField] private Transform enemyParent;
+    [SerializeField] private Transform itemsParent; 
     
     //AstarPathSettings 
     public Vector3 gridGraphCenter;

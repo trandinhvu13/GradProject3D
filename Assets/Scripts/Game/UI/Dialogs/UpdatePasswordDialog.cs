@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Firebase;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UpdatePasswordDialog : Dialog
 {
-    public TMP_InputField input;
-    public Button updateButton;
-    public Button closeButton;
+    [SerializeField] private TMP_InputField input;
+    [SerializeField] private Button updateButton;
+    [SerializeField] private Button closeButton;
     
     public override void Init()
     {

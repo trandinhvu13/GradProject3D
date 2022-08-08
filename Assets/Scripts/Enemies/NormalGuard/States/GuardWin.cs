@@ -1,27 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
+using Game;
 using UnityEngine;
 
-public class GuardWin : BaseState
+namespace Enemies.NormalGuard.States
 {
-    private NormalGuard normalGuard;
-    private NormalGuardStateMachine normalGuardStateMachine;
-    
-    public GuardWin(NormalGuardStateMachine stateMachine) : base("GuardWin", stateMachine)
+    public class GuardWin : BaseState
     {
-        normalGuardStateMachine = stateMachine;
-        normalGuard = normalGuardStateMachine.normalGuard;
-    }
+        private NormalGuard normalGuard;
+        private NormalGuardStateMachine normalGuardStateMachine;
     
-    public override void Enter()
-    {
-        base.Enter();
-        Debug.Log("Guard Win");
-        LevelManager.instance.detectedEnemy = normalGuard.transform;
-        Helper.SetTriggerAnimator(normalGuard.animator, "Win");
-        normalGuard.data.isMoving = false;
-        normalGuard.canMove = false;
-        normalGuard.playerLastPlaceIndicator.Hide();
-        LevelManager.instance.Lose();
+        public GuardWin(NormalGuardStateMachine stateMachine) : base("GuardWin", stateMachine)
+        {
+            normalGuardStateMachine = stateMachine;
+            normalGuard = normalGuardStateMachine.normalGuard;
+        }
+    
+        public override void Enter()
+        {
+            base.Enter();
+            Debug.Log("Guard Win");
+            LevelManager.instance.detectedEnemy = normalGuard.transform;
+            Helper.SetTriggerAnimator(normalGuard.animator, "Win");
+            normalGuard.data.isMoving = false;
+            normalGuard.canMove = false;
+            normalGuard.playerLastPlaceIndicator.Hide();
+            LevelManager.instance.Lose();
+        }
     }
 }

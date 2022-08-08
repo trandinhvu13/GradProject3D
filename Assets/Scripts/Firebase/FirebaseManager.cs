@@ -1,508 +1,480 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UnityEngine;
-using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
-using TMPro;
-using UnityEngine.UI;
+using Game;
+using Game.UI.Dialogs;
+using UnityEngine;
 
-public class FirebaseManager : MonoSingleton<FirebaseManager>
+namespace Firebase
 {
-    //Firebase variables
-    [Header("Firebase")] public DependencyStatus dependencyStatus;
-    public FirebaseAuth auth;
-    public FirebaseUser user;
-    public DatabaseReference dbreference;
-
-    protected override void InternalInit()
+    public class FirebaseManager : MonoSingleton<FirebaseManager>
     {
-        //Check that all of the necessary dependencies for Firebase are present on the system
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        //Firebase variables
+        [Header("Firebase")] public DependencyStatus dependencyStatus;
+        private FirebaseAuth auth;
+        public FirebaseUser user;
+        private DatabaseReference dbreference;
+
+        protected override void InternalInit()
         {
-            dependencyStatus = task.Result;
-            if (dependencyStatus == DependencyStatus.Available)
+            //Check that all of the necessary dependencies for Firebase are present on the system
+            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
             {
-                //If they are avalible Initialize Firebase
-                InitializeFirebase();
-            }
-            else
-            {
-                Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
-            }
-        });
-    }
-
-    protected override void InternalOnDestroy()
-    {
-    }
-
-    protected override void InternalOnDisable()
-    {
-    }
-
-    protected override void InternalOnEnable()
-    {
-    }
-
-    private void InitializeFirebase()
-    {
-        Debug.Log("Setting up Firebase Auth");
-        //Set the authentication instance object
-        auth = FirebaseAuth.DefaultInstance;
-        dbreference = FirebaseDatabase.DefaultInstance.RootReference;
-    }
-
-    public IEnumerator Login(string _email, string _password, LoginDialog loginDialog = null)
-    {
-        Credential credential = EmailAuthProvider.GetCredential(_email, _password);
-
-        //Call the Firebase auth signin function passing the email and password
-        var loginTask = auth.SignInWithCredentialAsync(credential);
-        //Wait until the task completes
-        yield return new WaitUntil(predicate: () => loginTask.IsCompleted);
-
-        if (loginTask.Exception != null)
-        {
-            FirebaseException firebaseEx = loginTask.Exception.GetBaseException() as FirebaseException;
-            AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-
-            string message = "Login failed!";
-            switch (errorCode)
-            {
-                case AuthError.MissingEmail:
-                    message = "Email is empty";
-                    break;
-                case AuthError.MissingPassword:
-                    message = "Password is empty";
-                    break;
-                case AuthError.WrongPassword:
-                    message = "Wrong password";
-                    break;
-                case AuthError.InvalidEmail:
-                    message = "Invalid email";
-                    break;
-                case AuthError.UserNotFound:
-                    message = "Account not exist";
-                    break;
-            }
-
-            if (loginDialog != null)
-            {
-                StartCoroutine(loginDialog.ShowError(message));
-            }
+                dependencyStatus = task.Result;
+                if (dependencyStatus == DependencyStatus.Available)
+                {
+                    //If they are avalible Initialize Firebase
+                    InitializeFirebase();
+                }
+                else
+                {
+                    Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
+                }
+            });
         }
-        else
-        {
-            user = loginTask.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
 
-            if (loginDialog != null)
-            {
-                StartCoroutine(loginDialog.ShowMessage($"Welcome {user.DisplayName}!"));
-            }
+        protected override void InternalOnDestroy()
+        {
         }
-    }
 
-    public IEnumerator Register(string _username, string _email, string _password, RegisterDialog registerDialog = null)
-    {
-        if (_username == "")
+        protected override void InternalOnDisable()
         {
-            if (registerDialog != null)
-            {
-                registerDialog.ShowError("Missing username");
-            }
         }
-        else
+
+        protected override void InternalOnEnable()
         {
+        }
+
+        private void InitializeFirebase()
+        {
+            Debug.Log("Setting up Firebase Auth");
+            //Set the authentication instance object
+            auth = FirebaseAuth.DefaultInstance;
+            dbreference = FirebaseDatabase.DefaultInstance.RootReference;
+        }
+
+        public IEnumerator Login(string email, string password, LoginDialog loginDialog = null)
+        {
+            Credential credential = EmailAuthProvider.GetCredential(email, password);
+
             //Call the Firebase auth signin function passing the email and password
-            var registerTask = auth.CreateUserWithEmailAndPasswordAsync(_email, _password);
+            var loginTask = auth.SignInWithCredentialAsync(credential);
             //Wait until the task completes
-            yield return new WaitUntil(predicate: () => registerTask.IsCompleted);
+            yield return new WaitUntil(predicate: () => loginTask.IsCompleted);
 
-            if (registerTask.Exception != null)
+            if (loginTask.Exception != null)
             {
-                FirebaseException firebaseEx = registerTask.Exception.GetBaseException() as FirebaseException;
+                FirebaseException firebaseEx = loginTask.Exception.GetBaseException() as FirebaseException;
                 AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
 
-                string message = "Register Failed!";
+                string message = "Login failed!";
                 switch (errorCode)
                 {
-                    case AuthError.InvalidEmail:
-                        message = "Missing Email";
-                        break;
                     case AuthError.MissingEmail:
-                        message = "Missing Email";
+                        message = "Email is empty";
                         break;
                     case AuthError.MissingPassword:
-                        message = "Missing Password";
+                        message = "Password is empty";
                         break;
-                    case AuthError.WeakPassword:
-                        message = "Weak Password";
+                    case AuthError.WrongPassword:
+                        message = "Wrong password";
                         break;
-                    case AuthError.EmailAlreadyInUse:
-                        message = "Email Already In Use";
+                    case AuthError.InvalidEmail:
+                        message = "Invalid email";
+                        break;
+                    case AuthError.UserNotFound:
+                        message = "Account not exist";
                         break;
                 }
 
-                if (registerDialog != null)
+                if (loginDialog != null)
                 {
-                    StartCoroutine(registerDialog.ShowError(message));
+                    StartCoroutine(loginDialog.ShowError(message));
                 }
             }
             else
             {
-                user = registerTask.Result;
+                user = loginTask.Result;
+                Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.Email);
 
-                if (user != null)
+                if (loginDialog != null)
                 {
-                    //Create a user profile and set the username
-                    UserProfile profile = new UserProfile { DisplayName = _username };
+                    StartCoroutine(loginDialog.ShowMessage($"Welcome {user.DisplayName}!"));
+                }
+            }
+        }
 
-                    var profileTask = user.UpdateUserProfileAsync(profile);
-                    yield return new WaitUntil(predicate: () => profileTask.IsCompleted);
+        public IEnumerator Register(string username, string email, string password, RegisterDialog registerDialog = null)
+        {
+            if (username == "")
+            {
+                if (registerDialog != null)
+                {
+                    registerDialog.ShowError("Missing username");
+                }
+            }
+            else
+            {
+                //Call the Firebase auth signin function passing the email and password
+                var registerTask = auth.CreateUserWithEmailAndPasswordAsync(email, password);
+                //Wait until the task completes
+                yield return new WaitUntil(predicate: () => registerTask.IsCompleted);
 
-                    if (profileTask.Exception != null)
+                if (registerTask.Exception != null)
+                {
+                    FirebaseException firebaseEx = registerTask.Exception.GetBaseException() as FirebaseException;
+                    AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+
+                    string message = "Register Failed!";
+                    switch (errorCode)
                     {
-                        user.DeleteAsync();
-                        //If there are errors handle them
-                        Debug.LogWarning(message: $"Failed to register task with {profileTask.Exception}");
-                        FirebaseException firebaseEx =
-                            profileTask.Exception.GetBaseException() as FirebaseException;
-                        AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                        string message = "Username Set Failed!";
-
-                        if (registerDialog != null)
-                        {
-                            StartCoroutine(registerDialog.ShowError(message));
-                        }
+                        case AuthError.InvalidEmail:
+                            message = "Missing Email";
+                            break;
+                        case AuthError.MissingEmail:
+                            message = "Missing Email";
+                            break;
+                        case AuthError.MissingPassword:
+                            message = "Missing Password";
+                            break;
+                        case AuthError.WeakPassword:
+                            message = "Weak Password";
+                            break;
+                        case AuthError.EmailAlreadyInUse:
+                            message = "Email Already In Use";
+                            break;
                     }
-                    else
-                    {
-                        if (registerDialog != null)
-                        {
-                            StartCoroutine(registerDialog.ShowMessage($"Success!"));
-                        }
 
-                        StartCoroutine(UpdateUsersDatabase(user.UserId, _username, _email, 0));
+                    if (registerDialog != null)
+                    {
+                        StartCoroutine(registerDialog.ShowError(message));
+                    }
+                }
+                else
+                {
+                    user = registerTask.Result;
+
+                    if (user != null)
+                    {
+                        //Create a user profile and set the username
+                        UserProfile profile = new UserProfile { DisplayName = username };
+
+                        var profileTask = user.UpdateUserProfileAsync(profile);
+                        yield return new WaitUntil(predicate: () => profileTask.IsCompleted);
+
+                        if (profileTask.Exception != null)
+                        {
+                            user.DeleteAsync();
+                            //If there are errors handle them
+                            Debug.LogWarning(message: $"Failed to register task with {profileTask.Exception}");
+
+                            string message = "Username Set Failed!";
+
+                            if (registerDialog != null)
+                            {
+                                StartCoroutine(registerDialog.ShowError(message));
+                            }
+                        }
+                        else
+                        {
+                            if (registerDialog != null)
+                            {
+                                StartCoroutine(registerDialog.ShowMessage($"Success!"));
+                            }
+
+                            StartCoroutine(UpdateUsersDatabase(user.UserId, username, email, 0));
+                        }
                     }
                 }
             }
         }
-    }
 
-    public void SignOut()
-    {
-        auth.SignOut();
-    }
-
-    public IEnumerator SaveUserScoreLevel(Score score)
-    {
-        string userKey = user.UserId;
-        string username = user.DisplayName;
-        int levelID = score.levelID;
-        float levelScore = score.score;
-        int star = score.star;
-
-        var DBTask1 = dbreference.Child("levels").Child(levelID.ToString()).Child(username).SetValueAsync(levelScore);
-        var DBTask2 = dbreference.Child("users").Child(userKey).Child("levelScore").Child(levelID.ToString())
-            .Child("score").SetValueAsync(levelScore);
-        var DBTask3 = dbreference.Child("users").Child(userKey).Child("levelScore").Child(levelID.ToString())
-            .Child("star").SetValueAsync(star);
-
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted && DBTask2.IsCompleted && DBTask3.IsCompleted);
-
-        if (DBTask1.Exception != null)
+        public void SignOut()
         {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload score for level {levelID}:{levelScore}");
+            auth.SignOut();
         }
 
-        if (DBTask2.Exception != null)
+        public IEnumerator SaveUserScoreLevel(Score score)
         {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask2.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload star for level {levelID}:{star} star");
-        }
-    }
+            string userKey = user.UserId;
+            string username = user.DisplayName;
+            int levelID = score.levelID;
+            float levelScore = score.score;
+            int star = score.star;
 
-    public IEnumerator GetUserInfoData(Action<DataSnapshot> callback)
-    {
-        //Get the currently logged in user data
-        var DBTask = dbreference.Child("users").Child(user.UserId).Child("userInfo").GetValueAsync();
+            var dbTask1 = dbreference.Child("levels").Child(levelID.ToString()).Child(username).SetValueAsync(levelScore);
+            var dbTask2 = dbreference.Child("users").Child(userKey).Child("levelScore").Child(levelID.ToString())
+                .Child("score").SetValueAsync(levelScore);
+            var dbTask3 = dbreference.Child("users").Child(userKey).Child("levelScore").Child(levelID.ToString())
+                .Child("star").SetValueAsync(star);
 
-        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+            yield return new WaitUntil(predicate: () => dbTask1.IsCompleted && dbTask2.IsCompleted && dbTask3.IsCompleted);
 
-        if (DBTask.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
-        }
-        else if (DBTask.Result.Value == null)
-        {
-            callback(null);
-        }
-        else
-        {
-            //Data has been retrieved
-            DataSnapshot snapshot = DBTask.Result;
-
-            callback(snapshot);
-        }
-    }
-
-    public IEnumerator GetUserLevelData(Action<DataSnapshot> callback)
-    {
-        Task<DataSnapshot> DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore").OrderByKey()
-            .GetValueAsync();
-
-        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
-
-        if (DBTask.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
-        }
-        else if (DBTask.Result.Value == null)
-        {
-            callback(null);
-        }
-        else
-        {
-            //Data has been retrieved
-            DataSnapshot snapshot = DBTask.Result;
-
-            callback(snapshot);
-        }
-    }
-
-    public IEnumerator GetUserLevelDataByLevel(int levelID, Action<DataSnapshot> callback)
-    {
-        Task<DataSnapshot> DBTask = dbreference.Child("users").Child(user.UserId).Child("levelScore")
-            .Child(levelID.ToString())
-            .GetValueAsync();
-
-        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
-
-        if (DBTask.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
-        }
-        else if (DBTask.Result.Value == null)
-        {
-            callback(null);
-        }
-        else
-        {
-            //Data has been retrieved
-            DataSnapshot snapshot = DBTask.Result;
-
-            callback(snapshot);
-        }
-    }
-
-    public IEnumerator GetLevelAllScore(int levelID, Action<DataSnapshot> callback)
-    {
-        //Get the currently logged in user data
-
-        var DBTask = dbreference.Child("levels").Child(levelID.ToString()).OrderByValue().GetValueAsync();
-
-        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
-
-        if (DBTask.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
-        }
-        else if (DBTask.Result.Value == null)
-        {
-            callback(null);
-        }
-        else
-        {
-            //Data has been retrieved
-            DataSnapshot snapshot = DBTask.Result;
-
-            callback(snapshot);
-        }
-    }
-
-    public List<int> GetPlayerStarForEachLevel(string userKey)
-    {
-        return new List<int>();
-    }
-
-    public IEnumerator UpdateUsernameAuth(string _username)
-    {
-        //Create a user profile and set the username
-        UserProfile profile = new UserProfile { DisplayName = _username };
-
-        //Call the Firebase auth update user profile function passing the profile with the username
-        var ProfileTask = user.UpdateUserProfileAsync(profile);
-        //Wait until the task completes
-        yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
-
-        if (ProfileTask.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {ProfileTask.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload user auth {_username}");
-        }
-    }
-
-    public IEnumerator UpdateUsername(string username, Action callback)
-    {
-        //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("username")
-            .SetValueAsync(username);
-
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
-
-        if (DBTask1.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload user with username: {username}");
-            callback();
-        }
-    }
-
-    public IEnumerator UpdateEmailDatabase(string email)
-    {
-        //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("email")
-            .SetValueAsync(email);
-
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
-
-        if (DBTask1.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload email with email: {email}");
-        }
-    }
-
-    private IEnumerator UpdateCurrentLevel(int levelID)
-    {
-        //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("currentLevel")
-            .SetValueAsync(levelID);
-
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
-
-        if (DBTask1.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload currentLevel with level: {levelID}");
-        }
-    }
-
-    private IEnumerator UpdateUsersDatabase(string userKey, string username, string email, int currentLevel)
-    {
-        //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("username")
-            .SetValueAsync(username);
-        var DBTask2 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("email").SetValueAsync(email);
-        var DBTask3 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("currentLevel")
-            .SetValueAsync(currentLevel);
-
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted && DBTask2.IsCompleted && DBTask3.IsCompleted);
-
-        if (DBTask1.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload user with username: {username}");
-        }
-
-        if (DBTask2.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask2.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload user with email: {email}");
-        }
-
-        if (DBTask3.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask3.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Done upload user with current level: {currentLevel}");
-        }
-    }
-
-    public void SendResetPassword(string _email, ResetPasswordDialog resetPasswordDialog = null)
-    {
-        auth.SendPasswordResetEmailAsync(_email).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCanceled)
+            if (dbTask1.Exception != null)
             {
-                Debug.LogError("SendPasswordResetEmailAsync was canceled.");
-                return;
+                Debug.LogWarning(message: $"Failed to register task with {dbTask1.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload score for level {levelID}:{levelScore}");
             }
 
-            if (task.IsFaulted)
+            if (dbTask2.Exception != null)
             {
-                Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
-                StartCoroutine(resetPasswordDialog.ShowError("Email is wrong, please try again"));
-                return;
+                Debug.LogWarning(message: $"Failed to register task with {dbTask2.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload star for level {levelID}:{star} star");
+            }
+        }
+
+        public IEnumerator GetUserInfoData(Action<DataSnapshot> callback)
+        {
+            //Get the currently logged in user data
+            var dbTask = dbreference.Child("users").Child(user.UserId).Child("userInfo").GetValueAsync();
+
+            yield return new WaitUntil(predicate: () => dbTask.IsCompleted);
+
+            if (dbTask.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask.Exception}");
+            }
+            else if (dbTask.Result.Value == null)
+            {
+                callback(null);
+            }
+            else
+            {
+                //Data has been retrieved
+                DataSnapshot snapshot = dbTask.Result;
+
+                callback(snapshot);
+            }
+        }
+
+        public IEnumerator GetUserLevelData(Action<DataSnapshot> callback)
+        {
+            Task<DataSnapshot> dbTask = dbreference.Child("users").Child(user.UserId).Child("levelScore").OrderByKey()
+                .GetValueAsync();
+
+            yield return new WaitUntil(predicate: () => dbTask.IsCompleted);
+
+            if (dbTask.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask.Exception}");
+            }
+            else if (dbTask.Result.Value == null)
+            {
+                callback(null);
+            }
+            else
+            {
+                //Data has been retrieved
+                DataSnapshot snapshot = dbTask.Result;
+
+                callback(snapshot);
+            }
+        }
+
+        public IEnumerator GetUserLevelDataByLevel(int levelID, Action<DataSnapshot> callback)
+        {
+            Task<DataSnapshot> dbTask = dbreference.Child("users").Child(user.UserId).Child("levelScore")
+                .Child(levelID.ToString())
+                .GetValueAsync();
+
+            yield return new WaitUntil(predicate: () => dbTask.IsCompleted);
+
+            if (dbTask.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask.Exception}");
+            }
+            else if (dbTask.Result.Value == null)
+            {
+                callback(null);
+            }
+            else
+            {
+                //Data has been retrieved
+                DataSnapshot snapshot = dbTask.Result;
+
+                callback(snapshot);
+            }
+        }
+
+        public IEnumerator GetLevelAllScore(int levelID, Action<DataSnapshot> callback)
+        {
+            //Get the currently logged in user data
+
+            var dbTask = dbreference.Child("levels").Child(levelID.ToString()).OrderByValue().GetValueAsync();
+
+            yield return new WaitUntil(predicate: () => dbTask.IsCompleted);
+
+            if (dbTask.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask.Exception}");
+            }
+            else if (dbTask.Result.Value == null)
+            {
+                callback(null);
+            }
+            else
+            {
+                //Data has been retrieved
+                DataSnapshot snapshot = dbTask.Result;
+
+                callback(snapshot);
+            }
+        }
+
+        public IEnumerator UpdateUsernameAuth(string username)
+        {
+            //Create a user profile and set the username
+            UserProfile profile = new UserProfile { DisplayName = username };
+
+            //Call the Firebase auth update user profile function passing the profile with the username
+            var profileTask = user.UpdateUserProfileAsync(profile);
+            //Wait until the task completes
+            yield return new WaitUntil(predicate: () => profileTask.IsCompleted);
+
+            if (profileTask.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {profileTask.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload user auth {username}");
+            }
+        }
+
+        public IEnumerator UpdateUsername(string username, Action callback)
+        {
+            //Set the currently logged in user username in the database user.UserId
+            var dbTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("username")
+                .SetValueAsync(username);
+
+            yield return new WaitUntil(predicate: () => dbTask1.IsCompleted);
+
+            if (dbTask1.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask1.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload user with username: {username}");
+                callback();
+            }
+        }
+
+        public IEnumerator UpdateEmailDatabase(string email)
+        {
+            var dbTask1 = dbreference.Child("users").Child(user.UserId).Child("userInfo").Child("email")
+                .SetValueAsync(email);
+
+            yield return new WaitUntil(predicate: () => dbTask1.IsCompleted);
+
+            if (dbTask1.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask1.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload email with email: {email}");
+            }
+        }
+
+        private IEnumerator UpdateUsersDatabase(string userKey, string username, string email, int currentLevel)
+        {
+            //Set the currently logged in user username in the database user.UserId
+            var dbTask1 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("username")
+                .SetValueAsync(username);
+            var dbTask2 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("email").SetValueAsync(email);
+            var dbTask3 = dbreference.Child("users").Child(userKey).Child("userInfo").Child("currentLevel")
+                .SetValueAsync(currentLevel);
+
+            yield return new WaitUntil(predicate: () => dbTask1.IsCompleted && dbTask2.IsCompleted && dbTask3.IsCompleted);
+
+            if (dbTask1.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask1.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload user with username: {username}");
             }
 
-            Debug.Log("Password reset email sent successfully.");
-            StartCoroutine(resetPasswordDialog.ShowMessage("Please check your mail!"));
-        });
-    }
+            if (dbTask2.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask2.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload user with email: {email}");
+            }
 
-    public void UpdateEmail(string email, Action callback = null)
-    {
-        if (user != null)
+            if (dbTask3.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask3.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Done upload user with current level: {currentLevel}");
+            }
+        }
+
+        public void SendResetPassword(string email, ResetPasswordDialog resetPasswordDialog = null)
         {
-            user.UpdateEmailAsync(email).ContinueWithOnMainThread(task =>
+            auth.SendPasswordResetEmailAsync(email).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCanceled)
                 {
-                    Debug.LogError("UpdateEmailAsync was canceled.");
+                    Debug.LogError("SendPasswordResetEmailAsync was canceled.");
                     return;
                 }
 
                 if (task.IsFaulted)
                 {
-                    Debug.LogError("UpdateEmailAsync encountered an error: " + task.Exception);
+                    Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+                    if (resetPasswordDialog != null)
+                        StartCoroutine(resetPasswordDialog.ShowError("Email is wrong, please try again"));
                     return;
                 }
 
-                Debug.Log("User email updated successfully.");
-                if (callback != null) callback();
+                Debug.Log("Password reset email sent successfully.");
+                if (resetPasswordDialog != null) StartCoroutine(resetPasswordDialog.ShowMessage("Please check your mail!"));
             });
         }
-    }
 
-    public void UpdatePassword(string newPassword, Action callback)
-    {
-        if (user != null)
+        public void UpdateEmail(string email, Action callback = null)
         {
-            user.UpdatePasswordAsync(newPassword).ContinueWithOnMainThread(task =>
+            if (user != null)
+            {
+                user.UpdateEmailAsync(email).ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("UpdateEmailAsync was canceled.");
+                        return;
+                    }
+
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("UpdateEmailAsync encountered an error: " + task.Exception);
+                        return;
+                    }
+
+                    Debug.Log("User email updated successfully.");
+                    if (callback != null) callback();
+                });
+            }
+        }
+
+        public void UpdatePassword(string newPassword, Action callback)
+        {
+            user?.UpdatePasswordAsync(newPassword).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCanceled)
                 {
@@ -515,17 +487,13 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                     Debug.LogError("UpdatePasswordAsync encountered an error: " + task.Exception);
                     return;
                 }
-
-                //Debug.Log("Password updated successfully.");
                 callback();
             });
         }
-    }
 
-    public void DeleteAccount(Action callback)
-    {
-        if (user != null)
+        public void DeleteAccount(Action callback)
         {
+            if (user == null) return;
             string userKey = user.UserId;
             user.DeleteAsync().ContinueWithOnMainThread(task =>
             {
@@ -547,22 +515,22 @@ public class FirebaseManager : MonoSingleton<FirebaseManager>
                 Debug.Log("User deleted successfully.");
             });
         }
-    }
 
-    private IEnumerator DeleteUserInDatabase(string userKey)
-    {
-        //Set the currently logged in user username in the database user.UserId
-        var DBTask1 = dbreference.Child("users").Child(userKey).RemoveValueAsync();
-
-        yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
-
-        if (DBTask1.Exception != null)
+        private IEnumerator DeleteUserInDatabase(string userKey)
         {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask1.Exception}");
-        }
-        else
-        {
-            Debug.Log($"Deleted user with key {userKey}");
+            //Set the currently logged in user username in the database user.UserId
+            var dbTask = dbreference.Child("users").Child(userKey).RemoveValueAsync();
+
+            yield return new WaitUntil(predicate: () => dbTask.IsCompleted);
+
+            if (dbTask.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {dbTask.Exception}");
+            }
+            else
+            {
+                Debug.Log($"Deleted user with key {userKey}");
+            }
         }
     }
 }

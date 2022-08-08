@@ -1,56 +1,58 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
+using Game;
+using Game.Audio;
 using UnityEngine;
 
-public class PlayerLastPlaceIndicator : MonoBehaviour
+namespace Enemies.General
 {
-    [SerializeField] private Transform parent;
-    [SerializeField] private SpriteRenderer indicator;
-    [SerializeField] private Vector3 scaleUpAmount;
-    [SerializeField] private bool isShow = false;
-
-
-    private void Start()
+    public class PlayerLastPlaceIndicator : MonoBehaviour
     {
-        indicator.DOFade(0, 0);
-        transform.localScale = new Vector3(0, 0, 0);
-    }
+        [SerializeField] private Transform parent;
+        [SerializeField] private SpriteRenderer indicator;
+        [SerializeField] private Vector3 scaleUpAmount;
+        [SerializeField] private bool isShow = false;
 
-    private void OnEnable()
-    {
-        GameEvent.instance.OnPlayerLose += Disable;
-        GameEvent.instance.OnPlayerWin += Disable;
-    }
 
-    private void OnDisable()
-    {
-        if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Disable;
-        if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Disable;
-    }
+        private void Start()
+        {
+            indicator.DOFade(0, 0);
+            transform.localScale = new Vector3(0, 0, 0);
+        }
 
-    public void Show(Vector3 pos)
-    {
-        isShow = true;
-        transform.parent = null;
-        transform.position = pos;
-        AudioManager.instance.PlayEffect("DetectPlayer");
-        indicator.DOFade(1, 0);
-        transform.DOScale(scaleUpAmount, 0);
-    }
+        private void OnEnable()
+        {
+            GameEvent.instance.OnPlayerLose += Disable;
+            GameEvent.instance.OnPlayerWin += Disable;
+        }
 
-    public void Hide()
-    {
-        if (!isShow) return;
-        isShow = false;
-        indicator.DOFade(0, 0);
-        transform.DOScale(Vector3.zero, 0);
-        transform.parent = parent;
-    }
+        private void OnDisable()
+        {
+            if (GameEvent.instance) GameEvent.instance.OnPlayerLose -= Disable;
+            if (GameEvent.instance) GameEvent.instance.OnPlayerWin -= Disable;
+        }
 
-    public void Disable()
-    {
-        transform.gameObject.SetActive(false);
+        public void Show(Vector3 pos)
+        {
+            isShow = true;
+            transform.parent = null;
+            transform.position = pos;
+            AudioManager.instance.PlayEffect("DetectPlayer");
+            indicator.DOFade(1, 0);
+            transform.DOScale(scaleUpAmount, 0);
+        }
+
+        public void Hide()
+        {
+            if (!isShow) return;
+            isShow = false;
+            indicator.DOFade(0, 0);
+            transform.DOScale(Vector3.zero, 0);
+            transform.parent = parent;
+        }
+
+        private void Disable()
+        {
+            transform.gameObject.SetActive(false);
+        }
     }
 }

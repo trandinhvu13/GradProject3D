@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NotEnoughItemDialog : Dialog
+namespace Game.UI.Dialogs
 {
-    [SerializeField] private TextMeshProUGUI text;
-    public override void Init()
+    public class NotEnoughItemDialog : Dialog
     {
-        base.Init();
-        text.text = $"You need to collect all {LevelManager.instance.numOfItemsToCollect} items to unlock";
+        [SerializeField] private TextMeshProUGUI text;
+        public override void Init()
+        {
+            base.Init();
+            text.text = $"You need to collect all {LevelManager.instance.numOfItemsToCollect} items to unlock";
+        }
     }
 }

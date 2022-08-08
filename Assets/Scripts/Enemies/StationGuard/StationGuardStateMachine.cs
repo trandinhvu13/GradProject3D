@@ -1,25 +1,28 @@
-using UnityEngine;
+using Enemies.StationGuard.State;
 
-public class StationGuardStateMachine : StateMachine
+namespace Enemies.StationGuard
 {
-    public StationGuard stationGuard;
+    public class StationGuardStateMachine : StateMachine
+    {
+        public global::Enemies.StationGuard.StationGuard stationGuard;
     
-    [HideInInspector] public StationGuardIdle idleState;
-    [HideInInspector] public StationGuardSuspect suspectState;
-    [HideInInspector] public StationGuardAlert alertState;
-    [HideInInspector] public StationGuardWin winState;
+        public StationGuardIdle idleState;
+        public StationGuardSuspect suspectState;
+        public StationGuardAlert alertState;
+        public StationGuardWin winState;
 
 
-    protected override BaseState GetInitialState()
-    {
-        return idleState;
-    }
+        protected override BaseState GetInitialState()
+        {
+            return idleState;
+        }
 
-    private void Awake()
-    {
-        idleState = new StationGuardIdle(this);
-        alertState = new StationGuardAlert(this);
-        suspectState = new StationGuardSuspect(this);
-        winState = new StationGuardWin(this);
+        private void Awake()
+        {
+            idleState = new StationGuardIdle(this);
+            alertState = new StationGuardAlert(this);
+            suspectState = new StationGuardSuspect(this);
+            winState = new StationGuardWin(this);
+        }
     }
 }

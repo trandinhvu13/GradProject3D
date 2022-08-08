@@ -3,202 +3,205 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class AudioManager : MonoSingleton<AudioManager>
+namespace Game.Audio
 {
-    #region Variable;
-
-    public bool isMute = false;
-    private float currentVolume;
-
-    #endregion
-
-    #region Components
-
-    public List<AudioSource> EffectSources;
-    public AudioSource MusicSource;
-
-    #endregion
-
-    #region Audio Clips
-
-    [SerializeField] private Sound[] audioLibrary;
-
-    #endregion
-
-    #region Method
-
-    public void PlayEffect(string name, bool isUnique = false)
+    public class AudioManager : MonoSingleton<AudioManager>
     {
-        Sound sound = Array.Find(audioLibrary, s => s.name == name);
-        if (sound == null) return;
+        #region Variable;
 
-        if (isUnique)
+        public bool isMute;
+        private float currentVolume;
+
+        #endregion
+
+        #region Components
+
+        [SerializeField] private List<AudioSource> EffectSources;
+        [SerializeField] private AudioSource MusicSource;
+
+        #endregion
+
+        #region Audio Clips
+
+        [SerializeField] private Sound[] audioLibrary;
+
+        #endregion
+
+        #region Method
+
+        public void PlayEffect(string name, bool isUnique = false)
+        {
+            Sound sound = Array.Find(audioLibrary, s => s.name == name);
+            if (sound == null) return;
+
+            if (isUnique)
+            {
+                foreach (AudioSource audioSource in EffectSources)
+                {
+                    if (audioSource.isPlaying && audioSource.name == name) return;
+                }
+            }
+
+            foreach (AudioSource audioSource in EffectSources)
+            {
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.name = sound.name;
+                    audioSource.clip = sound.clip;
+                    audioSource.volume = sound.volume * audioSource.volume;
+                    audioSource.loop = sound.isLoop;
+
+                    audioSource.Play();
+                    break;
+                }
+            }
+        }
+
+        public void StopEffect(string name)
         {
             foreach (AudioSource audioSource in EffectSources)
             {
-                if (audioSource.isPlaying && audioSource.name == name) return;
+                if (audioSource.isPlaying && audioSource.name == name)
+                {
+                    audioSource.Stop();
+                    break;
+                }
             }
         }
 
-        foreach (AudioSource audioSource in EffectSources)
+        public void PlayMusic(string name)
         {
-            if (!audioSource.isPlaying)
+            Sound sound = Array.Find(audioLibrary, s => s.name == name);
+            if (sound == null)
             {
-                audioSource.name = sound.name;
-                audioSource.clip = sound.clip;
-                audioSource.volume = sound.volume * audioSource.volume;
-                audioSource.loop = sound.isLoop;
-
-                audioSource.Play();
-                break;
+                Debug.LogWarning($"Sound named {name} not found!");
+                return;
             }
-        }
-    }
 
-    public void StopEffect(string name)
-    {
-        foreach (AudioSource audioSource in EffectSources)
-        {
-            if (audioSource.isPlaying && audioSource.name == name)
-            {
-                audioSource.Stop();
-                break;
-            }
-        }
-    }
+            MusicSource.name = sound.name;
+            MusicSource.clip = sound.clip;
+            MusicSource.volume = sound.volume * MusicSource.volume;
+            MusicSource.loop = sound.isLoop;
 
-    public void PlayMusic(string name)
-    {
-        Sound sound = Array.Find(audioLibrary, s => s.name == name);
-        if (sound == null)
-        {
-            Debug.LogWarning($"Sound named {name} not found!");
-            return;
+            MusicSource.Play();
         }
 
-        MusicSource.name = sound.name;
-        MusicSource.clip = sound.clip;
-        MusicSource.volume = sound.volume * MusicSource.volume;
-        MusicSource.loop = sound.isLoop;
-
-        MusicSource.Play();
-    }
-
-    public void MuteAll()
-    {
-        isMute = true;
-
-        foreach (AudioSource audioSource in EffectSources)
+        public void MuteAll()
         {
-            audioSource.mute = true;
-        }
+            isMute = true;
 
-        MusicSource.mute = true;
-    }
-
-    public void UnmuteAll()
-    {
-        isMute = false;
-
-        foreach (AudioSource audioSource in EffectSources)
-        {
-            audioSource.mute = false;
-        }
-
-        MusicSource.mute = false;
-    }
-
-    public void MuteEffectSound(string name)
-    {
-        foreach (AudioSource audioSource in EffectSources)
-        {
-            if (audioSource.clip == null) continue;
-            if (audioSource.name == name)
+            foreach (AudioSource audioSource in EffectSources)
             {
                 audioSource.mute = true;
             }
-        }
-    }
 
-    public void UnmuteEffectSound(string name)
-    {
-        foreach (AudioSource audioSource in EffectSources)
+            MusicSource.mute = true;
+        }
+
+        public void UnmuteAll()
         {
-            if (audioSource.clip == null) continue;
-            if (audioSource.name == name)
+            isMute = false;
+
+            foreach (AudioSource audioSource in EffectSources)
             {
                 audioSource.mute = false;
             }
+
+            MusicSource.mute = false;
         }
-    }
 
-    public void ChangeVolumeMusic(float amount)
-    {
-        MusicSource.volume = amount;
-    }
-
-    public void ChangeVolumeEffect(float amount)
-    {
-        foreach (AudioSource effectSource in EffectSources)
+        public void MuteEffectSound(string name)
         {
-            effectSource.volume = amount;
+            foreach (AudioSource audioSource in EffectSources)
+            {
+                if (audioSource.clip == null) continue;
+                if (audioSource.name == name)
+                {
+                    audioSource.mute = true;
+                }
+            }
         }
-    }
 
-    public void FadeInMusic()
-    {
-        MusicSource.DOFade(currentVolume, 0.5f).SetUpdate(UpdateType.Normal, true);
-    }
-
-    public void FadeOutMusic()
-    {
-        currentVolume = MusicSource.volume;
-        MusicSource.DOFade(0, 0.5f).SetUpdate(UpdateType.Normal, true);
-    }
-
-    public void PauseMusic()
-    {
-        MusicSource.Pause();
-        foreach (AudioSource effectSource in EffectSources)
+        public void UnmuteEffectSound(string name)
         {
-            effectSource.Pause();
+            foreach (AudioSource audioSource in EffectSources)
+            {
+                if (audioSource.clip == null) continue;
+                if (audioSource.name == name)
+                {
+                    audioSource.mute = false;
+                }
+            }
         }
-    }
 
-    public void ResumeMusic()
-    {
-        MusicSource.UnPause();
-        foreach (AudioSource effectSource in EffectSources)
+        public void ChangeVolumeMusic(float amount)
         {
-            effectSource.UnPause();
+            MusicSource.volume = amount;
         }
-    }
 
-    public float GetMusicVolume()
-    {
-        return MusicSource.volume;
-    }
+        public void ChangeVolumeEffect(float amount)
+        {
+            foreach (AudioSource effectSource in EffectSources)
+            {
+                effectSource.volume = amount;
+            }
+        }
 
-    public float GetEffectVolume()
-    {
-        return EffectSources[0].volume;
-    }
+        public void FadeInMusic()
+        {
+            MusicSource.DOFade(currentVolume, 0.5f).SetUpdate(UpdateType.Normal, true);
+        }
 
-    #endregion
+        public void FadeOutMusic()
+        {
+            currentVolume = MusicSource.volume;
+            MusicSource.DOFade(0, 0.5f).SetUpdate(UpdateType.Normal, true);
+        }
 
-    protected override void InternalInit()
-    {
-    }
+        public void PauseMusic()
+        {
+            MusicSource.Pause();
+            foreach (AudioSource effectSource in EffectSources)
+            {
+                effectSource.Pause();
+            }
+        }
 
-    protected override void InternalOnDestroy()
-    {
-    }
+        public void ResumeMusic()
+        {
+            MusicSource.UnPause();
+            foreach (AudioSource effectSource in EffectSources)
+            {
+                effectSource.UnPause();
+            }
+        }
 
-    protected override void InternalOnDisable()
-    {
-    }
+        public float GetMusicVolume()
+        {
+            return MusicSource.volume;
+        }
 
-    protected override void InternalOnEnable()
-    {
+        public float GetEffectVolume()
+        {
+            return EffectSources[0].volume;
+        }
+
+        #endregion
+
+        protected override void InternalInit()
+        {
+        }
+
+        protected override void InternalOnDestroy()
+        {
+        }
+
+        protected override void InternalOnDisable()
+        {
+        }
+
+        protected override void InternalOnEnable()
+        {
+        }
     }
 }

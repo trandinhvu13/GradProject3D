@@ -1,35 +1,36 @@
-using System;
-using Main;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuButtons : MonoBehaviour
+namespace Game.UI.Dialogs
 {
-    [SerializeField] private Button play;
-    [SerializeField] private Button shop;
-    [SerializeField] private Button setting;
-    [SerializeField] private Button exit;
-    private void Start()
+    public class MenuButtons : MonoBehaviour
     {
-        /*play.onClick.AddListener(() =>
+        [SerializeField] private Button play;
+        [SerializeField] private Button shop;
+        [SerializeField] private Button setting;
+        [SerializeField] private Button exit;
+        private void Start()
+        {
+            /*play.onClick.AddListener(() =>
             {
                 gameObject.SetActive(false);
                 SceneController.instance.Load("Main", null, () => { GameUIManager.instance.gameTimer.StartTime(); });
             });*/
 
-        play.onClick.AddListener(() =>
-        {
-            DialogSystem.instance.GetDialog("StageDialog").Open();
-        });
+            play.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("StageDialog").Open();
+            });
         
-        setting.onClick.AddListener(() =>
-        {
-            DialogSystem.instance.GetDialog("SettingDialog").Open();
-        });
+            setting.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("SettingDialog").Open();
+            });
         
-        exit.onClick.AddListener(() =>
-        {
-            Application.Quit();
-        });
+            exit.onClick.AddListener(() =>
+            {
+                Application.Quit();
+            });
+        }
     }
 }

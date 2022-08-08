@@ -1,79 +1,79 @@
-using System.Collections;
-using System.Collections.Generic;
-using Firebase.Auth;
-using Main;
+using Game.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingDialog : Dialog
+namespace Game.UI.Dialogs
 {
-    public Button backButton;
-    public Button changeUsernameButton;
-    public Button changeEmailButton;
-    public Button changePasswordButton;
-    public Button deleteAccountButton;
-    public Button signOutButton;
-    public Toggle fullscreenToggle;
-    public Slider musicVolume;
-    public Slider effectVolume;
-
-    private bool isFullscreen = true;
-
-    public override void Init()
+    public class SettingDialog : Dialog
     {
-        base.Init();
-        musicVolume.value = AudioManager.instance.GetMusicVolume();
-        effectVolume.value = AudioManager.instance.GetEffectVolume();
+        [SerializeField] private Button backButton;
+        [SerializeField] private Button changeUsernameButton;
+        [SerializeField] private Button changeEmailButton;
+        [SerializeField] private Button changePasswordButton;
+        [SerializeField] private Button deleteAccountButton;
+        [SerializeField] private Button signOutButton;
+        [SerializeField] private Toggle fullscreenToggle;
+        [SerializeField] private Slider musicVolume;
+        [SerializeField] private Slider effectVolume;
+
+        private bool isFullscreen = true;
+
+        public override void Init()
+        {
+            base.Init();
+            musicVolume.value = AudioManager.instance.GetMusicVolume();
+            effectVolume.value = AudioManager.instance.GetEffectVolume();
         
-        musicVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeMusic(value); });
+            musicVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeMusic(value); });
 
-        effectVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeEffect(value); });
+            effectVolume.onValueChanged.AddListener((value) => { AudioManager.instance.ChangeVolumeEffect(value); });
 
-        fullscreenToggle.onValueChanged.AddListener((value) =>
-        {
-            Debug.Log(value);
-            if (value)
+            fullscreenToggle.onValueChanged.AddListener((value) =>
             {
-                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-            }
-            else
+                Debug.Log(value);
+                if (value)
+                {
+                    Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+                }
+                else
+                {
+                    Screen.fullScreenMode = FullScreenMode.Windowed;
+                }
+            });
+
+            backButton.onClick.AddListener(Close);
+            changeEmailButton.onClick.AddListener(() =>
             {
-                Screen.fullScreenMode = FullScreenMode.Windowed;
-            }
-        });
+                DialogSystem.instance.GetDialog("UpdateEmailDialog").Open(true);
+            });
 
-        backButton.onClick.AddListener(Close);
-        changeEmailButton.onClick.AddListener(() =>
+            changeUsernameButton.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("UpdateUsernameDialog").Open(true);
+            });
+
+            changePasswordButton.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("UpdatePasswordDialog").Open(true);
+            });
+
+            deleteAccountButton.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("DeleteAccountConfirmDialog").Open(true);
+            });
+
+            signOutButton.onClick.AddListener((() =>
+            {
+                DialogSystem.instance.GetDialog("LogoutConfirmDialog").Open(true);
+            }));
+        }
+
+        public override void Outro()
         {
-            DialogSystem.instance.GetDialog("UpdateEmailDialog").Open(true);
-        });
-
-        changeUsernameButton.onClick.AddListener(() =>
-        {
-            DialogSystem.instance.GetDialog("UpdateUsernameDialog").Open(true);
-        });
-
-        changePasswordButton.onClick.AddListener(() =>
-        {
-            DialogSystem.instance.GetDialog("UpdatePasswordDialog").Open(true);
-        });
-
-        deleteAccountButton.onClick.AddListener(() =>
-        {
-            DialogSystem.instance.GetDialog("DeleteAccountConfirmDialog").Open(true);
-        });
-
-        signOutButton.onClick.AddListener((() =>
-        {
-            DialogSystem.instance.GetDialog("LogoutConfirmDialog").Open(true);
-        }));
-    }
-
-    public override void Outro()
-    {
-        base.Outro();
-        musicVolume.onValueChanged.RemoveAllListeners();
-        effectVolume.onValueChanged.RemoveAllListeners();
-        fullscreenToggle.onValueChanged.RemoveAllListeners();
+            base.Outro();
+            musicVolume.onValueChanged.RemoveAllListeners();
+            effectVolume.onValueChanged.RemoveAllListeners();
+            fullscreenToggle.onValueChanged.RemoveAllListeners();
+        }
     }
 }

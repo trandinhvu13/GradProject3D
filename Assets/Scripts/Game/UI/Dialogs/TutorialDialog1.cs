@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TutorialDialog1 : Dialog
+namespace Game.UI.Dialogs
 {
+    public class TutorialDialog1 : Dialog
+    {
+    }
 }

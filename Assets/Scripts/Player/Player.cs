@@ -1,6 +1,8 @@
 using System;
 using Cinemachine;
 using DG.Tweening;
+using Game;
+using Game.Audio;
 using Pathfinding;
 using UnityEngine;
 

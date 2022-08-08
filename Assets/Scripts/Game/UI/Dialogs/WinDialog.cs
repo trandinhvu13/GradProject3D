@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Main;
+using Game;
+using Game.UI.Dialogs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

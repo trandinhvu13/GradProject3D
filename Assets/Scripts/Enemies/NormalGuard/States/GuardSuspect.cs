@@ -1,67 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening.Plugins.Core.PathCore;
-using UnityEngine;
+using Game;
 using Path = Pathfinding.Path;
 
-public class GuardSuspect : BaseState
+namespace Enemies.NormalGuard.States
 {
-    private NormalGuard normalGuard;
-    private NormalGuardStateMachine normalGuardStateMachine;
+    public class GuardSuspect : BaseState
+    {
+        private NormalGuard normalGuard;
+        private NormalGuardStateMachine normalGuardStateMachine;
     
-    public GuardSuspect(NormalGuardStateMachine stateMachine) : base("GuardSuspect", stateMachine)
-    {
-        normalGuardStateMachine = stateMachine;
-        normalGuard = normalGuardStateMachine.normalGuard;
-    }
-    
-    public override void Enter()
-    {
-        base.Enter();
-        normalGuard.canMove = true;
-        normalGuard.data.isMoving = true;
-        normalGuard.data.isRunning = false;
-        normalGuard.maxSpeed = normalGuard.data.suspectSpeed;
-        
-        var position = LevelManager.instance.player.transform.position;
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, position,
-            (Path p) =>
-            {
-                Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
-            });
-        normalGuard.playerLastPlaceIndicator.Show(position);
-    }
-
-    public override void UpdateLogic()
-    {
-        base.UpdateLogic();
-    }
-
-    public override void UpdatePhysics()
-    {
-        base.UpdatePhysics();
-        if (normalGuard.suspectMeterAmount >= normalGuard.data.suspectMeterMax)
+        public GuardSuspect(NormalGuardStateMachine stateMachine) : base("GuardSuspect", stateMachine)
         {
-            normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
+            normalGuardStateMachine = stateMachine;
+            normalGuard = normalGuardStateMachine.normalGuard;
         }
-    }
+    
+        public override void Enter()
+        {
+            base.Enter();
+            normalGuard.canMove = true;
+            normalGuard.data.isMoving = true;
+            normalGuard.data.isRunning = false;
+            normalGuard.maxSpeed = normalGuard.data.suspectSpeed;
+        
+            var position = LevelManager.instance.player.transform.position;
+            normalGuard.seekerScript.StartPath(normalGuard.transform.position, position,
+                (Path p) =>
+                {
+                    Helper.SetTriggerAnimator(normalGuard.animator, "Walk");
+                });
+            normalGuard.playerLastPlaceIndicator.Show(position);
+        }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
+        public override void UpdatePhysics()
+        {
+            base.UpdatePhysics();
+            if (normalGuard.suspectMeterAmount >= normalGuard.data.suspectMeterMax)
+            {
+                normalGuardStateMachine.ChangeState(normalGuardStateMachine.alertState);
+            }
+        }
 
-    public void OnTargetReached()
-    {
-        normalGuard.suspectMeterAmount = 0;
-        normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
-        normalGuard.playerLastPlaceIndicator.Hide();
-    }
+        public void OnTargetReached()
+        {
+            normalGuard.suspectMeterAmount = 0;
+            normalGuardStateMachine.ChangeState(normalGuardStateMachine.idleState);
+            normalGuard.playerLastPlaceIndicator.Hide();
+        }
 
-    public void OnHearPlayer()
-    {
-        var position = LevelManager.instance.player.transform.position;
-        normalGuard.seekerScript.StartPath(normalGuard.transform.position, position);
-        normalGuard.playerLastPlaceIndicator.Show(position);
+        public void OnHearPlayer()
+        {
+            var position = LevelManager.instance.player.transform.position;
+            normalGuard.seekerScript.StartPath(normalGuard.transform.position, position);
+            normalGuard.playerLastPlaceIndicator.Show(position);
+        }
     }
 }

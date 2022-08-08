@@ -1,88 +1,89 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Firebase;
 using Firebase.Database;
+using Game;
+using Game.UI.Menu;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StageDialog : Dialog
+namespace Game.UI.Dialogs
 {
-    [SerializeField] private List<Stage> stages;
-    [SerializeField] private Button home;
-    [SerializeField] private TextMeshProUGUI currentStar;
-    private List<StageData> stageDatas;
-
-    public override void Init()
+    public class StageDialog : Dialog
     {
-        base.Init();
-        stageDatas = new List<StageData>();
-        home.onClick.AddListener(() => { Close(); });
+        [SerializeField] private List<Stage> stages;
+        [SerializeField] private Button home;
+        [SerializeField] private TextMeshProUGUI currentStar;
+        private List<StageData> stageDatas;
 
-        currentStar.text = $"{PlayerDataManager.instance.GetCurrentStar()}/{PlayerDataManager.instance.GetTotalStar()}";
-
-        int currentLevel = PlayerDataManager.instance.GetCurrentLevel();
-        StartCoroutine(FirebaseManager.instance.GetUserLevelData((snapshot) =>
+        public override void Init()
         {
-            int level = 0;
-            if (snapshot != null)
+            base.Init();
+            stageDatas = new List<StageData>();
+            home.onClick.AddListener(() => { Close(); });
+
+            currentStar.text = $"{PlayerDataManager.instance.GetCurrentStar()}/{PlayerDataManager.instance.GetTotalStar()}";
+
+            int currentLevel = PlayerDataManager.instance.GetCurrentLevel();
+            StartCoroutine(FirebaseManager.instance.GetUserLevelData((snapshot) =>
             {
-                foreach (DataSnapshot childSnapshot in snapshot.Children)
+                int level = 0;
+                if (snapshot != null)
                 {
-                    int star = int.Parse(childSnapshot.Child("star").Value.ToString());
-                    stageDatas.Add(new StageData(level, star));
-                    level++;
-                }
-                for (int i = 0; i < stages.Count; i++)
-                {
-                    if (i <= PlayerDataManager.instance.numberOfLevel - 1)
+                    foreach (DataSnapshot childSnapshot in snapshot.Children)
                     {
-                        if (i < stageDatas.Count)
+                        int star = int.Parse(childSnapshot.Child("star").Value.ToString());
+                        stageDatas.Add(new StageData(level, star));
+                        level++;
+                    }
+                    for (int i = 0; i < stages.Count; i++)
+                    {
+                        if (i <= PlayerDataManager.instance.numberOfLevel - 1)
                         {
-                            stages[i].Setup(this, stageDatas[i], currentLevel);
+                            if (i < stageDatas.Count)
+                            {
+                                stages[i].Setup(this, stageDatas[i], currentLevel);
+                            }
+                            else
+                            {
+                                stages[i].Setup(this, new StageData(i, 0), currentLevel);
+                            }
                         }
                         else
                         {
-                            stages[i].Setup(this, new StageData(i, 0), currentLevel);
+                            stages[i].gameObject.SetActive(false);
                         }
                     }
-                    else
-                    {
-                        stages[i].gameObject.SetActive(false);
-                    }
                 }
-            }
-            else
-            {
-                for (int i = 0; i < stages.Count; i++)
+                else
                 {
-                    if (i <= PlayerDataManager.instance.numberOfLevel - 1)
+                    for (int i = 0; i < stages.Count; i++)
                     {
-                        stages[i].Setup(this, new StageData(i, 0), currentLevel);
-                    }
-                    else
-                    {
-                        stages[i].gameObject.SetActive(false);
+                        if (i <= PlayerDataManager.instance.numberOfLevel - 1)
+                        {
+                            stages[i].Setup(this, new StageData(i, 0), currentLevel);
+                        }
+                        else
+                        {
+                            stages[i].gameObject.SetActive(false);
+                        }
                     }
                 }
-            }
-        }));
+            }));
+        }
     }
 
-    public override void Outro()
+    public class StageData
     {
-        base.Outro();
-    }
-}
+        public int levelID;
+        public int star;
 
-public class StageData
-{
-    public int levelID;
-    public int star;
-
-    public StageData(int levelID, int star)
-    {
-        this.levelID = levelID;
-        this.star = star;
+        public StageData(int levelID, int star)
+        {
+            this.levelID = levelID;
+            this.star = star;
+        }
     }
 }

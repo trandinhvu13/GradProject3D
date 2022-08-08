@@ -1,59 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
+using Game;
 using UnityEngine;
 
-public class StationGuardAlert : BaseState
+namespace Enemies.StationGuard.State
 {
-    private StationGuard stationGuard;
-    private StationGuardStateMachine stationGuardStateMachine;
-
-    public StationGuardAlert(StationGuardStateMachine stateMachine) : base("StationGuardAlert", stateMachine)
+    public class StationGuardAlert : BaseState
     {
-        stationGuardStateMachine = stateMachine;
-        stationGuard = stationGuardStateMachine.stationGuard;
-    }
+        private StationGuard stationGuard;
+        private StationGuardStateMachine stationGuardStateMachine;
 
-    public override void Enter()
-    {
-        base.Enter();
-        GameEvent.instance.EnemyAlert(stationGuard.transform);
-        stationGuard.playerLastPlaceIndicator.Hide();
-        stationGuard.canMove = true; 
-        stationGuard.data.isMoving = true;
-        stationGuard.data.isRunning = true;
-        stationGuard.data.isInStation = false;
-        stationGuard.maxSpeed = stationGuard.data.alertSpeed;
-        stationGuard.onSearchPath += UpdateLogic;
-        Helper.SetTriggerAnimator(stationGuard.animator, "Run");
-        Debug.Log("Alert");
-    }
+        public StationGuardAlert(StationGuardStateMachine stateMachine) : base("StationGuardAlert", stateMachine)
+        {
+            stationGuardStateMachine = stateMachine;
+            stationGuard = stationGuardStateMachine.stationGuard;
+        }
 
-    public void Chase()
-    {
-        stationGuard.playerLastPlaceIndicator.Hide();
-        stationGuard.destination = LevelManager.instance.player.transform.position;
-        //if(stationGuard.suspectMeterAmount <= 0) stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
-    }
+        public override void Enter()
+        {
+            base.Enter();
+            GameEvent.instance.EnemyAlert(stationGuard.transform);
+            stationGuard.playerLastPlaceIndicator.Hide();
+            stationGuard.canMove = true; 
+            stationGuard.data.isMoving = true;
+            stationGuard.data.isRunning = true;
+            stationGuard.data.isInStation = false;
+            stationGuard.maxSpeed = stationGuard.data.alertSpeed;
+            stationGuard.onSearchPath += UpdateLogic;
+            Helper.SetTriggerAnimator(stationGuard.animator, "Run");
+            Debug.Log("Alert");
+        }
 
-    public override void UpdateLogic()
-    {
-        base.UpdateLogic();
-        Chase();
-    }
+        public void Chase()
+        {
+            stationGuard.playerLastPlaceIndicator.Hide();
+            stationGuard.destination = LevelManager.instance.player.transform.position;
+            //if(stationGuard.suspectMeterAmount <= 0) stationGuardStateMachine.ChangeState(stationGuardStateMachine.idleState);
+        }
 
-    public override void UpdatePhysics()
-    {
-        base.UpdatePhysics();
-    }
+        public override void UpdateLogic()
+        {
+            base.UpdateLogic();
+            Chase();
+        }
 
-    public override void Exit()
-    {
-        base.Exit();
-        stationGuard.onSearchPath -= UpdateLogic;
-    }
+        public override void UpdatePhysics()
+        {
+            base.UpdatePhysics();
+        }
 
-    public void OnTargetReached()
-    {
-        stationGuard.playerLastPlaceIndicator.Hide();
+        public override void Exit()
+        {
+            base.Exit();
+            stationGuard.onSearchPath -= UpdateLogic;
+        }
+
+        public void OnTargetReached()
+        {
+            stationGuard.playerLastPlaceIndicator.Hide();
+        }
     }
 }

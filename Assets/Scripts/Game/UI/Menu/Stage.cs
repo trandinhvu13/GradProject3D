@@ -1,74 +1,75 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Main;
+using Game.UI.Dialogs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Stage : MonoBehaviour
+namespace Game.UI.Menu
 {
-    [SerializeField] private List<TextMeshProUGUI> levelTexts;
-    [SerializeField] private List<GameObject> stars;
-    [SerializeField] private GameObject completeState;
-    [SerializeField] private GameObject currentState;
-    [SerializeField] private GameObject lockedState;
-    [SerializeField] private Button playButton;
-
-    private void Awake()
+    public class Stage : MonoBehaviour
     {
-        completeState.SetActive(false);
-        currentState.SetActive(false);
-        lockedState.SetActive(false);
-    }
+        [SerializeField] private List<TextMeshProUGUI> levelTexts;
+        [SerializeField] private List<GameObject> stars;
+        [SerializeField] private GameObject completeState;
+        [SerializeField] private GameObject currentState;
+        [SerializeField] private GameObject lockedState;
+        [SerializeField] private Button playButton;
 
-    public void Setup(StageDialog stageDialog, StageData stageData, int currentLevel)
-    {
-        int id = stageData.levelID;
-        foreach (TextMeshProUGUI levelText in levelTexts)
+        private void Awake()
         {
-            levelText.text = (id + 1).ToString();
+            completeState.SetActive(false);
+            currentState.SetActive(false);
+            lockedState.SetActive(false);
         }
 
-        if (id < currentLevel)
+        public void Setup(StageDialog stageDialog, StageData stageData, int currentLevel)
         {
-            completeState.SetActive(true);
-
-            int star = stageData.star-1;
-
-            for (int i = 0; i < stars.Count; i++)
+            int id = stageData.levelID;
+            foreach (TextMeshProUGUI levelText in levelTexts)
             {
-                if (i > star)
+                levelText.text = (id + 1).ToString();
+            }
+
+            if (id < currentLevel)
+            {
+                completeState.SetActive(true);
+
+                int star = stageData.star-1;
+
+                for (int i = 0; i < stars.Count; i++)
                 {
-                    stars[i].SetActive(false);
+                    if (i > star)
+                    {
+                        stars[i].SetActive(false);
+                    }
                 }
             }
-        }
-        else if (id == currentLevel)
-        {
-            currentState.SetActive(true);
-        }
-        else
-        {
-            lockedState.SetActive(true);
-        }
-
-        if (id <= currentLevel)
-        {
-            playButton.onClick.AddListener(() =>
+            else if (id == currentLevel)
             {
-                PlayerDataManager.instance.levelIDToLoad = id;
-                SceneController.instance.Load("Main", () => { stageDialog.Close(); },
-                    () => { GameUIManager.instance.gameTimer.StartTime(); });
-            });
-        }
-    }
+                currentState.SetActive(true);
+            }
+            else
+            {
+                lockedState.SetActive(true);
+            }
 
-    private void OnDisable()
-    {
-        playButton.onClick.RemoveAllListeners();
-        completeState.SetActive(false);
-        currentState.SetActive(false);
-        lockedState.SetActive(false);
+            if (id <= currentLevel)
+            {
+                playButton.onClick.AddListener(() =>
+                {
+                    PlayerDataManager.instance.levelIDToLoad = id;
+                    SceneController.instance.Load("Main", () => { stageDialog.Close(); },
+                        () => { GameUIManager.instance.gameTimer.StartTime(); });
+                });
+            }
+        }
+
+        private void OnDisable()
+        {
+            playButton.onClick.RemoveAllListeners();
+            completeState.SetActive(false);
+            currentState.SetActive(false);
+            lockedState.SetActive(false);
+        }
     }
 }

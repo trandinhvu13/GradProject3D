@@ -1,27 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using Main;
+using Firebase;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LogoutConfirmDialog : Dialog
+namespace Game.UI.Dialogs
 {
-    public Button yes;
-    public Button no;
-
-    public override void Init()
+    public class LogoutConfirmDialog : Dialog
     {
-        base.Init();
-        
-        yes.onClick.AddListener(() =>
+        [SerializeField] private Button yes;
+        [SerializeField] private Button no;
+
+        public override void Init()
         {
-            FirebaseManager.instance.SignOut();
-            SceneController.instance.Load("Login", () =>
-            {
-                DialogSystem.instance.CloseAllOpenedDialogs();
-            }, null);
-        });
+            base.Init();
         
-        no.onClick.AddListener(Close);
+            yes.onClick.AddListener(() =>
+            {
+                FirebaseManager.instance.SignOut();
+                SceneController.instance.Load("Login", () =>
+                {
+                    DialogSystem.instance.CloseAllOpenedDialogs();
+                }, null);
+            });
+        
+            no.onClick.AddListener(Close);
+        }
     }
 }

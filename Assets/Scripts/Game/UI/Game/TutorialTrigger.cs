@@ -1,25 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialTrigger : MonoBehaviour
+namespace Game.UI.Game
 {
-    public string dialogId;
-    public float distance;
-
-    private void Update()
+    public class TutorialTrigger : MonoBehaviour
     {
-        if (LevelManager.instance.player &&
-            Vector3.Distance(LevelManager.instance.player.transform.position, transform.position) < distance)
+        [SerializeField] private string dialogId;
+        [SerializeField] private float distance;
+
+        private void Update()
         {
-            if (!DialogSystem.instance.GetDialog(dialogId).isOpen)
-                DialogSystem.instance.GetDialog(dialogId).Open();
-        }
-        else
-        {
-            if (DialogSystem.instance.GetDialog(dialogId).isOpen)
-                DialogSystem.instance.GetDialog(dialogId).Close();
+            if (LevelManager.instance.player &&
+                Vector3.Distance(LevelManager.instance.player.transform.position, transform.position) < distance)
+            {
+                if (!DialogSystem.instance.GetDialog(dialogId).isOpen)
+                    DialogSystem.instance.GetDialog(dialogId).Open();
+            }
+            else
+            {
+                if (DialogSystem.instance.GetDialog(dialogId).isOpen)
+                    DialogSystem.instance.GetDialog(dialogId).Close();
+            }
         }
     }
 }

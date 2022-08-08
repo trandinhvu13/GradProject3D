@@ -1,17 +1,17 @@
 using System;
 using System.Collections;
+using Game.Audio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace Main
+namespace Game
 {
     public class SceneController : MonoSingleton<SceneController>
     {
         #region Variables
 
-        private AsyncOperation loadingAsyncOperation = null;
+        private AsyncOperation loadingAsyncOperation;
         [SerializeField] private TransitionScreen transitionScreen;
 
         #endregion
@@ -87,18 +87,6 @@ namespace Main
                 }
 
                 yield return null;
-            }
-        }
-
-        public float GetLoadingProgress()
-        {
-            if (loadingAsyncOperation != null)
-            {
-                return loadingAsyncOperation.progress;
-            }
-            else
-            {
-                return 1f;
             }
         }
 

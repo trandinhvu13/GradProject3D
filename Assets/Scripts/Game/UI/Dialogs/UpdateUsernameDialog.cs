@@ -1,35 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using Firebase;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpdateUsernameDialog : Dialog
+namespace Game.UI.Dialogs
 {
-    public Button closeButton;
-    public Button updateButton;
-    public TMP_InputField input;
-    public TextMeshProUGUI currentUsername;
-
-    public override void Init()
+    public class UpdateUsernameDialog : Dialog
     {
-        base.Init();
+        [SerializeField] private Button closeButton;
+        [SerializeField] private Button updateButton;
+        [SerializeField] private TMP_InputField input;
+        [SerializeField] private TextMeshProUGUI currentUsername;
 
-        StartCoroutine(FirebaseManager.instance.GetUserInfoData((snapshot) =>
+        public override void Init()
         {
-            currentUsername.text = $"Current username: {snapshot.Child("username").Value}";
-        }));
-        closeButton.onClick.AddListener(Close);
-        updateButton.onClick.AddListener(() =>
-        {
-            StartCoroutine(FirebaseManager.instance.UpdateUsernameAuth(input.text));
-            StartCoroutine(FirebaseManager.instance.UpdateUsername(input.text, () => { Close(); }));
-        });
-    }
+            base.Init();
 
-    public override void Outro()
-    {
-        base.Outro();
-        input.text = "";
+            StartCoroutine(FirebaseManager.instance.GetUserInfoData((snapshot) =>
+            {
+                currentUsername.text = $"Current username: {snapshot.Child("username").Value}";
+            }));
+            closeButton.onClick.AddListener(Close);
+            updateButton.onClick.AddListener(() =>
+            {
+                StartCoroutine(FirebaseManager.instance.UpdateUsernameAuth(input.text));
+                StartCoroutine(FirebaseManager.instance.UpdateUsername(input.text, () => { Close(); }));
+            });
+        }
+
+        public override void Outro()
+        {
+            base.Outro();
+            input.text = "";
+        }
     }
 }

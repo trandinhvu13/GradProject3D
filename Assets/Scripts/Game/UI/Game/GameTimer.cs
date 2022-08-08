@@ -1,4 +1,5 @@
 using System;
+using Game;
 using TMPro;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ public class GameTimer : MonoBehaviour
         isTimeStart = true;
     }
 
-    public void StopTime()
+    private void StopTime()
     {
         isTimeStart = false;
     }

@@ -1,45 +1,45 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoginUIManager : MonoSingleton<LoginUIManager>
+namespace Game.UI.Login
 {
-    public Button loginWithMailButton;
-    public Button registerWithMailButton;
-    public Button exitButton;
-    protected override void InternalInit()
+    public class LoginUIManager : MonoSingleton<LoginUIManager>
     {
-    }
-
-    protected override void InternalOnDestroy()
-    {
-    }
-
-    protected override void InternalOnDisable()
-    {
-    }
-
-    protected override void InternalOnEnable()
-    {
-    }
-
-    private void Start()
-    {
-        loginWithMailButton.onClick.AddListener(() =>
+        [SerializeField] private Button loginWithMailButton;
+        [SerializeField] private Button registerWithMailButton;
+        [SerializeField] private Button exitButton;
+        protected override void InternalInit()
         {
-            DialogSystem.instance.GetDialog("LoginDialog").Open(true);
-        });
+        }
+
+        protected override void InternalOnDestroy()
+        {
+        }
+
+        protected override void InternalOnDisable()
+        {
+        }
+
+        protected override void InternalOnEnable()
+        {
+        }
+
+        private void Start()
+        {
+            loginWithMailButton.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("LoginDialog").Open(true);
+            });
         
-        registerWithMailButton.onClick.AddListener(() =>
-        {
-            DialogSystem.instance.GetDialog("RegisterDialog").Open(true);
-        });
+            registerWithMailButton.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("RegisterDialog").Open(true);
+            });
         
-        exitButton.onClick.AddListener(() =>
-        {
-            Application.Quit();
-        });
+            exitButton.onClick.AddListener(() =>
+            {
+                Application.Quit();
+            });
+        }
     }
 }

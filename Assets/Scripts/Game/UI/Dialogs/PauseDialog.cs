@@ -1,45 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
-using Main;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseDialog : Dialog
+namespace Game.UI.Dialogs
 {
-    [SerializeField] private Button resume;
-    [SerializeField] private Button retry;
-    [SerializeField] private Button setting;
-    [SerializeField] private Button exit;
-
-    public override void Init()
+    public class PauseDialog : Dialog
     {
-        base.Init();
-        resume.onClick.AddListener(()=>
+        [SerializeField] private Button resume;
+        [SerializeField] private Button retry;
+        [SerializeField] private Button setting;
+        [SerializeField] private Button exit;
+
+        public override void Init()
         {
-            Close();
-            LevelManager.instance.ResumeGame();
-        });
-        retry.onClick.AddListener(()=>
-        {
-            Close();
-            LevelManager.instance.Retry();
-        });
-        exit.onClick.AddListener(() =>
-        {
-            SceneController.instance.Load("Menu", () =>
+            base.Init();
+            resume.onClick.AddListener(()=>
             {
                 Close();
-            }, null);
-        });
-        setting.onClick.AddListener(() =>
-        {
-            DialogSystem.instance.GetDialog("SettingDialog").Open();
-        });
-    }
+                LevelManager.instance.ResumeGame();
+            });
+            retry.onClick.AddListener(()=>
+            {
+                Close();
+                LevelManager.instance.Retry();
+            });
+            exit.onClick.AddListener(() =>
+            {
+                SceneController.instance.Load("Menu", () =>
+                {
+                    Close();
+                }, null);
+            });
+            setting.onClick.AddListener(() =>
+            {
+                DialogSystem.instance.GetDialog("SettingDialog").Open();
+            });
+        }
 
-    public override void Outro()
-    {
-        base.Outro();
-        Time.timeScale = 1;
+        public override void Outro()
+        {
+            base.Outro();
+            Time.timeScale = 1;
+        }
     }
 }

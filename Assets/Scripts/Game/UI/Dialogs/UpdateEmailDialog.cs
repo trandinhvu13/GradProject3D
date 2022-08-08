@@ -1,33 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using Firebase;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpdateEmailDialog : Dialog
+namespace Game.UI.Dialogs
 {
-    public Button closeButton;
-    public Button updateButton;
-    public TMP_InputField input;
-    public TextMeshProUGUI currentEmail;
-    public override void Init()
+    public class UpdateEmailDialog : Dialog
     {
-        base.Init();
-        currentEmail.text = $"Current email: {FirebaseManager.instance.user.Email}";
-        closeButton.onClick.AddListener(Close);
-        updateButton.onClick.AddListener(() =>
+        [SerializeField] private Button closeButton;
+        [SerializeField] private Button updateButton;
+        [SerializeField] private TMP_InputField input;
+        [SerializeField] private TextMeshProUGUI currentEmail;
+        public override void Init()
         {
-            FirebaseManager.instance.UpdateEmail(input.text, () =>
+            base.Init();
+            currentEmail.text = $"Current email: {FirebaseManager.instance.user.Email}";
+            closeButton.onClick.AddListener(Close);
+            updateButton.onClick.AddListener(() =>
             {
-                Close();
+                FirebaseManager.instance.UpdateEmail(input.text, () =>
+                {
+                    Close();
+                });
+                StartCoroutine(FirebaseManager.instance.UpdateEmailDatabase(input.text));
             });
-            StartCoroutine(FirebaseManager.instance.UpdateEmailDatabase(input.text));
-        });
-    }
+        }
 
-    public override void Outro()
-    {
-        base.Outro();
-        input.text = "";
+        public override void Outro()
+        {
+            base.Outro();
+            input.text = "";
+        }
     }
 }

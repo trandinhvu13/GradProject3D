@@ -1,27 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using Game;
 using UnityEngine;
 
-public class StationGuardWin : BaseState
+namespace Enemies.StationGuard.State
 {
-    private StationGuard stationGuard;
-    private StationGuardStateMachine stationGuardStateMachine;
-    
-    public StationGuardWin(StationGuardStateMachine stateMachine) : base("StationGuardWin", stateMachine)
+    public class StationGuardWin : BaseState
     {
-        stationGuardStateMachine = stateMachine;
-        stationGuard = stationGuardStateMachine.stationGuard;
-    }
+        private StationGuard stationGuard;
+        private StationGuardStateMachine stationGuardStateMachine;
     
-    public override void Enter()
-    {
-        base.Enter();
-        Debug.Log("Guard Win");
-        LevelManager.instance.detectedEnemy = stationGuard.transform;
-        Helper.SetTriggerAnimator(stationGuard.animator, "Win");
-        stationGuard.data.isMoving = false;
-        stationGuard.canMove = false;
-        stationGuard.playerLastPlaceIndicator.Hide();
-        LevelManager.instance.Lose();
+        public StationGuardWin(StationGuardStateMachine stateMachine) : base("StationGuardWin", stateMachine)
+        {
+            stationGuardStateMachine = stateMachine;
+            stationGuard = stationGuardStateMachine.stationGuard;
+        }
+    
+        public override void Enter()
+        {
+            base.Enter();
+            LevelManager.instance.detectedEnemy = stationGuard.transform;
+            Helper.SetTriggerAnimator(stationGuard.animator, "Win");
+            stationGuard.data.isMoving = false;
+            stationGuard.canMove = false;
+            stationGuard.playerLastPlaceIndicator.Hide();
+            LevelManager.instance.Lose();
+        }
     }
 }

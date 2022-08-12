@@ -6,9 +6,11 @@ using UnityEngine;
 public class DialogSystem : MonoSingleton<DialogSystem>
 {
     public List<Dialog> gameDialogs;
+    public List<Dialog> currentDialogs;
 
     protected override void InternalInit()
     {
+        currentDialogs = new List<Dialog>();
     }
 
     protected override void InternalOnDestroy()
@@ -30,12 +32,9 @@ public class DialogSystem : MonoSingleton<DialogSystem>
 
     public void CloseAllOpenedDialogs()
     {
-        foreach (Dialog currentDialog in gameDialogs)
+        foreach (Dialog currentDialog in currentDialogs)
         {
-            if (currentDialog.isOpen)
-            {
-                currentDialog.Close();
-            }
+            currentDialog.Close();
         }
     }
 

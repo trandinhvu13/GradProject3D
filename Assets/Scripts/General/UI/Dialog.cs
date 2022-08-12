@@ -27,7 +27,8 @@ public class Dialog : MonoBehaviour
     {
         if (isOpen) return;
         isOpen = true;
-
+        DialogSystem.instance.currentDialogs.Add(this);
+        
         this.isHaveBackground = isHaveBackground;
         
         Init();
@@ -56,6 +57,8 @@ public class Dialog : MonoBehaviour
         {
             FadeOutBackground();
         }
+
+        DialogSystem.instance.currentDialogs.Remove(this);
     }
 
     private void FadeInBackground()

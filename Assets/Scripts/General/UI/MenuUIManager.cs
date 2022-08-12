@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,24 +8,12 @@ using Game;
 using Shapes2D;
 using UnityEngine;
 
-public class MenuUIManager : MonoSingleton<MenuUIManager>
+public class MenuUIManager : MonoBehaviour
 {
-    protected override void InternalInit()
+    private void Awake()
     {
         GroupLoader.Instance.Cleanup();
         SyncData();
-    }
-
-    protected override void InternalOnDestroy()
-    {
-    }
-
-    protected override void InternalOnDisable()
-    {
-    }
-
-    protected override void InternalOnEnable()
-    {
     }
 
     private void SyncData()

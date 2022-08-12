@@ -42,11 +42,6 @@ namespace Enemies.StationGuard.State
             Chase();
         }
 
-        public override void UpdatePhysics()
-        {
-            base.UpdatePhysics();
-        }
-
         public override void Exit()
         {
             base.Exit();

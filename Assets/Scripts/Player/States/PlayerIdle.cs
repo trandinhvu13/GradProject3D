@@ -29,14 +29,4 @@ public class PlayerIdle : BaseState
             else playerStateMachine.ChangeState(playerStateMachine.walkState);
         }
     }
-
-    public override void UpdatePhysics()
-    {
-        base.UpdatePhysics();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
 }

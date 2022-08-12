@@ -28,19 +28,10 @@ public class PlayerLose : BaseState
         Helper.SetTriggerAnimator(player.animator, "Lose");
     }
 
-    public override void UpdateLogic()
-    {
-        base.UpdateLogic();
-    }
-
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
         player.loseParticle.transform.position = (player.transform.position+LevelManager.instance.detectedEnemy.position)/2f;
     }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
+    
 }

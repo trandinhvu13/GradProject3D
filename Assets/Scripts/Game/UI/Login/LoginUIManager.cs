@@ -3,26 +3,11 @@ using UnityEngine.UI;
 
 namespace Game.UI.Login
 {
-    public class LoginUIManager : MonoSingleton<LoginUIManager>
+    public class LoginUIManager : MonoBehaviour
     {
         [SerializeField] private Button loginWithMailButton;
         [SerializeField] private Button registerWithMailButton;
         [SerializeField] private Button exitButton;
-        protected override void InternalInit()
-        {
-        }
-
-        protected override void InternalOnDestroy()
-        {
-        }
-
-        protected override void InternalOnDisable()
-        {
-        }
-
-        protected override void InternalOnEnable()
-        {
-        }
 
         private void Start()
         {

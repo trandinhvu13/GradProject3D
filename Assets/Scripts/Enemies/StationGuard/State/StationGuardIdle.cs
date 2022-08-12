@@ -52,11 +52,6 @@ namespace Enemies.StationGuard.State
             SightOfPlayer();
         }
 
-        public override void UpdatePhysics()
-        {
-            base.UpdatePhysics();
-        }
-
         public override void Exit()
         {
             base.Exit();

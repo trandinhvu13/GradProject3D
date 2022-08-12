@@ -41,11 +41,6 @@ public class PlayerRun : BaseState
         }
     }
 
-    public override void UpdatePhysics()
-    {
-        base.UpdatePhysics();
-    }
-
     public override void Exit()
     {
         base.Exit();

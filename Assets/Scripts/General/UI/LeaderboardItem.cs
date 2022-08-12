@@ -14,7 +14,6 @@ public class LeaderboardItem : MonoBehaviour
 
     public void Setup(int rank, HighscoreItem highscoreItem)
     {
-        Debug.Log("setting up rank "+ rank);
         int finalRank = rank;
         foreach (var image in rankImages)
         {

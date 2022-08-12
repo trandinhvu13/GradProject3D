@@ -33,14 +33,4 @@ public class PlayerWalk : BaseState
             playerStateMachine.ChangeState(playerStateMachine.runState);
         }
     }
-
-    public override void UpdatePhysics()
-    {
-        base.UpdatePhysics();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
 }

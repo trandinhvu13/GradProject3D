@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HighscoreItem
 {
-    public int levelID;
+    private int levelID;
     public string username;
     public float time;
 
